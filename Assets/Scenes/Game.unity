@@ -507,7 +507,7 @@ GameObject:
   - component: {fileID: 210932281}
   - component: {fileID: 210932282}
   m_Layer: 5
-  m_Name: Thruster Bar
+  m_Name: Speed Boost Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
