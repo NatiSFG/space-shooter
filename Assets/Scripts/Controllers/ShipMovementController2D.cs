@@ -65,7 +65,6 @@ public class ShipMovementController2D : MonoBehaviour {
         transform.position = pos;
     }
 
-    //TODO: Write a new article! EPISODE 2! You CAN change structs by passing parameters by ref
     private void WrapX(ref Vector3 value) {
         if (value.x >= screenSizeX)
             value.x = -screenSizeX;
