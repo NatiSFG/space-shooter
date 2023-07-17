@@ -6,6 +6,7 @@ Camera Shake
 <br />
 
 Misc:
+-Finish understanding all of new scripts.
 1. See if I can remove the Wave Attack script from the Player.
 2. Learn new input system.
 3. Fix delay in movement.

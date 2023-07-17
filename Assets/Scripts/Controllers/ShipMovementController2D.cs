@@ -11,7 +11,7 @@ public class ShipMovementController2D : MonoBehaviour {
     [Tooltip("The boosted speed at which you move after activating the speed boost (by using the Shift key).")]
     [SerializeField, Min(0)] private float speedBoost = 7;
     [SerializeField, Min(0.01f)] private float speedBoostDuration = 3;
-    [SerializeField, Min(0.01f)] private float speedBoostCooldown = 20;
+    [SerializeField, Min(0.01f)] private float speedBoostCooldown = 23;
 
     [SerializeField] private float screenSizeX = 11.3f;
 

@@ -34,14 +34,9 @@ public class SpeedBoostBar : MonoBehaviour {
             slider.value = timePercentage;
             UpdateGradient();
         } else if (target.IsSpeedBoostCoolingDown) {
-            //The numerator is the elapsed time that passed since the end of the Speed Boost duration.
-            //Then that's divided by the remainder of the cooldown after the duration
-            //(which is 20 - 3 = 17). Whatever the denominator evaluates to is how long this math effect will take place for.
-            //The denominator will tell you how long it will take to get there.
-
-            //startTime is the time Speed Boost just finished
-            float startTime = target.TimeUsedSpeedBoost + target.SpeedBoostDuration;
-            float timePercentage = (Time.time - startTime) / (target.SpeedBoostCooldown - target.SpeedBoostDuration);
+            //cooldownStartTime is the time Speed Boost just finished being active
+            float cooldownStartTime = target.TimeUsedSpeedBoost + target.SpeedBoostDuration;
+            float timePercentage = (Time.time - cooldownStartTime) / (target.SpeedBoostCooldown - target.SpeedBoostDuration);
             slider.value = 1 - timePercentage;
             UpdateGradient();
         } else {
