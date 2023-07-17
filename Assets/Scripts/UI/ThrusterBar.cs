@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ThrusterBar : MonoBehaviour {
+public class SpeedBoostBar : MonoBehaviour {
     [SerializeField] private ShipMovementController2D target;
     [SerializeField] private Slider slider;
     [SerializeField] private Gradient gradient;
@@ -34,7 +34,14 @@ public class ThrusterBar : MonoBehaviour {
             slider.value = timePercentage;
             UpdateGradient();
         } else if (target.IsSpeedBoostCoolingDown) {
-            float timePercentage = (Time.time - target.TimeUsedSpeedBoost - target.SpeedBoostDuration) / (target.SpeedBoostCooldown - target.SpeedBoostDuration);
+            //The numerator is the elapsed time that passed since the end of the Speed Boost duration.
+            //Then that's divided by the remainder of the cooldown after the duration
+            //(which is 20 - 3 = 17). Whatever the denominator evaluates to is how long this math effect will take place for.
+            //The denominator will tell you how long it will take to get there.
+
+            //startTime is the time Speed Boost just finished
+            float startTime = target.TimeUsedSpeedBoost + target.SpeedBoostDuration;
+            float timePercentage = (Time.time - startTime) / (target.SpeedBoostCooldown - target.SpeedBoostDuration);
             slider.value = 1 - timePercentage;
             UpdateGradient();
         } else {
