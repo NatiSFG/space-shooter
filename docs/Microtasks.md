@@ -7,8 +7,6 @@ Camera Shake
 
 Misc:
 -Finish understanding all of new scripts.
-1. See if I can remove the Wave Attack script from the Player.
-2. Learn new input system.
-3. Fix delay in movement.
-4. You CAN change structs by passing parameters by ref. Example in ShipMovement script.
-5. Update old article on structs saying you can't change the original
+-See if I can remove the Wave Attack script from the Player.
+-Learn new input system.
+-Fix delay in movement.
