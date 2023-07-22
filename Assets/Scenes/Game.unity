@@ -1461,6 +1461,8 @@ MonoBehaviour:
   health: 3
   shield: {fileID: 1137117089}
   totalShieldProtection: 3
+  cameraShake: {fileID: 1005834646}
+  damagedClip: {fileID: 8300000, guid: de7122f5746161241a7534eba7a656b6, type: 3}
 --- !u!114 &761659938
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1613,6 +1615,7 @@ GameObject:
   - component: {fileID: 1005834643}
   - component: {fileID: 1005834642}
   - component: {fileID: 1005834645}
+  - component: {fileID: 1005834646}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1745,6 +1748,20 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!114 &1005834646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1005834641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9856f969db6916b4b83363b9bb1b5737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magnitude: 0.05
+  time: 0.5
 --- !u!1 &1047347799
 GameObject:
   m_ObjectHideFlags: 0

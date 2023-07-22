@@ -7,8 +7,6 @@ public class SpeedBoostBar : MonoBehaviour {
     [SerializeField] private Gradient gradient;
     [SerializeField] private Image fill;
 
-    //TODO: This UI bar should increase towards 100% as the target uses its entire speed boost duration.
-    //      This UI bar should decrease towards 0% as the target's speed boost cooldown approaches 0.
     private void Update() {
         UpdateBar();
     }

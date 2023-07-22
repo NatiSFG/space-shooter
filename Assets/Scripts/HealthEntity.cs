@@ -8,6 +8,10 @@ public class HealthEntity : MonoBehaviour {
     [SerializeField] private SpriteRenderer shield;
     [SerializeField] private int totalShieldProtection = 3;
 
+    [Space(20)]
+    [SerializeField] private CameraShake cameraShake;
+    [SerializeField] private AudioClip damagedClip;
+
     private int maxHealth;
     private float timeInvincibleUntil = 0;
     private int currentShieldProtection;
@@ -36,6 +40,9 @@ public class HealthEntity : MonoBehaviour {
     }
 
     private void Damage() {
+        if (health == maxHealth || health == 2)
+            cameraShake.Shake();
+        AudioSource.PlayClipAtPoint(damagedClip, transform.position);
         health--;
         OnDamaged();
         if (onDamaged != null)
