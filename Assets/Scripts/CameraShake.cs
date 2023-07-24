@@ -1,9 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class CameraShake : MonoBehaviour {
 
     [SerializeField] private float magnitude = 0.05f;
-    [SerializeField] private float time = 0.5f;
+    [SerializeField] private float duration;
 
     private Vector3 initialPos;
     private Camera mainCamera;
@@ -14,21 +15,20 @@ public class CameraShake : MonoBehaviour {
 
     public void Shake() {
         initialPos = mainCamera.transform.position;
-        InvokeRepeating("StartCameraShake", 0f, 0.005f);
-        Invoke("StopCameraShake", time);
+        StartCoroutine(CameraShakeCoroutine());
     }
 
-    void StartCameraShake() {
-        float offsetX = Random.value * magnitude * 2 - magnitude;
-        float offsetY = Random.value * magnitude * 2 - magnitude;
-        Vector3 offsetPos = mainCamera.transform.position;
-        offsetPos.x += offsetX;
-        offsetPos.y += offsetY;
-        mainCamera.transform.position = offsetPos;
-    }
-
-    void StopCameraShake() {
-        CancelInvoke("StartCameraShake");
+    private IEnumerator CameraShakeCoroutine() {
+        duration = Time.time + 0.5f;
+        while (Time.time < duration) {
+            float offsetX = Random.value * magnitude * 2 - magnitude;
+            float offsetY = Random.value * magnitude * 2 - magnitude;
+            Vector3 offsetPos = mainCamera.transform.position;
+            offsetPos.x += offsetX;
+            offsetPos.y += offsetY;
+            mainCamera.transform.position = offsetPos;
+            yield return new WaitForSeconds(0.005f);
+        }
         mainCamera.transform.position = initialPos;
     }
 }
