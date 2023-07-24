@@ -2,15 +2,14 @@
 
 public class CameraShake : MonoBehaviour {
 
-    private Vector3 initialPos;
-
     [SerializeField] private float magnitude = 0.05f;
     [SerializeField] private float time = 0.5f;
-    
+
+    private Vector3 initialPos;
     private Camera mainCamera;
 
-    void Start() {
-        mainCamera = this.gameObject.GetComponent<Camera>();
+    private void Start() {
+        mainCamera = GetComponent<Camera>();
     }
 
     public void Shake() {
@@ -22,10 +21,10 @@ public class CameraShake : MonoBehaviour {
     void StartCameraShake() {
         float offsetX = Random.value * magnitude * 2 - magnitude;
         float offsetY = Random.value * magnitude * 2 - magnitude;
-        Vector3 medPos = mainCamera.transform.position;
-        medPos.x += offsetX;
-        medPos.y += offsetY;
-        mainCamera.transform.position = medPos;
+        Vector3 offsetPos = mainCamera.transform.position;
+        offsetPos.x += offsetX;
+        offsetPos.y += offsetY;
+        mainCamera.transform.position = offsetPos;
     }
 
     void StopCameraShake() {
