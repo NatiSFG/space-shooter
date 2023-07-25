@@ -42,6 +42,10 @@ public class Enemy : MonoBehaviour {
         FireLaser();
     }
 
+    //make enemies move back and forth every random amount of seconds for random distance values
+    //on the x axis (cannot wrap on screen)
+    //CREATE A NEW ENEMY SIDE MOVEMENT CONTROLLER SCRIPT. There will be other enemies that move differently
+    //in the future
     private void CalculateMovement() {
         transform.Translate(Vector3.down * speed * Time.deltaTime);
         if (transform.position.y <= -7) {

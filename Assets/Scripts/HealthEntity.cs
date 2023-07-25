@@ -12,7 +12,6 @@ public class HealthEntity : MonoBehaviour {
     [SerializeField] private CameraShake cameraShake;
     [SerializeField] private AudioClip damagedClip;
 
-    #region Code
     private int maxHealth;
     private float timeInvincibleUntil = 0;
     private int currentShieldProtection;
@@ -39,7 +38,6 @@ public class HealthEntity : MonoBehaviour {
         else Damage();
         return true;
     }
-    #endregion
 
     private void Damage() {
         if (health == maxHealth || health == 2)
