@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 6822257493298898186}
   - component: {fileID: 1516140373280518339}
   - component: {fileID: 2198295132193700140}
+  - component: {fileID: 3027294882977472327}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -48,7 +49,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b127dad91cc0594a9c68ea684177f54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 4
   laserPrefab: {fileID: 370387869463980641, guid: ed8d28334554d6142a272abd66912f74,
     type: 3}
 --- !u!212 &3535330494153277073
@@ -263,3 +263,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3027294882977472327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 681606469347654121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f146a9ea6b36a8c4286e8a306e8c061a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
