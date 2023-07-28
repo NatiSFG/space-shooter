@@ -42,11 +42,9 @@ public class EnemyController2D : MonoBehaviour {
         float rightSpaceAvailable = Mathf.Abs(10 - currentPos.x);
 
         Vector3 nextTarget = currentPos;
-        if (leftSpaceAvailable > rightSpaceAvailable) {
+        if (leftSpaceAvailable > rightSpaceAvailable)
             nextTarget.x = Random.Range(-10, Mathf.Lerp(currentPos.x, -10, 0.5f));
-        } else {
-            nextTarget.x = Random.Range(Mathf.Lerp(currentPos.x, 10, 0.5f), 10);
-        }
+        else nextTarget.x = Random.Range(Mathf.Lerp(currentPos.x, 10, 0.5f), 10);
         targetPos = nextTarget;
     }
 
