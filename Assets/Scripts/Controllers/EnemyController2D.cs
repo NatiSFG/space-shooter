@@ -17,7 +17,8 @@ public class EnemyController2D : MonoBehaviour {
 
     private void OnValidate() {
         topOfLevel = Mathf.Max(0, topOfLevel);
-        bottomOfLevel = Mathf.Min(0, bottomOfLevel); //endOfLevel will always be 0 or negative, the minimum between itself and 0.
+        //bottomOfLevel will always be 0 or negative, the minimum between itself and 0.
+        bottomOfLevel = Mathf.Min(0, bottomOfLevel);
     }
 
     private void OnEnable() {
