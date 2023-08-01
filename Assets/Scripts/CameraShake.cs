@@ -21,13 +21,14 @@ public class CameraShake : MonoBehaviour {
     private IEnumerator CameraShakeCoroutine() {
         duration = Time.time + 0.5f;
         while (Time.time < duration) {
+            WaitForSeconds wait = new WaitForSeconds(0.005f);
             float offsetX = Random.value * magnitude * 2 - magnitude;
             float offsetY = Random.value * magnitude * 2 - magnitude;
             Vector3 offsetPos = mainCamera.transform.position;
             offsetPos.x += offsetX;
             offsetPos.y += offsetY;
             mainCamera.transform.position = offsetPos;
-            yield return new WaitForSeconds(0.005f);
+            yield return wait;
         }
         mainCamera.transform.position = initialPos;
     }

@@ -1,5 +1,6 @@
 # 🔍 Microtasks
-- Enemy Wave System
+- Enemy Wave System: first wave works, but then no more enemies spawn and the New Wave UI doesn't get updated or enable to display. Add Debug lines
+
 - Delegates, Events and Actions (article)[https://docs.google.com/document/d/1zlYM1-15-mtJKFIoR1naGrvgf9ml6RRqI1uWXyxYRzs/edit]
 
 ### Code:
