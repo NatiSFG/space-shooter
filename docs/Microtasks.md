@@ -1,5 +1,9 @@
 # 🔍 Microtasks
-- Enemy Wave System: first wave works, but then no more enemies spawn and the New Wave UI doesn't get updated or enable to display. Add Debug lines
+- Make ammo provision show up more often
+- Make enemies:
+    - Only allow horizontal movement once each time they get across the screen
+    - (MAYBE) Prevent enemies from hovering real close to the edge of the bottom of the screen with horizontal movement
+- Add hotkey for skipping to Wave 9 with 1 enemy remaining
 
 - Delegates, Events and Actions (article)[https://docs.google.com/document/d/1zlYM1-15-mtJKFIoR1naGrvgf9ml6RRqI1uWXyxYRzs/edit]
 
