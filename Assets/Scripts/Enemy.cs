@@ -6,11 +6,11 @@ using Random = UnityEngine.Random; //NOTE: This is an alias, because System.Rand
 public class Enemy : MonoBehaviour {
     public static event Action onAnyDefeated;
 
-    [SerializeField] private float speed = 4f;
     [SerializeField] private GameObject laserPrefab;
 
     private HealthEntity playerHealth;
     private Animator anim;
+    private EnemyController2D enemyController;
 
     private new AudioSource audio;
     private float fireRate = 3.0f;
@@ -26,28 +26,11 @@ public class Enemy : MonoBehaviour {
         anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
         col2D = GetComponent<Collider2D>();
-
-        if (playerHealth == null)
-            Debug.LogError("The " + nameof(HealthEntity) + " component on the " + nameof(player) + " (" + player.name + ") is null.", player);
-        if (anim == null)
-            Debug.LogError("The Enemy Animator is null.");
-        if (audio == null)
-            Debug.LogError("The AudioSource on the enemy is null.");
-        if (col2D == null)
-            Debug.LogError("The Collider2D on the enemy is null.");
+        enemyController = GetComponent<EnemyController2D>();
     }
 
-    private void Update() {
-        CalculateMovement();
+    void Update() {
         FireLaser();
-    }
-
-    private void CalculateMovement() {
-        transform.Translate(Vector3.down * speed * Time.deltaTime);
-        if (transform.position.y <= -7) {
-            float randX = Random.Range((float) -10, 10);
-            transform.position = new Vector3(randX, 9, 0);
-        }
     }
 
     private void FireLaser() {
@@ -71,7 +54,7 @@ public class Enemy : MonoBehaviour {
     private void TouchDamageWithPlayer() {
         playerHealth.TryDamage();
         anim.SetTrigger("OnEnemyDeath");
-        speed = 0;
+        enemyController.Speed = 0;
         audio.Play();
 
         col2D.enabled = false;
@@ -86,7 +69,7 @@ public class Enemy : MonoBehaviour {
                 Destroy(laser.gameObject);
 
             anim.SetTrigger("OnEnemyDeath");
-            speed = 0;
+            enemyController.Speed = 0;
             audio.Play();
 
             col2D.enabled = false;
