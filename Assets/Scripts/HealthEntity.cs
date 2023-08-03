@@ -22,6 +22,7 @@ public class HealthEntity : MonoBehaviour {
 
     public int Health => health;
     public int MaxHealth => maxHealth;
+    public bool IsDefeated => health <= 0;
     public bool IsInvincible => Time.time <= timeInvincibleUntil;
     public bool IsShieldPowerUpActive => currentShieldProtection > 0;
 

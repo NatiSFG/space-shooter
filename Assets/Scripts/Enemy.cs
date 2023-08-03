@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 using Random = UnityEngine.Random; //NOTE: This is an alias, because System.Random also exists!
@@ -29,7 +30,7 @@ public class Enemy : MonoBehaviour {
         enemyController = GetComponent<EnemyController2D>();
     }
 
-    void Update() {
+    private void Update() {
         FireLaser();
     }
 

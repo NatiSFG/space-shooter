@@ -211,7 +211,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &69073646
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -897,7 +897,7 @@ MonoBehaviour:
     type: 3}
   enemyContainer: {fileID: 254611965}
   enemies: []
-  newWaveUI: {fileID: 1600223408}
+  waveUI: {fileID: 1600223408}
   wave: 1
 --- !u!4 &400336562
 Transform:

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class SpawnManager : MonoBehaviour {
     [System.Serializable]
@@ -21,23 +22,31 @@ public class SpawnManager : MonoBehaviour {
     [Space(20)]
     [SerializeField] private SpawnInfo[] provisions = {
         new SpawnInfo {
-        minSpawnTime = 5,
-        maxSpawnTime = 14
+            minSpawnTime = 5,
+            maxSpawnTime = 14
         }
     };
 
     [Space(20)]
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private GameObject enemyContainer;
-    [SerializeField] List<GameObject> enemies = new List<GameObject>();
+    [SerializeField] private List<GameObject> enemies = new List<GameObject>();
     [Space(20)]
-    [SerializeField] private NewWaveUI newWaveUI;
+    [SerializeField] private WaveText waveUI;
+
+    [Space(20)]
+    [SerializeField] private int wave = 1;
 
     private HealthEntity playerHealth;
-    private bool spawning = true;
-    private int maxEnemies = 3;
     
-    public int wave = 1;
+    private int maxEnemies = 3;
+    private int bossWave = 10;
+    private int finalMaxEnemies = 11;
+    private bool isPlayerDefeated = false;
+
+    public int Wave => wave;
+    public bool IsRegularWave => wave < bossWave;
+    public bool IsBossWave => wave == bossWave;
 
     private void Start() {
         GameObject player = GameObject.FindWithTag("Player");
@@ -62,66 +71,86 @@ public class SpawnManager : MonoBehaviour {
     //first wave has 3 enemies. must kill them all and then can progress onto next wave
     //wave # displays in HUD
     //List of all the instances you've spawned, like List<GameObject>
-    //or a List<YourComponentHere> You can check if that list's .Count > 0 or not
+    //      or a List<YourComponentHere> You can check if that list's .Count > 0 or not
 
     //.Add(T item)
     //.Remove(T item) <-- returns a bool, cause it may OR may not find the item
-    //you wanted to remove
+    //      you wanted to remove
     //.RemoveAt(int index)
     //and remember.Count instead of.Length
+
+    //first wave works, but then no more enemies spawn and the New Wave UI doesn't get updated or enable to display. Add Debug lines
     private IEnumerator SpawnEnemyCoroutine() {
-        StartCoroutine(newWaveUI.WaveUICoroutine());
-        int lastEnemyWave = 3; //9
-        int lastEnemyCount = 5; //11
-        
-        WaitForSeconds wait = new WaitForSeconds(3);
-        
-        yield return wait;
-        while (spawning) {
+        WaitForSeconds wait3Sec = new WaitForSeconds(3);
+        WaitForSeconds wait5Sec = new WaitForSeconds(5);
+
+        while (IsRegularWave) {
+            StartCoroutine(waveUI.ShowWaveText());
+            yield return wait3Sec;
+
             for (int i = 0; i < maxEnemies; i++) {
-                enemies.Add(enemyPrefab);
-                Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
-                GameObject newEnemy = Instantiate(enemyPrefab, posToSpawn, Quaternion.identity);
-                newEnemy.transform.parent = enemyContainer.transform;
-                WaitForSeconds wait5Secs = new WaitForSeconds(5.0f);
-                yield return wait5Secs;
+                Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
+                GameObject enemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
+                enemies.Add(enemy);
+
+                enemy.transform.SetParent(enemyContainer.transform);
+                yield return wait5Sec;
             }
-            spawning = false;
-            if (wave < lastEnemyWave && maxEnemies < lastEnemyCount && enemies.Count == 0) { //also see if there aren't any more enemies in scene
-                enemies.Clear();
-                wave++;
-                maxEnemies++;
-                StartCoroutine(newWaveUI.WaveUICoroutine());
-                spawning = true;
-                //waits before each wave
-                yield return wait;
-            }
+
+            yield return WaitForAllEnemiesDefeated();
+            yield return wait3Sec;
+
+            wave++;
+            maxEnemies++;
+
+            if (isPlayerDefeated)
+                yield break;
         }
+
+        yield return BossWaveCoroutine();
+    }
+
+    private IEnumerator WaitForAllEnemiesDefeated() {
+        while (enemies.Count > 0) {
+            //NOTE: Here, we're removing enemies from the list as they are defeated.
+            for (int i = enemies.Count - 1; i >= 0; i--) {
+                if (enemies[i] == null)
+                    enemies.RemoveAt(i);
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator BossWaveCoroutine() {
+        StartCoroutine(waveUI.ShowWaveText());
+
+        //TODO:
+        yield break;
     }
 
     private IEnumerator SpawnPowerUpCoroutine() {
         WaitForSeconds wait = new WaitForSeconds(3);
         yield return wait;
-        while (spawning) {
+        while (!isPlayerDefeated) {
             int randPowerUp = Random.Range(0, powerUps.Length);
             WaitForSeconds waitRandom = new WaitForSeconds(Random.Range(powerUps[randPowerUp].minSpawnTime,
                 powerUps[randPowerUp].maxSpawnTime + 1));
             yield return waitRandom;
-            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
-            Instantiate(powerUps[randPowerUp].prefab, posToSpawn, Quaternion.identity);
+            Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
+            Instantiate(powerUps[randPowerUp].prefab, pos, Quaternion.identity);
         }
     }
 
     private IEnumerator SpawnProvisionCoroutine() {
         WaitForSeconds wait = new WaitForSeconds(3);
         yield return wait;
-        while (spawning) {
+        while (!isPlayerDefeated) {
             int randProvision = Random.Range(0, provisions.Length);
             WaitForSeconds waitRandom = new WaitForSeconds(Random.Range(provisions[randProvision].minSpawnTime,
                 provisions[randProvision].maxSpawnTime + 1));
             yield return waitRandom;
-            Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
-            Instantiate(provisions[randProvision].prefab, posToSpawn, Quaternion.identity);
+            Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
+            Instantiate(provisions[randProvision].prefab, pos, Quaternion.identity);
         }
     }
 
@@ -131,6 +160,6 @@ public class SpawnManager : MonoBehaviour {
     }
 
     public void OnPlayerDeath() {
-        spawning = false;
+        isPlayerDefeated = true;
     }
 }
