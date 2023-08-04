@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 
 [RequireComponent(typeof(TMP_Text))]
-public class WaveText : MonoBehaviour {
+public class NewWaveDisplay : MonoBehaviour {
     [SerializeField] private WaveSystem waveSystem;
 
     private TMP_Text text;

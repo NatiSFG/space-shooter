@@ -1,8 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PowerUpSpawner : WaveSystem {
+    
     [SerializeField]
     private SpawnInfo[] powerUps = {
         new SpawnInfo {

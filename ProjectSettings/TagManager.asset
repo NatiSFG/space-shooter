@@ -10,6 +10,7 @@ TagManager:
   - Ammo
   - Wave
   - Spawner
+  - New Wave Display
   layers:
   - Default
   - TransparentFX

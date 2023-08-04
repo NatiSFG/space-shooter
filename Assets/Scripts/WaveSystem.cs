@@ -8,9 +8,8 @@ public class WaveSystem : MonoBehaviour {
         public float minSpawnTime;
         public float maxSpawnTime;
     }
-    [Space(20)]
-    [SerializeField] protected static WaveText waveUI;
     [SerializeField] protected static int wave = 1;
+    [SerializeField] protected NewWaveDisplay newWaveDisplay;
 
     protected static bool isPlayerDefeated = false;
     private HealthEntity playerHealth;
@@ -18,9 +17,8 @@ public class WaveSystem : MonoBehaviour {
     private PowerUpSpawner powerUpSpawner;
     private ProvisionSpawner provisionSpawner;
 
+    public NewWaveDisplay NewWaveDisplay => newWaveDisplay;
     public int Wave => wave;
-    //protected isn't letting me call variables from this script into a child script
-    //so that's why a lot of variables are public :/
 
     private void Start() {
         GameObject player = GameObject.FindWithTag("Player");
@@ -32,11 +30,6 @@ public class WaveSystem : MonoBehaviour {
         enemyWaveSpawner = GetComponent<EnemyWaveSpawner>();
         powerUpSpawner = GetComponent<PowerUpSpawner>();
         provisionSpawner = GetComponent<ProvisionSpawner>();
-    }
-
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.I))
-            wave = 8;
     }
 
     private void OnDestroy() {

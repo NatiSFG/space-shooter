@@ -6,18 +6,27 @@ public class EnemyWaveSpawner : WaveSystem {
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private GameObject enemyContainer;
     [SerializeField] private List<GameObject> enemies = new List<GameObject>();
-    [SerializeField] private WaveText waveUI;
 
-    private WaveSystem waveSystem;
-    private int maxEnemies = 3;
+    private int maxEnemies = 3; //final max regular enemies is 11 on wave 9
     private int bossWave = 10;
-    private int finalMaxEnemies = 11;
+    private GameObject enemy;
 
+    public int MaxEnemies {
+        get { return maxEnemies; }
+        set { maxEnemies = Mathf.Max(0, value); }
+    }
     public bool IsRegularWave => wave < bossWave;
     public bool IsBossWave => wave == bossWave;
 
-    private void Start() {
-        waveSystem = GetComponent<WaveSystem>();
+    private void Update() {
+        //arrive at wave 9 with one enemy to kill and then wave 10 begins
+        if (Input.GetKeyDown(KeyCode.B)) {
+            wave = 9;
+            maxEnemies = 1;
+            enemies.Clear();
+            enemies.Add(enemy);
+            StartCoroutine(WaitForAllEnemiesDefeated());
+        }
     }
 
     public IEnumerator SpawnEnemyCoroutine() {
@@ -25,12 +34,12 @@ public class EnemyWaveSpawner : WaveSystem {
         WaitForSeconds wait5Sec = new WaitForSeconds(5);
 
         while (IsRegularWave) {
-            StartCoroutine(waveUI.ShowWaveText());
+            StartCoroutine(newWaveDisplay.ShowWaveText());
             yield return wait3Sec;
 
             for (int i = 0; i < maxEnemies; i++) {
                 Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
-                GameObject enemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
+                enemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
                 enemies.Add(enemy);
 
                 enemy.transform.SetParent(enemyContainer.transform);
@@ -43,7 +52,7 @@ public class EnemyWaveSpawner : WaveSystem {
             wave++;
             maxEnemies++;
 
-            if (WaveSystem.isPlayerDefeated)
+            if (isPlayerDefeated)
                 yield break;
         }
         yield return BossWaveCoroutine();
@@ -61,7 +70,7 @@ public class EnemyWaveSpawner : WaveSystem {
     }
 
     private IEnumerator BossWaveCoroutine() {
-        StartCoroutine(waveUI.ShowWaveText());
+        StartCoroutine(newWaveDisplay.ShowWaveText());
 
         //TODO:
         yield break;
