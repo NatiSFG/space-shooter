@@ -11,10 +11,6 @@ public class EnemyWaveSpawner : WaveSystem {
     private int bossWave = 10;
     private GameObject enemy;
 
-    public int MaxEnemies {
-        get { return maxEnemies; }
-        set { maxEnemies = Mathf.Max(0, value); }
-    }
     public bool IsRegularWave => wave < bossWave;
     public bool IsBossWave => wave == bossWave;
 
@@ -34,7 +30,7 @@ public class EnemyWaveSpawner : WaveSystem {
         WaitForSeconds wait5Sec = new WaitForSeconds(5);
 
         while (IsRegularWave) {
-            StartCoroutine(newWaveDisplay.ShowWaveText());
+            StartCoroutine(NewWaveDisplay.ShowWaveText());
             yield return wait3Sec;
 
             for (int i = 0; i < maxEnemies; i++) {
@@ -70,7 +66,7 @@ public class EnemyWaveSpawner : WaveSystem {
     }
 
     private IEnumerator BossWaveCoroutine() {
-        StartCoroutine(newWaveDisplay.ShowWaveText());
+        StartCoroutine(NewWaveDisplay.ShowWaveText());
 
         //TODO:
         yield break;
