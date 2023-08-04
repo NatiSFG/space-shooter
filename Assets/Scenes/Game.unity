@@ -848,9 +848,12 @@ GameObject:
   m_Component:
   - component: {fileID: 400336562}
   - component: {fileID: 400336561}
+  - component: {fileID: 400336565}
+  - component: {fileID: 400336564}
+  - component: {fileID: 400336563}
   m_Layer: 0
-  m_Name: Spawn Manager
-  m_TagString: Spawn Manager
+  m_Name: Spawner & Waves
+  m_TagString: Spawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -865,6 +868,71 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 790e49b4e2a441a4080509e043cbcaed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &400336562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400336560}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 254611966}
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &400336563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400336560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ab809394e9026469dfc97a3190ff34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyPrefab: {fileID: 681606469347654121, guid: 25b60eaa063fbda46be7b80a24b37d0a,
+    type: 3}
+  enemyContainer: {fileID: 254611965}
+  enemies: []
+  waveUI: {fileID: 1600223408}
+--- !u!114 &400336564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400336560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1115f0a5d28629d4ea714ac9fbb578bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  provisions:
+  - prefab: {fileID: 1499337340448811697, guid: b354b42f585f21c4987123e188239c2f,
+      type: 3}
+    minSpawnTime: 3
+    maxSpawnTime: 7
+  - prefab: {fileID: 7283101229590858396, guid: 4b30b2379c84d8541b7a381512966d6d,
+      type: 3}
+    minSpawnTime: 20
+    maxSpawnTime: 30
+--- !u!114 &400336565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 400336560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb2af983f8537214b8fe459c37fe5392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   powerUps:
@@ -884,36 +952,6 @@ MonoBehaviour:
       type: 3}
     minSpawnTime: 20
     maxSpawnTime: 30
-  provisions:
-  - prefab: {fileID: 1499337340448811697, guid: b354b42f585f21c4987123e188239c2f,
-      type: 3}
-    minSpawnTime: 5
-    maxSpawnTime: 14
-  - prefab: {fileID: 7283101229590858396, guid: 4b30b2379c84d8541b7a381512966d6d,
-      type: 3}
-    minSpawnTime: 20
-    maxSpawnTime: 30
-  enemyPrefab: {fileID: 681606469347654121, guid: 25b60eaa063fbda46be7b80a24b37d0a,
-    type: 3}
-  enemyContainer: {fileID: 254611965}
-  enemies: []
-  waveUI: {fileID: 1600223408}
-  wave: 1
---- !u!4 &400336562
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 400336560}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 254611966}
-  m_Father: {fileID: 0}
-  m_RootOrder: 7
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &515760731
 GameObject:
   m_ObjectHideFlags: 0
@@ -2375,7 +2413,7 @@ GameObject:
   - component: {fileID: 1600223409}
   - component: {fileID: 1600223408}
   m_Layer: 5
-  m_Name: New Wave
+  m_Name: Wave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2412,7 +2450,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 801470fe7e9625148803ee8e9d56c672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawnManager: {fileID: 400336561}
+  waveSystem: {fileID: 400336561}
 --- !u!114 &1600223409
 MonoBehaviour:
   m_ObjectHideFlags: 0

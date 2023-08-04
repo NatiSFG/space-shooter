@@ -6,12 +6,10 @@ public class Asteroid : MonoBehaviour {
     private float speed = 25f;
     [SerializeField]
     private GameObject explosionPrefab;
-    private SpawnManager spawnManager;
+    private WaveSystem waveSystem;
 
     private void Start() {
-        spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>();
-        if (spawnManager == null)
-            Debug.LogError("The Spawn Manager is null.");
+        waveSystem = GameObject.FindGameObjectWithTag("Spawner").GetComponent<WaveSystem>();
     }
 
     private void Update() {
@@ -22,7 +20,7 @@ public class Asteroid : MonoBehaviour {
         if (other.tag == "Laser") {
             Destroy(other.gameObject);
             Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-            spawnManager.StartSpawning();
+            waveSystem.StartSpawning();
             Destroy(this.gameObject, .25f);
         }
     }

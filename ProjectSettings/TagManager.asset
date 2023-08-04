@@ -9,6 +9,7 @@ TagManager:
   - Spawn Manager
   - Ammo
   - Wave
+  - Spawner
   layers:
   - Default
   - TransparentFX
