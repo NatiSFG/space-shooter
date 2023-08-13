@@ -6,6 +6,7 @@ public class EnemyWaveSpawner : WaveSystem {
     [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private GameObject enemyContainer;
     [SerializeField] private List<GameObject> enemies = new List<GameObject>();
+    [SerializeField] protected NewWaveDisplay newWaveDisplay;
 
     private int maxEnemies = 3; //final max regular enemies is 11 on wave 9
     private int bossWave = 10;
@@ -13,6 +14,7 @@ public class EnemyWaveSpawner : WaveSystem {
 
     public bool IsRegularWave => wave < bossWave;
     public bool IsBossWave => wave == bossWave;
+    public NewWaveDisplay NewWaveDisplay => newWaveDisplay;
 
     private void Update() {
         //arrive at wave 9 with one enemy to kill and then wave 10 begins

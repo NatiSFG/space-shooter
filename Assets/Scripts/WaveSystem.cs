@@ -9,7 +9,6 @@ public class WaveSystem : MonoBehaviour {
         public float maxSpawnTime;
     }
     [SerializeField] protected static int wave = 1;
-    [SerializeField] protected NewWaveDisplay newWaveDisplay;
 
     protected static bool isPlayerDefeated = false;
     private HealthEntity playerHealth;
@@ -17,7 +16,6 @@ public class WaveSystem : MonoBehaviour {
     private PowerUpSpawner powerUpSpawner;
     private ProvisionSpawner provisionSpawner;
 
-    public NewWaveDisplay NewWaveDisplay => newWaveDisplay;
     public int Wave => wave;
 
     private void Start() {

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748171, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -852,7 +852,7 @@ GameObject:
   - component: {fileID: 400336564}
   - component: {fileID: 400336563}
   m_Layer: 0
-  m_Name: Spawner & Waves
+  m_Name: Spawners
   m_TagString: Spawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -870,7 +870,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 790e49b4e2a441a4080509e043cbcaed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newWaveDisplay: {fileID: 1600223408}
 --- !u!4 &400336562
 Transform:
   m_ObjectHideFlags: 0
@@ -898,11 +897,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7ab809394e9026469dfc97a3190ff34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newWaveDisplay: {fileID: 1600223408}
   enemyPrefab: {fileID: 681606469347654121, guid: 25b60eaa063fbda46be7b80a24b37d0a,
     type: 3}
   enemyContainer: {fileID: 254611965}
   enemies: []
+  newWaveDisplay: {fileID: 1600223408}
 --- !u!114 &400336564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -915,7 +914,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1115f0a5d28629d4ea714ac9fbb578bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newWaveDisplay: {fileID: 0}
   provisions:
   - prefab: {fileID: 1499337340448811697, guid: b354b42f585f21c4987123e188239c2f,
       type: 3}
@@ -937,7 +935,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb2af983f8537214b8fe459c37fe5392, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newWaveDisplay: {fileID: 0}
   powerUps:
   - prefab: {fileID: 2383678820783955658, guid: fe1f84313402f004083e322caa88df56,
       type: 3}
