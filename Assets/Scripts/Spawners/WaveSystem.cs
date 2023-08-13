@@ -14,6 +14,7 @@ public class WaveSystem : MonoBehaviour {
     private HealthEntity playerHealth;
     private EnemyWaveSpawner enemyWaveSpawner;
     private PowerUpSpawner powerUpSpawner;
+    private PowerDownSpawner powerDownSpawner;
     private ProvisionSpawner provisionSpawner;
 
     public int Wave => wave;
@@ -27,6 +28,7 @@ public class WaveSystem : MonoBehaviour {
         }
         enemyWaveSpawner = GetComponent<EnemyWaveSpawner>();
         powerUpSpawner = GetComponent<PowerUpSpawner>();
+        powerDownSpawner = GetComponent<PowerDownSpawner>();
         provisionSpawner = GetComponent<ProvisionSpawner>();
     }
 
@@ -38,6 +40,7 @@ public class WaveSystem : MonoBehaviour {
     public void StartSpawning() {
         StartCoroutine(enemyWaveSpawner.SpawnEnemyCoroutine());
         StartCoroutine(powerUpSpawner.SpawnPowerUpCoroutine());
+        StartCoroutine(powerDownSpawner.SpawnPowerDownCoroutine());
         StartCoroutine(provisionSpawner.SpawnProvisionCoroutine());
     }
 

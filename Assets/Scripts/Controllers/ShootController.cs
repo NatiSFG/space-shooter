@@ -22,9 +22,6 @@ public class ShootController : MonoBehaviour {
 
     private void Start() {
         audio = GetComponent<AudioSource>();
-
-        if (audio == null)
-            Debug.LogError("The AudioSource on the player is null.");
     }
 
     private void Update() {

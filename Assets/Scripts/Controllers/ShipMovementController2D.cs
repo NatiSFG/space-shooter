@@ -18,10 +18,15 @@ public class ShipMovementController2D : MonoBehaviour {
     [Header("Speed Power-Up")]
     [SerializeField] private SpriteRenderer thrusterSprite;
     [SerializeField] private float speedPowerUpMultiplier = 2;
+    [SerializeField] private float speedPowerDownSpeed = 3;
+    [SerializeField] private AudioClip noSpeedBoostClip;
+
+    private new AudioSource audio;
 
     private float baseSpeed;
     private float timeUsedSpeedBoost = float.NegativeInfinity;
     private bool isSpeedPowerUpActive;
+    private bool isSpeedPowerDownActive;
 
     public float Speed {
         get { return speed; }
@@ -31,6 +36,8 @@ public class ShipMovementController2D : MonoBehaviour {
     public float SpeedBoostDuration => speedBoostDuration;
     public float SpeedBoostCooldown => speedBoostCooldown;
 
+    public bool IsSpeedPowerDownActive => isSpeedPowerDownActive;
+    public bool IsSpeedPowerUpActive => isSpeedPowerUpActive;
     public bool IsSpeedBoostActive => Time.time < (timeUsedSpeedBoost + speedBoostDuration);
     public bool IsSpeedBoostCoolingDown => Time.time < (timeUsedSpeedBoost + speedBoostCooldown);
 
@@ -43,6 +50,7 @@ public class ShipMovementController2D : MonoBehaviour {
 
     private void Start() {
         transform.position = Vector3.zero;
+        audio = GetComponent<AudioSource>();
     }
 
     private void Update() {
@@ -73,9 +81,13 @@ public class ShipMovementController2D : MonoBehaviour {
     }
 
     private void StartSpeedBoost() {
-        bool isSpeedBoostAvailable = !isSpeedPowerUpActive && !IsSpeedBoostActive && !IsSpeedBoostCoolingDown;
+        bool isSpeedBoostAvailable = !IsSpeedPowerUpActive && !IsSpeedPowerDownActive && !IsSpeedBoostActive && !IsSpeedBoostCoolingDown;
         if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && isSpeedBoostAvailable)
             StartCoroutine(SpeedBoostCoroutine());
+        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !isSpeedBoostAvailable) {
+            audio.clip = noSpeedBoostClip;
+            audio.Play();
+        }
     }
 
     private IEnumerator SpeedBoostCoroutine() {
@@ -95,16 +107,33 @@ public class ShipMovementController2D : MonoBehaviour {
         isSpeedPowerUpActive = true;
         speed *= speedPowerUpMultiplier;
         thrusterSprite.color = Color.cyan;
-        StartCoroutine(SpeedPowerDownCoroutine());
+        StartCoroutine(SpeedPowerUpShutDown());
     }
 
-    private IEnumerator SpeedPowerDownCoroutine() {
+    private IEnumerator SpeedPowerUpShutDown() {
         WaitForSeconds wait = new WaitForSeconds(5);
-        while (isSpeedPowerUpActive) {
+        while (IsSpeedPowerUpActive) {
             yield return wait;
             speed /= speedPowerUpMultiplier;
             thrusterSprite.color = Color.white;
             isSpeedPowerUpActive = false;
+        }
+    }
+
+    public void SpeedPowerDownActive() {
+        isSpeedPowerDownActive = true;
+        speed = speedPowerDownSpeed;
+        thrusterSprite.color = Color.grey;
+        StartCoroutine(SpeedPowerDownShutDown());
+    }
+
+    private IEnumerator SpeedPowerDownShutDown() {
+        WaitForSeconds wait = new WaitForSeconds(5);
+        while (IsSpeedPowerDownActive) {
+            yield return wait;
+            speed = 5;
+            thrusterSprite.color = Color.white;
+            isSpeedPowerDownActive = false;
         }
     }
 }
