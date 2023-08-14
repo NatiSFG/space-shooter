@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HealthEntity : MonoBehaviour {
     [SerializeField, Min(1)] private int health = 3;
@@ -11,6 +12,7 @@ public class HealthEntity : MonoBehaviour {
     [Space(20)]
     [SerializeField] private CameraShake cameraShake;
     [SerializeField] private AudioClip damagedClip;
+    [SerializeField] private Image shieldPowerUpImage;
 
     private int maxHealth;
     private float timeInvincibleUntil = 0;
@@ -97,10 +99,12 @@ public class HealthEntity : MonoBehaviour {
     public void ShieldPowerUpActive() {
         currentShieldProtection = totalShieldProtection;
         UpdateShieldColor();
+        shieldPowerUpImage.enabled = true;
         shield.gameObject.SetActive(true);
     }
 
     private void ShieldPowerDown() {
+        shieldPowerUpImage.enabled = false;
         shield.gameObject.SetActive(false);
     }
 }

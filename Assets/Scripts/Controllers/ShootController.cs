@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShootController : MonoBehaviour {
     [SerializeField] private GameObject laserPrefab;
@@ -8,6 +9,7 @@ public class ShootController : MonoBehaviour {
     [SerializeField] private AudioClip outOfAmmoClip;
     [SerializeField] private float fireRate = 0.15f;
     [SerializeField] private int ammoCount = 15;
+    [SerializeField] private Image tripleShotPowerUpImage;
 
     [Header("Triple-Shot Power-Up")]
     [SerializeField] private GameObject tripleShotLasersPrefab;
@@ -66,6 +68,7 @@ public class ShootController : MonoBehaviour {
 
     public void TripleShotPowerUpActive() {
         isTripleShotPowerUpActive = true;
+        tripleShotPowerUpImage.enabled = true;
         StartCoroutine(TripleShotPowerDownCoroutine());
     }
 
@@ -73,6 +76,7 @@ public class ShootController : MonoBehaviour {
         WaitForSeconds wait = new WaitForSeconds(5);
         while (isTripleShotPowerUpActive) {
             yield return wait;
+            tripleShotPowerUpImage.enabled = false;
             isTripleShotPowerUpActive = false;
         }
     }

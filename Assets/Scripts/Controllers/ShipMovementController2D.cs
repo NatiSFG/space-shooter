@@ -23,6 +23,7 @@ public class ShipMovementController2D : MonoBehaviour {
     [SerializeField] private AudioClip noSpeedBoostClip;
 
     [SerializeField] private Image speedPowerDownImage;
+    [SerializeField] private Image speedPowerUpImage;
 
     private new AudioSource audio;
 
@@ -108,6 +109,8 @@ public class ShipMovementController2D : MonoBehaviour {
 
     public void SpeedPowerUpActive() {
         isSpeedPowerUpActive = true;
+        speedPowerUpImage.enabled = true;
+        speedPowerDownImage.enabled = false;
         speed *= speedPowerUpMultiplier;
         thrusterSprite.color = Color.cyan;
         StartCoroutine(SpeedPowerUpShutDown());
@@ -117,6 +120,7 @@ public class ShipMovementController2D : MonoBehaviour {
         WaitForSeconds wait = new WaitForSeconds(5);
         while (IsSpeedPowerUpActive) {
             yield return wait;
+            speedPowerUpImage.enabled = false;
             speed /= speedPowerUpMultiplier;
             thrusterSprite.color = Color.white;
             isSpeedPowerUpActive = false;
@@ -126,6 +130,7 @@ public class ShipMovementController2D : MonoBehaviour {
     public void SpeedPowerDownActive() {
         isSpeedPowerDownActive = true;
         speedPowerDownImage.enabled = true;
+        speedPowerUpImage.enabled = false;
         speed = speedPowerDownSpeed;
         thrusterSprite.color = Color.grey;
         StartCoroutine(SpeedPowerDownShutDown());
