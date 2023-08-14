@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Represents a player-controllable ship in the game, using <see cref="Input.GetAxis(string)"/> with <c>"Horizontal"</c> and <c>"Vertical"</c>.
@@ -20,6 +21,8 @@ public class ShipMovementController2D : MonoBehaviour {
     [SerializeField] private float speedPowerUpMultiplier = 2;
     [SerializeField] private float speedPowerDownSpeed = 3;
     [SerializeField] private AudioClip noSpeedBoostClip;
+
+    [SerializeField] private Image speedPowerDownImage;
 
     private new AudioSource audio;
 
@@ -122,6 +125,7 @@ public class ShipMovementController2D : MonoBehaviour {
 
     public void SpeedPowerDownActive() {
         isSpeedPowerDownActive = true;
+        speedPowerDownImage.enabled = true;
         speed = speedPowerDownSpeed;
         thrusterSprite.color = Color.grey;
         StartCoroutine(SpeedPowerDownShutDown());
@@ -131,6 +135,7 @@ public class ShipMovementController2D : MonoBehaviour {
         WaitForSeconds wait = new WaitForSeconds(5);
         while (IsSpeedPowerDownActive) {
             yield return wait;
+            speedPowerDownImage.enabled = false;
             speed = 5;
             thrusterSprite.color = Color.white;
             isSpeedPowerDownActive = false;
