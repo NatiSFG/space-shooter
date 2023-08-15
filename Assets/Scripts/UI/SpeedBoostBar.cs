@@ -7,6 +7,8 @@ public class SpeedBoostBar : MonoBehaviour {
     [SerializeField] private Gradient gradient;
     [SerializeField] private Image fill;
 
+    [SerializeField] private Animator speedBoostBarAnim;
+
     private void Update() {
         UpdateBar();
     }
@@ -42,6 +44,10 @@ public class SpeedBoostBar : MonoBehaviour {
             UpdateGradient();
             return;
         }
+    }
+
+    public void NoSpeedBoostBarScaling() {
+        speedBoostBarAnim.Play("No Speed Boost");
     }
 
     private void UpdateGradient() => fill.color = gradient.Evaluate(slider.value);

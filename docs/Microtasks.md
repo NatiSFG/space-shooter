@@ -1,8 +1,4 @@
 # 🔍 Microtasks
-- Add PowerUps and PowerDowns to HUD temporarily when active
-- Scale in and out the Speed Boost bar once when trying to use it when unable
-- Write Speed PowerDown article
-
 - Change CurrentWave script to use an action instead of update
 - Have PowerUps not overlap when spawning
 - (Revise Struct article google doc)[https://docs.google.com/document/d/1tjXbEVjagv8MthO5Tcg28wXnvRB1aoLViPc-z4GXYcA/edit]

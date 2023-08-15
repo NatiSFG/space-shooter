@@ -24,6 +24,7 @@ public class ShipMovementController2D : MonoBehaviour {
 
     [SerializeField] private Image speedPowerDownImage;
     [SerializeField] private Image speedPowerUpImage;
+    [SerializeField] private SpeedBoostBar speedBoostBar;
 
     private new AudioSource audio;
 
@@ -31,6 +32,7 @@ public class ShipMovementController2D : MonoBehaviour {
     private float timeUsedSpeedBoost = float.NegativeInfinity;
     private bool isSpeedPowerUpActive;
     private bool isSpeedPowerDownActive;
+
 
     public float Speed {
         get { return speed; }
@@ -47,6 +49,7 @@ public class ShipMovementController2D : MonoBehaviour {
 
     public float TimeUsedSpeedBoost => timeUsedSpeedBoost;
     public float RemainingSpeedBoostCooldown => Mathf.Max(0, (timeUsedSpeedBoost + speedBoostCooldown) - Time.time);
+    public bool IsSpeedBoostAvailable => !IsSpeedPowerUpActive && !IsSpeedPowerDownActive && !IsSpeedBoostActive && !IsSpeedBoostCoolingDown;
 
     private void Awake() {
         baseSpeed = speed;
@@ -85,10 +88,10 @@ public class ShipMovementController2D : MonoBehaviour {
     }
 
     private void StartSpeedBoost() {
-        bool isSpeedBoostAvailable = !IsSpeedPowerUpActive && !IsSpeedPowerDownActive && !IsSpeedBoostActive && !IsSpeedBoostCoolingDown;
-        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && isSpeedBoostAvailable)
+        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && IsSpeedBoostAvailable)
             StartCoroutine(SpeedBoostCoroutine());
-        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !isSpeedBoostAvailable) {
+        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !IsSpeedBoostAvailable) {
+            speedBoostBar.NoSpeedBoostBarScaling();
             audio.clip = noSpeedBoostClip;
             audio.Play();
         }
