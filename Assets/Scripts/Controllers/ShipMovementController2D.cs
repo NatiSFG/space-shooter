@@ -9,30 +9,31 @@ public class ShipMovementController2D : MonoBehaviour {
     [Tooltip("The player's currrent speed, measured in world-space units per second.")]
     [SerializeField, Min(0)] private float speed = 5;
 
+    [Header("Speed Boost")]
     [Tooltip("The boosted speed at which you move after activating the speed boost (by using the Shift key).")]
     [SerializeField, Min(0)] private float speedBoost = 7;
     [SerializeField, Min(0.01f)] private float speedBoostDuration = 3;
     [SerializeField, Min(0.01f)] private float speedBoostCooldown = 23;
-
-    [SerializeField] private float screenSizeX = 11.3f;
-
-    [Header("Speed Power-Up")]
-    [SerializeField] private SpriteRenderer thrusterSprite;
-    [SerializeField] private float speedPowerUpMultiplier = 2;
-    [SerializeField] private float speedPowerDownSpeed = 3;
+    [SerializeField] private SpeedBoostBar speedBoostBar;
     [SerializeField] private AudioClip noSpeedBoostClip;
 
-    [SerializeField] private Image speedPowerDownImage;
+    [Header("Speed PowerUp")]
+    [SerializeField] private float speedPowerUpMultiplier = 2;
     [SerializeField] private Image speedPowerUpImage;
-    [SerializeField] private SpeedBoostBar speedBoostBar;
+
+    [Header("Speed PowerDown")]
+    [SerializeField] private float speedPowerDownSpeed = 3;
+    [SerializeField] private Image speedPowerDownImage;
+
+    [Space(20)]
+    [SerializeField] private float screenSizeX = 11.3f;
+    [SerializeField] private SpriteRenderer thrusterSprite;
 
     private new AudioSource audio;
-
     private float baseSpeed;
     private float timeUsedSpeedBoost = float.NegativeInfinity;
     private bool isSpeedPowerUpActive;
     private bool isSpeedPowerDownActive;
-
 
     public float Speed {
         get { return speed; }
@@ -92,10 +93,6 @@ public class ShipMovementController2D : MonoBehaviour {
             StartCoroutine(SpeedBoostCoroutine());
         else if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !IsSpeedBoostAvailable) {
             speedBoostBar.NoSpeedBoostBarUIScaling();
-            Debug.Log("is speed boost available? " + IsSpeedBoostAvailable);
-            Debug.Log("is speed PU active: " + IsSpeedPowerUpActive + "----is speed PD active: " +
-                IsSpeedPowerDownActive + "----is speed boost active: " + IsSpeedBoostActive +
-                "----is speed boost cooling down: " + IsSpeedBoostCoolingDown);
             audio.clip = noSpeedBoostClip;
             audio.Play();
         }
@@ -133,7 +130,7 @@ public class ShipMovementController2D : MonoBehaviour {
             isSpeedPowerUpActive = false;
         }
     }
-
+    
     public void SpeedPowerDownActive() {
         isSpeedPowerDownActive = true;
         speedPowerDownImage.enabled = true;
