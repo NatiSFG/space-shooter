@@ -88,10 +88,14 @@ public class ShipMovementController2D : MonoBehaviour {
     }
 
     private void StartSpeedBoost() {
-        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && IsSpeedBoostAvailable)
+        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && IsSpeedBoostAvailable)
             StartCoroutine(SpeedBoostCoroutine());
-        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !IsSpeedBoostAvailable) {
-            speedBoostBar.NoSpeedBoostBarScaling();
+        else if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !IsSpeedBoostAvailable) {
+            speedBoostBar.NoSpeedBoostBarUIScaling();
+            Debug.Log("is speed boost available? " + IsSpeedBoostAvailable);
+            Debug.Log("is speed PU active: " + IsSpeedPowerUpActive + "----is speed PD active: " +
+                IsSpeedPowerDownActive + "----is speed boost active: " + IsSpeedBoostActive +
+                "----is speed boost cooling down: " + IsSpeedBoostCoolingDown);
             audio.clip = noSpeedBoostClip;
             audio.Play();
         }

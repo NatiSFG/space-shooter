@@ -46,7 +46,7 @@ public class SpeedBoostBar : MonoBehaviour {
         }
     }
 
-    public void NoSpeedBoostBarScaling() {
+    public void NoSpeedBoostBarUIScaling() {
         speedBoostBarAnim.Play("No Speed Boost");
     }
 
