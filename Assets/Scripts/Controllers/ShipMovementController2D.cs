@@ -89,7 +89,7 @@ public class ShipMovementController2D : MonoBehaviour {
     }
 
     private void StartSpeedBoost() {
-        if ((Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift)) && IsSpeedBoostAvailable)
+        if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && IsSpeedBoostAvailable)
             StartCoroutine(SpeedBoostCoroutine());
         else if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !IsSpeedBoostAvailable) {
             speedBoostBar.NoSpeedBoostBarUIScaling();

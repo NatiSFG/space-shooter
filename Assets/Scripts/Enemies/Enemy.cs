@@ -4,22 +4,36 @@ using UnityEngine;
 
 using Random = UnityEngine.Random; //NOTE: This is an alias, because System.Random also exists!
 
-public class Enemy : MonoBehaviour {
-    public static event Action onAnyDefeated;
 
-    [SerializeField] private GameObject laserPrefab;
+public class Enemy : MonoBehaviour {
+    [System.Serializable]
+    protected struct EnemyInfo {
+        public GameObject laserPrefab;
+        public EnemyController2D controller;
+
+        public float fireRate;
+        public float canFire;
+
+        public EnemyInfo(GameObject laserPrefab, EnemyController2D enemyController, float fireRate, float canFire) {
+            this.laserPrefab = laserPrefab;
+            this.controller = enemyController;
+
+            this.fireRate = fireRate;
+            this.canFire = canFire;
+        }
+    }
+
+    public static event Action onAnyDefeated;
+    //EnemyInfo.
 
     private HealthEntity playerHealth;
     private Animator anim;
-    private EnemyController2D enemyController;
 
     private new AudioSource audio;
-    private float fireRate = 3.0f;
-    private float canFire = -1;
 
     private Collider2D col2D;
 
-    private bool isAlive = true;
+    protected bool isAlive = true;
 
     private void Start() {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -27,23 +41,10 @@ public class Enemy : MonoBehaviour {
         anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
         col2D = GetComponent<Collider2D>();
-        enemyController = GetComponent<EnemyController2D>();
     }
 
-    private void Update() {
-        FireLaser();
-    }
-
-    private void FireLaser() {
-        if (Time.time > canFire && isAlive) {
-            fireRate = Random.Range(3, 7);
-            canFire = Time.time + fireRate;
-            GameObject enemyLaser = Instantiate (laserPrefab, transform.position, Quaternion.identity);
-            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-            for (int i = 0; i < lasers.Length; i++)
-                lasers[i].AssignEnemyLaser();
-        }
-    }
+    protected virtual void FireLaser() { }
+    
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player")
@@ -55,7 +56,7 @@ public class Enemy : MonoBehaviour {
     private void TouchDamageWithPlayer() {
         playerHealth.TryDamage();
         anim.SetTrigger("OnEnemyDeath");
-        enemyController.Speed = 0;
+        //Speed = 0;
         audio.Play();
 
         col2D.enabled = false;
@@ -70,7 +71,7 @@ public class Enemy : MonoBehaviour {
                 Destroy(laser.gameObject);
 
             anim.SetTrigger("OnEnemyDeath");
-            enemyController.Speed = 0;
+            //enemyController.Speed = 0;
             audio.Play();
 
             col2D.enabled = false;

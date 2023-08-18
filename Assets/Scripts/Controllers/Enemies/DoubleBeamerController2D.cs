@@ -1,25 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class EnemyController2D : MonoBehaviour {
+public class DoubleBeamerController2D : EnemyController2D {
     private const float Threshold = 0.001f;
-
-    [SerializeField] private float speed = 4;
-    [SerializeField] private float topOfLevel = 9;
-    [SerializeField] private float bottomOfLevel = -7;
-
     private Vector3 targetPos;
-
-    public float Speed {
-        get { return speed; }
-        set { speed = value; }
-    }
-
-    private void OnValidate() {
-        topOfLevel = Mathf.Max(0, topOfLevel);
-        //bottomOfLevel will always be 0 or negative, the minimum between itself and 0.
-        bottomOfLevel = Mathf.Min(0, bottomOfLevel);
-    }
 
     private void OnEnable() {
         ResetTargetPosition();
@@ -32,7 +16,7 @@ public class EnemyController2D : MonoBehaviour {
     private void ResetTargetPosition() {
         Vector3 currentPos = transform.position;
         Vector3 nextTarget = currentPos;
-        nextTarget.y = bottomOfLevel;
+        nextTarget.y = BottomOfLevel;
 
         targetPos = nextTarget;
     }
@@ -61,10 +45,10 @@ public class EnemyController2D : MonoBehaviour {
 
             bool reachedAGoal = distanceAway <= Threshold;
             if (reachedAGoal) {
-                if (currentPos.y <= bottomOfLevel + Threshold) {
+                if (currentPos.y <= BottomOfLevel + Threshold) {
                     //NOTE: We've reached the bottom of the level.
                     currentPos.x = Random.Range((float) -10, 10);
-                    currentPos.y = topOfLevel;
+                    currentPos.y = TopOfLevel;
                     transform.position = currentPos;
                 } else {
                     //NOTE: We've reached a different goal.
