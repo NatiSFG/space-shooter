@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Laser : MonoBehaviour {
 
-    [SerializeField] private float speed = 8;
-    private bool isEnemyLaser;
+    [SerializeField] public static float speed = 8;
+    [SerializeField] ShipMovementController2D playerController;
+    private bool isDoubleBeamerLaser;
+    private bool isSpinnerLaser;
 
     private void Update() {
-        if (isEnemyLaser == false)
+        if (isDoubleBeamerLaser == false && isSpinnerLaser == false)
             PlayerLaser();
         else EnemyLaser();
     }
@@ -28,26 +31,53 @@ public class Laser : MonoBehaviour {
         if (transform.position.y <= -8) {
             if (transform.parent != null) {
                 Destroy(transform.parent.gameObject);
-            }
+            } else Destroy(this.gameObject);
         }
     }
 
-    public void AssignEnemyLaser() {
-        isEnemyLaser = true;
+    public void AssignDoubleBeamerLaser() {
+        isDoubleBeamerLaser = true;
+    }
+
+    public void AssignSpinnerLaser() {
+        isSpinnerLaser = true;
+    }
+
+    public bool IsDoubleBeamerLaser() {
+        return isDoubleBeamerLaser;
+    }
+
+    public bool IsSpinnerLaser() {
+        return isSpinnerLaser;
     }
 
     public bool IsEnemyLaser() {
-        return isEnemyLaser;
+        if (isDoubleBeamerLaser || isSpinnerLaser)
+            return true;
+        else return false;
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (isEnemyLaser) {
+        if (isDoubleBeamerLaser) {
             HealthEntity player = other.GetComponentInParent<HealthEntity>();
-
             if (player != null) {
                 player.TryDamage();
                 Destroy(transform.parent.gameObject);
             }
         }
+        else if (isSpinnerLaser) {
+            HealthEntity player = other.GetComponentInParent<HealthEntity>();
+            if (player != null) {
+                player.TryDamage();
+                StartCoroutine(FreezeCoroutine());
+                Destroy(transform.gameObject);
+            }
+        }
+    }
+
+    IEnumerator FreezeCoroutine() {
+        playerController.Speed = 0;
+        yield return new WaitForSeconds(2);
+        playerController.Speed = 5;
     }
 }

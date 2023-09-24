@@ -241,7 +241,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &162138755
 GameObject:
@@ -1884,7 +1884,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1005834645
 MonoBehaviour:
@@ -2714,6 +2714,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3859c14e06157b40a1dd481c70413e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  iceLaserPrefab: {fileID: 4265851989483838298, guid: 8345152b2faf0394c8cbac35fd65ba1c,
+    type: 3}
 --- !u!82 &1205407037
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2820,7 +2822,7 @@ Animator:
   m_GameObject: {fileID: 1205407034}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f0c303415c72b9d439210fbc257ea914, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -2914,7 +2916,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1646140873
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: cb4ed373c0c38b948b63bf20948c5c4d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -3959,7 +3961,7 @@ PrefabInstance:
     - target: {fileID: 7584372984902056784, guid: 0c58949888c43ac4f8c74f1a476bd151,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7584372984902056784, guid: 0c58949888c43ac4f8c74f1a476bd151,
         type: 3}

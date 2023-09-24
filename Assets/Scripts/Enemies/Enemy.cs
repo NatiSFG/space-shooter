@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 using Random = UnityEngine.Random; //NOTE: This is an alias, because System.Random also exists!
@@ -24,10 +24,10 @@ public class Enemy : MonoBehaviour {
     }
 
     public static event Action onAnyDefeated;
-    //EnemyInfo.
 
     private HealthEntity playerHealth;
     private Animator anim;
+    private EnemyController2D enemyController;
 
     private new AudioSource audio;
 
@@ -35,12 +35,14 @@ public class Enemy : MonoBehaviour {
 
     protected bool isAlive = true;
 
-    private void Start() {
+    protected void Start() {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         playerHealth = player.GetComponent<HealthEntity>();
+
         anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
         col2D = GetComponent<Collider2D>();
+        enemyController = GetComponent<EnemyController2D>();
     }
 
     protected virtual void FireLaser() { }
@@ -56,7 +58,7 @@ public class Enemy : MonoBehaviour {
     private void TouchDamageWithPlayer() {
         playerHealth.TryDamage();
         anim.SetTrigger("OnEnemyDeath");
-        //Speed = 0;
+        enemyController.Speed = 0;
         audio.Play();
 
         col2D.enabled = false;
@@ -71,7 +73,7 @@ public class Enemy : MonoBehaviour {
                 Destroy(laser.gameObject);
 
             anim.SetTrigger("OnEnemyDeath");
-            //enemyController.Speed = 0;
+            enemyController.Speed = 0;
             audio.Play();
 
             col2D.enabled = false;

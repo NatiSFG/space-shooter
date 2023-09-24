@@ -23,7 +23,7 @@ public class EnemyController2D : MonoBehaviour {
 
     protected virtual void CalculateMovement() {
         transform.Translate(Vector3.down * speed * Time.deltaTime, Space.World);
-        if (transform.position.y <= -7) {
+        if (transform.position.y <= BottomOfLevel) {
             float randX = Random.Range((float) -10, 10);
             transform.position = new Vector3(randX, 9, 0);
         }
