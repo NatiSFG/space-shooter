@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -29,11 +30,15 @@ public class ShipMovementController2D : MonoBehaviour {
     [SerializeField] private float screenSizeX = 11.3f;
     [SerializeField] private SpriteRenderer thrusterSprite;
 
+    private SpriteRenderer playerSprite;
     private new AudioSource audio;
     private float baseSpeed;
     private float timeUsedSpeedBoost = float.NegativeInfinity;
     private bool isSpeedPowerUpActive;
     private bool isSpeedPowerDownActive;
+
+    private bool isFreezeDone;
+    public bool IsFreezeDone => isFreezeDone;
 
     public float Speed {
         get { return speed; }
@@ -59,6 +64,7 @@ public class ShipMovementController2D : MonoBehaviour {
     private void Start() {
         transform.position = Vector3.zero;
         audio = GetComponent<AudioSource>();
+        playerSprite = GetComponent<SpriteRenderer>();
     }
 
     private void Update() {
@@ -149,5 +155,14 @@ public class ShipMovementController2D : MonoBehaviour {
             thrusterSprite.color = Color.white;
             isSpeedPowerDownActive = false;
         }
+    }
+
+    public IEnumerator FreezeCoroutine() {
+        Speed = 0;
+        playerSprite.color = new Color(0.4039f, 0.9019f, 1.0f, 1.0f);
+        yield return new WaitForSecondsRealtime(2);
+        playerSprite.color = Color.white;
+        Speed = 5;
+        isFreezeDone = true;
     }
 }

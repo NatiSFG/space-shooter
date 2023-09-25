@@ -4,9 +4,13 @@ using UnityEngine;
 public class Laser : MonoBehaviour {
 
     [SerializeField] public static float speed = 8;
-    [SerializeField] ShipMovementController2D playerController;
+    private ShipMovementController2D playerController;
     private bool isDoubleBeamerLaser;
     private bool isSpinnerLaser;
+
+    private void Start() {
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
+    }
 
     private void Update() {
         if (isDoubleBeamerLaser == false && isSpinnerLaser == false)
@@ -57,7 +61,7 @@ public class Laser : MonoBehaviour {
         else return false;
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    public void OnTriggerEnter2D(Collider2D other) {
         if (isDoubleBeamerLaser) {
             HealthEntity player = other.GetComponentInParent<HealthEntity>();
             if (player != null) {
@@ -69,15 +73,10 @@ public class Laser : MonoBehaviour {
             HealthEntity player = other.GetComponentInParent<HealthEntity>();
             if (player != null) {
                 player.TryDamage();
-                StartCoroutine(FreezeCoroutine());
-                Destroy(transform.gameObject);
+                StartCoroutine(playerController.FreezeCoroutine());
+                if (playerController.IsFreezeDone)
+                    Destroy(transform.gameObject);
             }
         }
-    }
-
-    IEnumerator FreezeCoroutine() {
-        playerController.Speed = 0;
-        yield return new WaitForSeconds(2);
-        playerController.Speed = 5;
     }
 }
