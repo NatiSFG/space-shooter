@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Laser : MonoBehaviour {
 
@@ -7,9 +8,13 @@ public class Laser : MonoBehaviour {
     private ShipMovementController2D playerController;
     private bool isDoubleBeamerLaser;
     private bool isSpinnerLaser;
+    private SpriteRenderer playerSprite;
+
+    public bool isPlayerFrozen;
 
     private void Start() {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
+        playerSprite = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
     }
 
     private void Update() {
@@ -73,10 +78,29 @@ public class Laser : MonoBehaviour {
             HealthEntity player = other.GetComponentInParent<HealthEntity>();
             if (player != null) {
                 player.TryDamage();
-                StartCoroutine(playerController.FreezeCoroutine());
-                if (playerController.IsFreezeDone)
-                    Destroy(transform.gameObject);
+                if (!player.IsShieldPowerUpActive) {
+                    isPlayerFrozen = true;
+                    StartCoroutine(FreezeCoroutine());
+
+                    if (!isPlayerFrozen)
+                        Destroy(transform.gameObject);
+                }
             }
+        }
+    }
+
+    public void FreezePlayer() {
+
+    }
+
+    public IEnumerator FreezeCoroutine() {
+        while (isPlayerFrozen) {
+            playerController.Speed = 0;
+            playerSprite.color = new Color(0.4039f, 0.9019f, 1.0f, 1.0f);
+            yield return new WaitForSeconds(2);
+            playerSprite.color = Color.white;
+            playerController.Speed = 5;
+            isPlayerFrozen = false;
         }
     }
 }

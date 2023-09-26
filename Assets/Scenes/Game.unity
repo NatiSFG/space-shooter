@@ -1605,6 +1605,7 @@ MonoBehaviour:
   speedPowerDownImage: {fileID: 1082640347}
   screenSizeX: 11.3
   thrusterSprite: {fileID: 1002293874}
+  laser: {fileID: 4265851989483838279, guid: 8345152b2faf0394c8cbac35fd65ba1c, type: 3}
 --- !u!114 &761659939
 MonoBehaviour:
   m_ObjectHideFlags: 0
