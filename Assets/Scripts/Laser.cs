@@ -1,20 +1,21 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Laser : MonoBehaviour {
 
-    [SerializeField] public static float speed = 8;
+    [SerializeField] private float speed = 8;
+
+    private LevelBounds levelBounds;
     private ShipMovementController2D playerController;
     private bool isDoubleBeamerLaser;
     private bool isSpinnerLaser;
     private SpriteRenderer playerSprite;
-
-    public bool isPlayerFrozen;
+    public float Speed => speed;
 
     private void Start() {
         playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
         playerSprite = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
+        levelBounds = Object.FindObjectOfType<LevelBounds>();
     }
 
     private void Update() {
@@ -26,7 +27,7 @@ public class Laser : MonoBehaviour {
     private void PlayerLaser() {
         transform.Translate(Vector3.up * speed * Time.deltaTime);
         
-        if (transform.position.y >= 8) {
+        if (transform.position.y >= levelBounds.topBound) {
             if(transform.parent != null) {
                 Destroy(transform.parent.gameObject);
             }
@@ -36,12 +37,21 @@ public class Laser : MonoBehaviour {
 
     private void EnemyLaser() {
         transform.Translate(Vector3.down * speed * Time.deltaTime);
-
-        if (transform.position.y <= -8) {
+        //Need to put level bounds here
+        if (LaserOutOfBounds()) {
             if (transform.parent != null) {
                 Destroy(transform.parent.gameObject);
             } else Destroy(this.gameObject);
         }
+    }
+
+    public bool LaserOutOfBounds() {
+        float x = transform.position.x;
+        float y = transform.position.y;
+        if (x < levelBounds.leftBound || x > levelBounds.rightBound ||
+            y < levelBounds.bottomBound || y > levelBounds.topBound)
+            return true;
+        else return false;
     }
 
     public void AssignDoubleBeamerLaser() {
@@ -77,30 +87,22 @@ public class Laser : MonoBehaviour {
         else if (isSpinnerLaser) {
             HealthEntity player = other.GetComponentInParent<HealthEntity>();
             if (player != null) {
-                player.TryDamage();
-                if (!player.IsShieldPowerUpActive) {
-                    isPlayerFrozen = true;
-                    StartCoroutine(FreezeCoroutine());
-
-                    if (!isPlayerFrozen)
-                        Destroy(transform.gameObject);
+                DamageResult d = player.TryDamage();
+                if (d == DamageResult.ShieldDamaged)
+                    Destroy(transform.gameObject);
+                if (d == DamageResult.Success) {
+                    player.StartCoroutine(FreezeCoroutine());
+                    Destroy(transform.gameObject);
                 }
             }
         }
     }
 
-    public void FreezePlayer() {
-
-    }
-
-    public IEnumerator FreezeCoroutine() {
-        while (isPlayerFrozen) {
-            playerController.Speed = 0;
-            playerSprite.color = new Color(0.4039f, 0.9019f, 1.0f, 1.0f);
-            yield return new WaitForSeconds(2);
-            playerSprite.color = Color.white;
-            playerController.Speed = 5;
-            isPlayerFrozen = false;
-        }
-    }
+     public IEnumerator FreezeCoroutine() {
+        playerController.Speed = 0;
+        playerSprite.color = new Color(0.4039f, 0.9019f, 1.0f, 1.0f);
+        yield return new WaitForSeconds(2);
+        playerSprite.color = Color.white;
+        playerController.Speed = 5;
+     }
 }

@@ -27,9 +27,11 @@ public class ShipMovementController2D : MonoBehaviour {
     [SerializeField] private Image speedPowerDownImage;
 
     [Space(20)]
-    [SerializeField] private float screenSizeX = 11.3f;
     [SerializeField] private SpriteRenderer thrusterSprite;
     [SerializeField] private Laser laser;
+
+    [Header("Level Bounds")]
+    [SerializeField] private LevelBounds levelBounds;
 
     private new AudioSource audio;
     private float baseSpeed;
@@ -84,13 +86,15 @@ public class ShipMovementController2D : MonoBehaviour {
     }
 
     private void WrapX(ref Vector3 value) {
-        if (value.x >= screenSizeX)
-            value.x = -screenSizeX;
-        else if (value.x <= -screenSizeX)
-            value.x = screenSizeX;
+        if (value.x >= levelBounds.rightBound)
+            value.x = levelBounds.leftBound;
+        else if (value.x <= levelBounds.leftBound)
+            value.x = levelBounds.rightBound;
     }
 
     private void StartSpeedBoost() {
+        if (Speed <= 0)
+            return;
         if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && IsSpeedBoostAvailable)
             StartCoroutine(SpeedBoostCoroutine());
         else if ((Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift)) && !IsSpeedBoostAvailable) {
@@ -117,6 +121,7 @@ public class ShipMovementController2D : MonoBehaviour {
         isSpeedPowerUpActive = true;
         speedPowerUpImage.enabled = true;
         speedPowerDownImage.enabled = false;
+        speed = baseSpeed;
         speed *= speedPowerUpMultiplier;
         thrusterSprite.color = Color.cyan;
         StartCoroutine(SpeedPowerUpShutDown());
