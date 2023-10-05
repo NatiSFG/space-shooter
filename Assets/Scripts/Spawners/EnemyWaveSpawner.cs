@@ -3,31 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyWaveSpawner : WaveSystem {
-    [SerializeField] private GameObject enemyPrefab;
     [SerializeField] private GameObject enemyContainer;
-    [SerializeField] private List<GameObject> enemies = new List<GameObject>();
     [SerializeField] protected NewWaveDisplay newWaveDisplay;
+    
+    [SerializeField] private GameObject doubleBeamerPrefab;
+    [SerializeField] private List<GameObject> dBEnemies = new List<GameObject>();
+    
+    [SerializeField] private GameObject spinnerPrefab;
+    [SerializeField] private List<GameObject> sEnemies = new List<GameObject>();
 
-    private int maxEnemies = 3; //final max regular enemies is 11 on wave 9
+    [SerializeField] private int maxDBEnemies = 3; //final max double beamer enemies is 11 on wave 9
+    [SerializeField] private int maxSEnemies = 1; //final max spinner enemies is 7 on wave 9
+
     private int bossWave = 10;
-    private GameObject enemy;
+    private GameObject dBEnemy;
+    private GameObject sEnemy;
 
     public bool IsRegularWave => wave < bossWave;
     public bool IsBossWave => wave == bossWave;
     public NewWaveDisplay NewWaveDisplay => newWaveDisplay;
 
     private void Update() {
-        //arrive at wave 9 with one enemy to kill and then wave 10 begins
-        if (Input.GetKeyDown(KeyCode.B)) {
+        //shortcut to skip to wave 9 with one enemy to kill and then wave 10 begins
+        if (Input.GetKeyDown(KeyCode.Alpha9)) {
             wave = 9;
-            maxEnemies = 1;
-            enemies.Clear();
-            enemies.Add(enemy);
-            StartCoroutine(WaitForAllEnemiesDefeated());
+            maxDBEnemies = 1;
+            dBEnemies.Clear();
+            dBEnemies.Add(dBEnemy);
+            StartCoroutine(WaitForAllDBEnemiesDefeated());
         }
     }
 
-    public IEnumerator SpawnEnemyCoroutine() {
+    public IEnumerator SpawnDoubleBeamerCoroutine() {
         WaitForSeconds wait3Sec = new WaitForSeconds(3);
         WaitForSeconds wait5Sec = new WaitForSeconds(5);
 
@@ -35,40 +42,101 @@ public class EnemyWaveSpawner : WaveSystem {
             StartCoroutine(NewWaveDisplay.ShowWaveText());
             yield return wait3Sec;
 
-            for (int i = 0; i < maxEnemies; i++) {
+            for (int i = 0; i < maxDBEnemies; i++) {
                 Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
-                enemy = Instantiate(enemyPrefab, pos, Quaternion.identity);
-                enemies.Add(enemy);
+                dBEnemy = Instantiate(doubleBeamerPrefab, pos, Quaternion.identity);
+                dBEnemies.Add(dBEnemy);
 
-                enemy.transform.SetParent(enemyContainer.transform);
+                dBEnemy.transform.SetParent(enemyContainer.transform);
                 yield return wait5Sec;
             }
 
-            yield return WaitForAllEnemiesDefeated();
+            yield return WaitForAllDBEnemiesDefeated();
             yield return wait3Sec;
 
-            wave++;
-            maxEnemies++;
-
-            if (isPlayerDefeated)
-                yield break;
+            Debug.Log("all double beamers defeated. DB count: " + dBEnemies.Count);
+            yield return WaitToStartNewWaveCoroutine();
         }
         yield return BossWaveCoroutine();
     }
 
-    private IEnumerator WaitForAllEnemiesDefeated() {
-        while (enemies.Count > 0) {
+    public IEnumerator SpawnSpinnerCoroutine() {
+        WaitForSeconds wait3Sec = new WaitForSeconds(3);
+        WaitForSeconds wait4Sec = new WaitForSeconds(4);
+        WaitForSeconds wait5Sec = new WaitForSeconds(5);
+
+        while (IsRegularWave && wave >= 3) {
+            yield return wait4Sec;
+
+            for (int i = 0; i < maxSEnemies; i++) {
+                Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
+                sEnemy = Instantiate(spinnerPrefab, pos, Quaternion.identity);
+                sEnemies.Add(sEnemy);
+
+                sEnemy.transform.SetParent(enemyContainer.transform);
+                Debug.Log("Spawning spinner. index: " + i + " max: " + maxSEnemies);
+                yield return wait5Sec;
+            }
+
+            yield return WaitForAllSEnemiesDefeated();
+            yield return wait3Sec;
+
+            Debug.Log("all spinners defeated. S count: " + sEnemies.Count);
+            yield break;
+        }
+    }
+
+    private IEnumerator WaitToStartNewWaveCoroutine() {
+        while (dBEnemies.Count > 0 || sEnemies.Count > 0) {
+            yield return null;
+        }
+        StartNewWave();
+    }
+
+    private void StartNewWave() {
+        if (IsRegularWave && wave <= 1) {
+            wave++;
+            maxDBEnemies++;
+            Debug.Log("wave is now: " + wave + ". increasing DB max to " + maxDBEnemies);   
+        } else if (IsRegularWave && wave == 2) {
+            wave++;
+            maxDBEnemies++;
+            Debug.Log("wave is now: " + wave + ". increasing DB max to " + maxDBEnemies);
+            StartCoroutine(SpawnSpinnerCoroutine());
+        } else if (IsRegularWave && wave >= 3) {
+            wave++;
+            maxDBEnemies++;
+            maxSEnemies++;
+            Debug.Log("wave is now: " + wave + ". increasing DB max to " + maxDBEnemies + ". S max to " + maxSEnemies);
+            StartCoroutine(SpawnSpinnerCoroutine());
+        } else if (isPlayerDefeated)
+            return;
+    }
+
+    private IEnumerator WaitForAllDBEnemiesDefeated() {
+        while (dBEnemies.Count > 0) {
             //NOTE: Here, we're removing enemies from the list as they are defeated.
-            for (int i = enemies.Count - 1; i >= 0; i--) {
-                if (enemies[i] == null)
-                    enemies.RemoveAt(i);
+            for (int i = dBEnemies.Count - 1; i >= 0; i--) {
+                if (dBEnemies[i] == null)
+                    dBEnemies.RemoveAt(i);
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator WaitForAllSEnemiesDefeated() {
+        while (sEnemies.Count > 0) {
+            for (int i = sEnemies.Count - 1; i >= 0; i--) {
+                if (sEnemies[i] == null)
+                    sEnemies.RemoveAt(i);
             }
             yield return null;
         }
     }
 
     private IEnumerator BossWaveCoroutine() {
-        StartCoroutine(NewWaveDisplay.ShowWaveText());
+        if (IsBossWave)
+            StartCoroutine(NewWaveDisplay.ShowWaveText());
 
         //TODO:
         yield break;
