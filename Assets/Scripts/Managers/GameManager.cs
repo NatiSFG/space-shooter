@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour {
     private bool isGameOver;
     private int score = 0;
 
+    public bool IsGameOver => isGameOver;
+
     public event Action onScoreChanged;
 
     public int Score {

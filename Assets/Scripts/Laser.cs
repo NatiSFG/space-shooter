@@ -39,7 +39,7 @@ public class Laser : MonoBehaviour {
         transform.Translate(Vector3.down * speed * Time.deltaTime);
         //Need to put level bounds here
         if (LaserOutOfBounds()) {
-            if (transform.parent != null) {
+            if (transform.parent != null || playerController == null) {
                 Destroy(transform.parent.gameObject);
             } else Destroy(this.gameObject);
         }
