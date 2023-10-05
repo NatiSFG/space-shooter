@@ -13,10 +13,10 @@ public class HealthEntity : MonoBehaviour {
     [SerializeField] private CameraShake cameraShake;
     [SerializeField] private AudioClip damagedClip;
     [SerializeField] private Image shieldPowerUpImage;
+    [SerializeField] private int currentShieldProtection;
 
     private int maxHealth;
     private float timeInvincibleUntil = 0;
-    private int currentShieldProtection;
 
     public event Action onDamaged;
     public event Action onHealed;
@@ -27,19 +27,38 @@ public class HealthEntity : MonoBehaviour {
     public bool IsDefeated => health <= 0;
     public bool IsInvincible => Time.time <= timeInvincibleUntil;
     public bool IsShieldPowerUpActive => currentShieldProtection > 0;
+    public int CurrentShieldProtection => currentShieldProtection;
 
     private void Awake() {
         maxHealth = health;
     }
 
-    public bool TryDamage() {
-        if (IsInvincible)
-            return false;
+    private void Update() {
+        SubtractOneShieldHealth();
+    }
 
-        if (IsShieldPowerUpActive)
+    private void SubtractOneShieldHealth() {
+        if (Input.GetKeyDown(KeyCode.Q))
             TakeShieldDamage();
-        else Damage();
-        return true;
+    }
+
+    public DamageResult TryDamage() {
+        if (IsInvincible)
+            return DamageResult.Unaffected;
+        else if (TryDamageShield())
+            return DamageResult.ShieldDamaged;
+        else {
+            Damage();
+            return DamageResult.Success;
+        }
+    }
+
+    public bool TryDamageShield() {
+        if (IsShieldPowerUpActive) {
+            TakeShieldDamage();
+            return true;
+        }
+        else return false;
     }
 
     private void Damage() {

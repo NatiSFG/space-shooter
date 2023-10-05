@@ -10,8 +10,8 @@ public class SpinnerEnemy : Enemy {
 
     private new void Start() {
         base.Start();
-        enemyInfo = new EnemyInfo(iceLaserPrefab, controller, Random.Range(1, 4), -1);
         controller = GetComponent<SpinnerController2D>();
+        enemyInfo = new EnemyInfo(iceLaserPrefab, controller, Random.Range(1, 4), -1);
     }
 
     private void Update() {
@@ -24,13 +24,12 @@ public class SpinnerEnemy : Enemy {
             GameObject enemyLaser = Instantiate(iceLaserPrefab, transform.position, Quaternion.identity);
 
             Vector2 launchDirection = transform.forward;
-            Rigidbody2D rb = enemyLaser.GetComponent<Rigidbody2D>();
-            rb.velocity = launchDirection * Laser.speed;
             enemyLaser.transform.rotation = transform.rotation;
 
-            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-            for (int i = 0; i < lasers.Length; i++)
-                lasers[i].AssignSpinnerLaser();
+            Laser laser = enemyLaser.GetComponentInChildren<Laser>();
+            laser.AssignSpinnerLaser();
+            Rigidbody2D rb = enemyLaser.GetComponent<Rigidbody2D>();
+            rb.velocity = launchDirection * laser.Speed;
         }
     }
 }
