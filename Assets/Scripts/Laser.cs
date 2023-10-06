@@ -10,11 +10,17 @@ public class Laser : MonoBehaviour {
     private bool isDoubleBeamerLaser;
     private bool isSpinnerLaser;
     private SpriteRenderer playerSprite;
+
     public float Speed => speed;
+    public bool IsEnemyLaser => isDoubleBeamerLaser || isSpinnerLaser;
+    public bool IsDoubleBeamerLaser => isDoubleBeamerLaser;
+    public bool IsSpinnerLaser => isSpinnerLaser;
 
     private void Start() {
-        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
-        playerSprite = GameObject.FindGameObjectWithTag("Player").GetComponent<SpriteRenderer>();
+        if (playerController != null) {
+            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
+            playerSprite = playerController.GetComponent<SpriteRenderer>();
+        }
         levelBounds = Object.FindObjectOfType<LevelBounds>();
     }
 
@@ -36,13 +42,12 @@ public class Laser : MonoBehaviour {
     }
 
     private void EnemyLaser() {
-        transform.Translate(Vector3.down * speed * Time.deltaTime);
-        //Need to put level bounds here
-        if (LaserOutOfBounds()) {
-            if (transform.parent != null || playerController == null) {
-                Destroy(transform.parent.gameObject);
-            } else Destroy(this.gameObject);
-        }
+            transform.Translate(Vector3.down * speed * Time.deltaTime);
+            if (LaserOutOfBounds()) {
+                if (transform.parent != null || playerController == null) {
+                    Destroy(transform.parent.gameObject);
+                } else Destroy(this.gameObject);
+            }
     }
 
     public bool LaserOutOfBounds() {
@@ -60,20 +65,6 @@ public class Laser : MonoBehaviour {
 
     public void AssignSpinnerLaser() {
         isSpinnerLaser = true;
-    }
-
-    public bool IsDoubleBeamerLaser() {
-        return isDoubleBeamerLaser;
-    }
-
-    public bool IsSpinnerLaser() {
-        return isSpinnerLaser;
-    }
-
-    public bool IsEnemyLaser() {
-        if (isDoubleBeamerLaser || isSpinnerLaser)
-            return true;
-        else return false;
     }
 
     public void OnTriggerEnter2D(Collider2D other) {

@@ -27,6 +27,7 @@ public class Enemy : MonoBehaviour {
 
     private HealthEntity playerHealth;
     private Animator anim;
+    protected ShipMovementController2D playerController;
     private EnemyController2D enemyController;
 
     private new AudioSource audio;
@@ -39,6 +40,8 @@ public class Enemy : MonoBehaviour {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         playerHealth = player.GetComponent<HealthEntity>();
 
+        if (playerController != null)
+            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
         anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
         col2D = GetComponent<Collider2D>();
@@ -67,7 +70,7 @@ public class Enemy : MonoBehaviour {
     }
 
     private bool CheckToDefeatFromPlayer(Collider2D other) {
-        if ((other.TryGetComponent(out Laser laser) && !laser.IsEnemyLaser())
+        if ((other.TryGetComponent(out Laser laser) && !laser.IsEnemyLaser)
             || other.tag == "Wave") {
             if (laser != null)
                 Destroy(laser.gameObject);
