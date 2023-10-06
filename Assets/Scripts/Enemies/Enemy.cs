@@ -38,11 +38,11 @@ public class Enemy : MonoBehaviour {
 
     protected void Start() {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (playerHealth != null)
+        if (player != null) {
             playerHealth = player.GetComponent<HealthEntity>();
+            playerController = player.GetComponent<ShipMovementController2D>();
+        }
 
-        if (playerController != null)
-            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
         anim = GetComponent<Animator>();
         audio = GetComponent<AudioSource>();
         col2D = GetComponent<Collider2D>();
