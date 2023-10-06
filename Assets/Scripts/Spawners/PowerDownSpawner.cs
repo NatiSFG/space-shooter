@@ -5,8 +5,8 @@ public class PowerDownSpawner : WaveSystem {
     [SerializeField]
     private SpawnInfo[] powerDowns = {
         new SpawnInfo {
-            minSpawnTime = 3,
-            maxSpawnTime = 7
+            minSpawnTime = 13,
+            maxSpawnTime = 20
         }
     };
 

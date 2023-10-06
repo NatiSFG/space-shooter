@@ -21,6 +21,5 @@ public class Collectable : MonoBehaviour {
         }
     }
 
-    //TODO: make this abstract later
     protected virtual void OnPickUp(GameObject player) { }
 }

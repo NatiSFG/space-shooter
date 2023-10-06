@@ -13,10 +13,10 @@ public class ProvisionSpawner : WaveSystem {
     public IEnumerator SpawnProvisionCoroutine() {
         WaitForSeconds wait = new WaitForSeconds(3);
         yield return wait;
-        while (!isPlayerDefeated) {
-            int randProvision = Random.Range(0, provisions.Length);
+        while (!IsPlayerDefeated) {
+            int randProvision = Random.Range(0, provisions.Length - 1);
             WaitForSeconds waitRandom = new WaitForSeconds(Random.Range(provisions[randProvision].minSpawnTime,
-                provisions[randProvision].maxSpawnTime + 1));
+                provisions[randProvision].maxSpawnTime));
             yield return waitRandom;
             Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
             Instantiate(provisions[randProvision].prefab, pos, Quaternion.identity);

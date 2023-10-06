@@ -54,7 +54,6 @@ public class EnemyWaveSpawner : WaveSystem {
             yield return WaitForAllDBEnemiesDefeated();
             yield return wait3Sec;
 
-            Debug.Log("all double beamers defeated. DB count: " + dBEnemies.Count);
             yield return WaitToStartNewWaveCoroutine();
         }
         yield return BossWaveCoroutine();
@@ -74,14 +73,12 @@ public class EnemyWaveSpawner : WaveSystem {
                 sEnemies.Add(sEnemy);
 
                 sEnemy.transform.SetParent(enemyContainer.transform);
-                Debug.Log("Spawning spinner. index: " + i + " max: " + maxSEnemies);
                 yield return wait5Sec;
             }
 
             yield return WaitForAllSEnemiesDefeated();
             yield return wait3Sec;
 
-            Debug.Log("all spinners defeated. S count: " + sEnemies.Count);
             yield break;
         }
     }
@@ -97,17 +94,14 @@ public class EnemyWaveSpawner : WaveSystem {
         if (IsRegularWave && wave <= 1) {
             wave++;
             maxDBEnemies++;
-            Debug.Log("wave is now: " + wave + ". increasing DB max to " + maxDBEnemies);   
         } else if (IsRegularWave && wave == 2) {
             wave++;
             maxDBEnemies++;
-            Debug.Log("wave is now: " + wave + ". increasing DB max to " + maxDBEnemies);
             StartCoroutine(SpawnSpinnerCoroutine());
         } else if (IsRegularWave && wave >= 3) {
             wave++;
             maxDBEnemies++;
             maxSEnemies++;
-            Debug.Log("wave is now: " + wave + ". increasing DB max to " + maxDBEnemies + ". S max to " + maxSEnemies);
             StartCoroutine(SpawnSpinnerCoroutine());
         } else if (isPlayerDefeated)
             return;

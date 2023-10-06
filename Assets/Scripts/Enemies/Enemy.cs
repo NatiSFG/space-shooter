@@ -38,7 +38,8 @@ public class Enemy : MonoBehaviour {
 
     protected void Start() {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        playerHealth = player.GetComponent<HealthEntity>();
+        if (playerHealth != null)
+            playerHealth = player.GetComponent<HealthEntity>();
 
         if (playerController != null)
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
@@ -59,7 +60,7 @@ public class Enemy : MonoBehaviour {
     }
 
     private void TouchDamageWithPlayer() {
-        playerHealth.TryDamage();
+        playerHealth.TryDamage(); //error
         anim.SetTrigger("OnEnemyDeath");
         enemyController.Speed = 0;
         audio.Play();

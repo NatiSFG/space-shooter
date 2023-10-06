@@ -44,9 +44,9 @@ public class Laser : MonoBehaviour {
     private void EnemyLaser() {
             transform.Translate(Vector3.down * speed * Time.deltaTime);
             if (LaserOutOfBounds()) {
-                if (transform.parent != null || playerController == null) {
+                if (transform.parent != null)
                     Destroy(transform.parent.gameObject);
-                } else Destroy(this.gameObject);
+                else Destroy(this.gameObject);
             }
     }
 

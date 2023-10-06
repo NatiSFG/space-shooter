@@ -6,6 +6,8 @@ public class GameManager : MonoBehaviour {
     private bool isGameOver;
     private int score = 0;
 
+    private WaveSystem waveSystem;
+
     public bool IsGameOver => isGameOver;
 
     public event Action onScoreChanged;
@@ -21,6 +23,7 @@ public class GameManager : MonoBehaviour {
 
     private void Start() {
         Enemy.onAnyDefeated += OnAnyEnemyDefeated;
+        waveSystem = FindObjectOfType<WaveSystem>();
     }
 
     private void OnDestroy() {
@@ -28,8 +31,10 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Update() {
-        if (Input.GetKeyDown(KeyCode.R) && isGameOver)
+        if (Input.GetKeyDown(KeyCode.R) && isGameOver) {
             SceneManager.LoadScene(1); //game scene
+            waveSystem.OnPlayerRestart();
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();

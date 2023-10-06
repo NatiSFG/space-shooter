@@ -18,6 +18,7 @@ public class WaveSystem : MonoBehaviour {
     private ProvisionSpawner provisionSpawner;
     private GameManager gameManager;
 
+    public bool IsPlayerDefeated => isPlayerDefeated;
     public int Wave => wave;
 
     private void Start() {
@@ -56,5 +57,9 @@ public class WaveSystem : MonoBehaviour {
 
     public void OnPlayerDeath() {
         isPlayerDefeated = true;
+    }
+
+    public void OnPlayerRestart() {
+        isPlayerDefeated = false;
     }
 }
