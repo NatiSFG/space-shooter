@@ -912,8 +912,8 @@ MonoBehaviour:
   provisions:
   - prefab: {fileID: 1499337340448811697, guid: b354b42f585f21c4987123e188239c2f,
       type: 3}
-    minSpawnTime: 6
-    maxSpawnTime: 10
+    minSpawnTime: 7
+    maxSpawnTime: 16
   - prefab: {fileID: 7283101229590858396, guid: 4b30b2379c84d8541b7a381512966d6d,
       type: 3}
     minSpawnTime: 25
@@ -962,8 +962,8 @@ MonoBehaviour:
   powerDowns:
   - prefab: {fileID: 5171422903273280169, guid: 90a2a87386d385a4aa4bed40583a939f,
       type: 3}
-    minSpawnTime: 7
-    maxSpawnTime: 10
+    minSpawnTime: 13
+    maxSpawnTime: 20
 --- !u!1 &515760731
 GameObject:
   m_ObjectHideFlags: 0

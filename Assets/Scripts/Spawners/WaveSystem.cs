@@ -16,7 +16,9 @@ public class WaveSystem : MonoBehaviour {
     private PowerUpSpawner powerUpSpawner;
     private PowerDownSpawner powerDownSpawner;
     private ProvisionSpawner provisionSpawner;
+    private GameManager gameManager;
 
+    public bool IsPlayerDefeated => isPlayerDefeated;
     public int Wave => wave;
 
     private void Start() {
@@ -30,6 +32,7 @@ public class WaveSystem : MonoBehaviour {
         powerUpSpawner = GetComponent<PowerUpSpawner>();
         powerDownSpawner = GetComponent<PowerDownSpawner>();
         provisionSpawner = GetComponent<ProvisionSpawner>();
+        gameManager = Object.FindObjectOfType<GameManager>();
     }
 
     private void OnDestroy() {
@@ -42,6 +45,9 @@ public class WaveSystem : MonoBehaviour {
         StartCoroutine(powerUpSpawner.SpawnPowerUpCoroutine());
         StartCoroutine(powerDownSpawner.SpawnPowerDownCoroutine());
         StartCoroutine(provisionSpawner.SpawnProvisionCoroutine());
+
+        if (gameManager.IsGameOver)
+            StopAllCoroutines();
     }
 
     private void CheckForDeath() {
@@ -51,5 +57,9 @@ public class WaveSystem : MonoBehaviour {
 
     public void OnPlayerDeath() {
         isPlayerDefeated = true;
+    }
+
+    public void OnPlayerRestart() {
+        isPlayerDefeated = false;
     }
 }
