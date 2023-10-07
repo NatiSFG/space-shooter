@@ -12,6 +12,7 @@ public class EnemyWaveSpawner : WaveSystem {
     [SerializeField] private GameObject spinnerPrefab;
     [SerializeField] private List<GameObject> sEnemies = new List<GameObject>();
 
+    [Space(20)]
     [SerializeField] private int maxDBEnemies = 3; //final max double beamer enemies is 11 on wave 9
     [SerializeField] private int maxSEnemies = 1; //final max spinner enemies is 7 on wave 9
 
