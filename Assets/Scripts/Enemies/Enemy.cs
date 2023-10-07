@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour {
     }
 
     private void TouchDamageWithPlayer() {
-        playerHealth.TryDamage(); //error
+        playerHealth.TryDamage();
         anim.SetTrigger("OnEnemyDeath");
         enemyController.Speed = 0;
         audio.Play();
