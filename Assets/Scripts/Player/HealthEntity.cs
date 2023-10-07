@@ -27,7 +27,11 @@ public class HealthEntity : MonoBehaviour {
     public bool IsDefeated => health <= 0;
     public bool IsInvincible => Time.time <= timeInvincibleUntil;
     public bool IsShieldPowerUpActive => currentShieldProtection > 0;
-    public int CurrentShieldProtection => currentShieldProtection;
+    public int TotalShieldProtection => totalShieldProtection;
+    public int CurrentShieldProtection {
+        get { return currentShieldProtection; }
+        set { currentShieldProtection = value; }
+    }
 
     private void Awake() {
         maxHealth = health;
@@ -102,21 +106,21 @@ public class HealthEntity : MonoBehaviour {
     }
 
     private void TakeShieldDamage() {
-        currentShieldProtection--;
+        CurrentShieldProtection--;
         UpdateShieldColor();
-        if (currentShieldProtection <= 0)
+        if (CurrentShieldProtection <= 0)
             ShieldPowerDown();
         StartInvincibility(2);
     }
 
     private void UpdateShieldColor() {
         Color c = shield.color;
-        c.a = (float) currentShieldProtection / totalShieldProtection;
+        c.a = (float) CurrentShieldProtection / TotalShieldProtection;
         shield.color = c;
     }
 
     public void ShieldPowerUpActive() {
-        currentShieldProtection = totalShieldProtection;
+        CurrentShieldProtection = TotalShieldProtection;
         UpdateShieldColor();
         shieldPowerUpImage.enabled = true;
         shield.gameObject.SetActive(true);

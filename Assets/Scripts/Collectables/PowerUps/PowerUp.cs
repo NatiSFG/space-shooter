@@ -6,6 +6,5 @@ public class PowerUp : Collectable {
         ApplyPowerUp(player);
     }
 
-    //TODO: Make abstract later
     protected virtual void ApplyPowerUp(GameObject player) { }
 }

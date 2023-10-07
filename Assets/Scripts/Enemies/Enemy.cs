@@ -70,7 +70,7 @@ public class Enemy : MonoBehaviour {
         Destroy(this.gameObject, 3);
     }
 
-    private bool CheckToDefeatFromPlayer(Collider2D other) {
+    public bool CheckToDefeatFromPlayer(Collider2D other) {
         if ((other.TryGetComponent(out Laser laser) && !laser.IsEnemyLaser)
             || other.tag == "Wave") {
             if (laser != null)
