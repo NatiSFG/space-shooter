@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TextMeshProUGUI gameOverText;
     [SerializeField] private TextMeshProUGUI restartGameText;
+    [SerializeField] private TextMeshProUGUI exitGameText;
     [SerializeField] private Image lifeImage;
     [SerializeField] private Sprite[] lifeSprites;
     [SerializeField] private TMP_Text laserCount;
@@ -51,6 +52,7 @@ public class UIManager : MonoBehaviour {
         laserCountAnim.SetInteger("Laser Count", playerShootController.AmmoCount);
         gameOverText.enabled = false;
         restartGameText.enabled = false;
+        exitGameText.enabled = false;
 
         if (gameManager != null) {
             gameManager.onScoreChanged += UpdateScore;
@@ -119,9 +121,16 @@ public class UIManager : MonoBehaviour {
             + "both active and enabled for the text to show!");
     }
 
+    private void ExitDisplay() {
+        exitGameText.enabled = true;
+        Assert.IsTrue(exitGameText.isActiveAndEnabled, "The Exit Game text must be both "
+            + "active and enabled for the text to show!");
+    }
+
     public void GameOverSequence() {
         gameManager.GameOver();
         GameOverDisplay();
         RestartDisplay();
+        ExitDisplay();
     }
 }
