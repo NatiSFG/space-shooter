@@ -7,13 +7,14 @@ public class HealthEntity : MonoBehaviour {
 
     [Header("Shield Protection")]
     [SerializeField] private SpriteRenderer shield;
+    [SerializeField] private int currentShieldProtection;
     [SerializeField] private int totalShieldProtection = 3;
 
     [Space(20)]
     [SerializeField] private CameraShake cameraShake;
     [SerializeField] private AudioClip damagedClip;
     [SerializeField] private Image shieldPowerUpImage;
-    [SerializeField] private int currentShieldProtection;
+    [SerializeField] private Image[] shieldHealthImages;
 
     private int maxHealth;
     private float timeInvincibleUntil = 0;
@@ -103,6 +104,7 @@ public class HealthEntity : MonoBehaviour {
 
     private void TakeShieldDamage() {
         currentShieldProtection--;
+        shieldHealthImages[currentShieldProtection].enabled = false;
         UpdateShieldColor();
         if (currentShieldProtection <= 0)
             ShieldPowerDown();
@@ -119,6 +121,9 @@ public class HealthEntity : MonoBehaviour {
         currentShieldProtection = totalShieldProtection;
         UpdateShieldColor();
         shieldPowerUpImage.enabled = true;
+        for (int i = 0; i < shieldHealthImages.Length; i++) {
+            shieldHealthImages[i].enabled = true;
+        }
         shield.gameObject.SetActive(true);
     }
 
