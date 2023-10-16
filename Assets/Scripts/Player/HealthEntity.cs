@@ -7,13 +7,14 @@ public class HealthEntity : MonoBehaviour {
 
     [Header("Shield Protection")]
     [SerializeField] private SpriteRenderer shield;
+    [SerializeField] private int currentShieldProtection;
     [SerializeField] private int totalShieldProtection = 3;
 
     [Space(20)]
     [SerializeField] private CameraShake cameraShake;
     [SerializeField] private AudioClip damagedClip;
     [SerializeField] private Image shieldPowerUpImage;
-    [SerializeField] private int currentShieldProtection;
+    [SerializeField] private Image[] shieldHealthImages;
 
     private int maxHealth;
     private float timeInvincibleUntil = 0;
@@ -27,7 +28,11 @@ public class HealthEntity : MonoBehaviour {
     public bool IsDefeated => health <= 0;
     public bool IsInvincible => Time.time <= timeInvincibleUntil;
     public bool IsShieldPowerUpActive => currentShieldProtection > 0;
-    public int CurrentShieldProtection => currentShieldProtection;
+    public int TotalShieldProtection => totalShieldProtection;
+    public int CurrentShieldProtection {
+        get { return currentShieldProtection; }
+        set { currentShieldProtection = value; }
+    }
 
     private void Awake() {
         maxHealth = health;
@@ -103,22 +108,26 @@ public class HealthEntity : MonoBehaviour {
 
     private void TakeShieldDamage() {
         currentShieldProtection--;
+        shieldHealthImages[currentShieldProtection].enabled = false;
         UpdateShieldColor();
-        if (currentShieldProtection <= 0)
+        if (CurrentShieldProtection <= 0)
             ShieldPowerDown();
         StartInvincibility(2);
     }
 
     private void UpdateShieldColor() {
         Color c = shield.color;
-        c.a = (float) currentShieldProtection / totalShieldProtection;
+        c.a = (float) CurrentShieldProtection / TotalShieldProtection;
         shield.color = c;
     }
 
     public void ShieldPowerUpActive() {
-        currentShieldProtection = totalShieldProtection;
+        CurrentShieldProtection = TotalShieldProtection;
         UpdateShieldColor();
         shieldPowerUpImage.enabled = true;
+        for (int i = 0; i < shieldHealthImages.Length; i++) {
+            shieldHealthImages[i].enabled = true;
+        }
         shield.gameObject.SetActive(true);
     }
 

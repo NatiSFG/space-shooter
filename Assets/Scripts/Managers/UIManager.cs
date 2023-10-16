@@ -13,8 +13,10 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TextMeshProUGUI gameOverText;
     [SerializeField] private TextMeshProUGUI restartGameText;
+    [SerializeField] private TextMeshProUGUI exitGameText;
     [SerializeField] private Image lifeImage;
     [SerializeField] private Sprite[] lifeSprites;
+    [SerializeField] private Image[] shieldHealthImages;
     [SerializeField] private TMP_Text laserCount;
     [SerializeField] private Animator laserCountAnim;
     
@@ -51,6 +53,7 @@ public class UIManager : MonoBehaviour {
         laserCountAnim.SetInteger("Laser Count", playerShootController.AmmoCount);
         gameOverText.enabled = false;
         restartGameText.enabled = false;
+        exitGameText.enabled = false;
 
         if (gameManager != null) {
             gameManager.onScoreChanged += UpdateScore;
@@ -80,6 +83,9 @@ public class UIManager : MonoBehaviour {
     }
 
     private void OnPlayerDamaged() {
+        //if (playerHealth.IsShieldPowerUpActive) {
+        //    OnShieldHealthDamage();
+        //}
         int health = playerHealth.Health;
         UpdateHealth(health); //NOTE: This may benefit from onHealthChanged
         if (health <= 0)
@@ -96,6 +102,17 @@ public class UIManager : MonoBehaviour {
             currentLives = 0;
         lifeImage.sprite = lifeSprites[currentLives];
     }
+
+    //private void OnShieldHealthDamage() {
+    //    int shieldHealth = playerHealth.CurrentShieldProtection;
+    //    UpdateShieldHealth(shieldHealth);
+    //}
+
+    //public void UpdateShieldHealth(int currentShieldHealth) {
+    //    if (currentShieldHealth < 0)
+    //        currentShieldHealth = 0;
+    //    shieldHealthImages[currentShieldHealth - 1].enabled = false;
+    //}
 
     private void GameOverDisplay() {
         gameOverText.enabled = true;
@@ -119,9 +136,16 @@ public class UIManager : MonoBehaviour {
             + "both active and enabled for the text to show!");
     }
 
+    private void ExitDisplay() {
+        exitGameText.enabled = true;
+        Assert.IsTrue(exitGameText.isActiveAndEnabled, "The Exit Game text must be both "
+            + "active and enabled for the text to show!");
+    }
+
     public void GameOverSequence() {
         gameManager.GameOver();
         GameOverDisplay();
         RestartDisplay();
+        ExitDisplay();
     }
 }

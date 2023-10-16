@@ -36,8 +36,17 @@ public class GameManager : MonoBehaviour {
             waveSystem.OnPlayerRestart();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+#if UNITY_EDITOR //preprocessor macro
+            //exits play mode
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            //when the project is compiled for a build, we'll run the below line
+            //if you ever need to test quiting the application below, comment out
+            //the macro and hashes
             Application.Quit();
+#endif
+        }
     }
 
     private void OnAnyEnemyDefeated() {

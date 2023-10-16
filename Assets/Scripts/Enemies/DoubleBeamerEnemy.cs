@@ -15,17 +15,16 @@ public class DoubleBeamerEnemy : Enemy {
     }
 
     private void Update() {
-        FireLaser(); //error
+        FireLaser();
     }
 
     protected override void FireLaser() {
-            if (Time.time > enemyInfo.canFire && isAlive && !waveSystem.IsPlayerDefeated) { //error
-                enemyInfo.canFire = Time.time + enemyInfo.fireRate;
-                GameObject enemyLaser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
-                Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-                for (int i = 0; i < lasers.Length; i++)
-                    lasers[i].AssignDoubleBeamerLaser();
-            }
+        if (Time.time > enemyInfo.canFire && isAlive && !waveSystem.IsPlayerDefeated) {
+            enemyInfo.canFire = Time.time + enemyInfo.fireRate;
+            GameObject enemyLaser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+            for (int i = 0; i < lasers.Length; i++)
+                lasers[i].AssignDoubleBeamerLaser();
+        }
     }
-
 }
