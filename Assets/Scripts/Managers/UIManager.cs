@@ -16,6 +16,7 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI exitGameText;
     [SerializeField] private Image lifeImage;
     [SerializeField] private Sprite[] lifeSprites;
+    [SerializeField] private Image[] shieldHealthImages;
     [SerializeField] private TMP_Text laserCount;
     [SerializeField] private Animator laserCountAnim;
     
@@ -82,6 +83,9 @@ public class UIManager : MonoBehaviour {
     }
 
     private void OnPlayerDamaged() {
+        //if (playerHealth.IsShieldPowerUpActive) {
+        //    OnShieldHealthDamage();
+        //}
         int health = playerHealth.Health;
         UpdateHealth(health); //NOTE: This may benefit from onHealthChanged
         if (health <= 0)
@@ -98,6 +102,17 @@ public class UIManager : MonoBehaviour {
             currentLives = 0;
         lifeImage.sprite = lifeSprites[currentLives];
     }
+
+    //private void OnShieldHealthDamage() {
+    //    int shieldHealth = playerHealth.CurrentShieldProtection;
+    //    UpdateShieldHealth(shieldHealth);
+    //}
+
+    //public void UpdateShieldHealth(int currentShieldHealth) {
+    //    if (currentShieldHealth < 0)
+    //        currentShieldHealth = 0;
+    //    shieldHealthImages[currentShieldHealth - 1].enabled = false;
+    //}
 
     private void GameOverDisplay() {
         gameOverText.enabled = true;

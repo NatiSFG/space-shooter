@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.IO.MemoryMappedFiles;
 using UnityEngine;
 
 using Random = UnityEngine.Random; //NOTE: This is an alias, because System.Random also exists!
@@ -51,14 +52,35 @@ public class Enemy : MonoBehaviour {
 
     protected virtual void FireLaser() { }
     
-
-    private void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Player")
-            TouchDamageWithPlayer();
-        else
-            CheckToDefeatFromPlayer(other);
+    private bool PlayerLaserOrWaveDoesHarm(Collider2D other, out Laser laser) {
+        return (other.TryGetComponent(out laser) && !laser.IsEnemyLaser)
+           || other.tag == "Wave";
     }
 
+    private void OnTriggerEnter2D(Collider2D other) {
+        //if the player collides
+        if (other.tag == "Player") {
+            //and the enemy has a shield, try to damage the shield
+            if (TryGetComponent(out EnemyShield shield) && shield.TryDamageShield()) {
+                //if the player has a shield, damage it too
+                playerHealth.TryDamageShield();
+            //if the enemy doesn't have a shield, potentially damage player and kill enemy
+            } else TouchDamageWithPlayer();
+        }
+
+        //when calling this as a parameter, it promises to initialize this parameter
+        //and send it back to the called by reference
+        if (PlayerLaserOrWaveDoesHarm(other, out Laser laser)) {
+            if (laser != null)
+                Destroy(laser.gameObject);
+            //if the enemy has a shield and try to damage the shield, then there's nothing to do
+            if (TryGetComponent(out EnemyShield shield) && shield.TryDamageShield()) {
+            //if the enemy doesn't have a shield, kill the enemy
+            } else Defeat();
+        }
+    }
+
+    //player potentially gets damaged and enemy dies when colliding with player
     private void TouchDamageWithPlayer() {
         playerHealth.TryDamage();
         anim.SetTrigger("OnEnemyDeath");
@@ -70,24 +92,16 @@ public class Enemy : MonoBehaviour {
         Destroy(this.gameObject, 3);
     }
 
-    private bool CheckToDefeatFromPlayer(Collider2D other) {
-        if ((other.TryGetComponent(out Laser laser) && !laser.IsEnemyLaser)
-            || other.tag == "Wave") {
-            if (laser != null)
-                Destroy(laser.gameObject);
+    public void Defeat() {
+        anim.SetTrigger("OnEnemyDeath");
+        enemyController.Speed = 0;
+        audio.Play();
 
-            anim.SetTrigger("OnEnemyDeath");
-            enemyController.Speed = 0;
-            audio.Play();
+        col2D.enabled = false;
+        isAlive = false;
 
-            col2D.enabled = false;
-            isAlive = false;
-
-            if (onAnyDefeated != null)
-                onAnyDefeated();
-            Destroy(this.gameObject, 3);
-            return true;
-        }
-        return false;
+        if (onAnyDefeated != null)
+            onAnyDefeated();
+        Destroy(this.gameObject, 3);
     }
 }
