@@ -62,6 +62,8 @@ public class Enemy : MonoBehaviour {
         if (other.tag == "Player") {
             //and the enemy has a shield, try to damage the shield
             if (TryGetComponent(out EnemyShield shield) && shield.TryDamageShield()) {
+                //if the player has a shield, damage it too
+                playerHealth.TryDamageShield();
             //if the enemy doesn't have a shield, potentially damage player and kill enemy
             } else TouchDamageWithPlayer();
         }
@@ -73,9 +75,8 @@ public class Enemy : MonoBehaviour {
                 Destroy(laser.gameObject);
             //if the enemy has a shield and try to damage the shield, then there's nothing to do
             if (TryGetComponent(out EnemyShield shield) && shield.TryDamageShield()) {
-            //if the enemy doesn'y have a shield, kill the enemy
+            //if the enemy doesn't have a shield, kill the enemy
             } else Defeat();
-            
         }
     }
 
