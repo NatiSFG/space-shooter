@@ -17,7 +17,7 @@ public class DoubleBeamerController2D : EnemyController2D {
         Vector3 currentPos = transform.position;
         Vector3 nextTarget = currentPos;
         nextTarget.y = BottomOfLevel;
-
+        //cleared targetPos complier bug
         targetPos = nextTarget;
     }
 
