@@ -10,7 +10,6 @@ public class EnemyController2D : MonoBehaviour {
 
     private Transform player;
     private bool isAggressive = false;
-    private Vector3 targetPos;
 
     public float Speed {
         get { return standardSpeed; }
