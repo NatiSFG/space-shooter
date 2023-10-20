@@ -70,11 +70,11 @@ public class EnemyController2D : MonoBehaviour {
         }
     }
 
-    //protected virtual void CalculateMovement() {
-    //    transform.Translate(Vector3.down * standardSpeed * Time.deltaTime, Space.World);
-    //    if (transform.position.y <= BottomOfLevel) {
-    //        float randX = Random.Range((float) -10, 10);
-    //        transform.position = new Vector3(randX, 9, 0);
-    //    }
-    //}
+    protected virtual void CalculateMovement() {
+        transform.Translate(Vector3.down * standardSpeed * Time.deltaTime, Space.World);
+        if (transform.position.y <= bottomOfLevel) {
+            float randx = Random.Range((float) -10, 10);
+            transform.position = new Vector3(randx, 9, 0);
+        }
+    }
 }
