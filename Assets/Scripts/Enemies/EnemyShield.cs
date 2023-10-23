@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EnemyShield : MonoBehaviour {
     [Header("Shield Protection")]
@@ -31,3 +29,4 @@ public class EnemyShield : MonoBehaviour {
         shield.enabled = false;
     }
 }
+

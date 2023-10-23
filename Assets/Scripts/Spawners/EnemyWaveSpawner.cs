@@ -5,21 +5,33 @@ using UnityEngine;
 public class EnemyWaveSpawner : WaveSystem {
     [SerializeField] private GameObject enemyContainer;
     [SerializeField] protected NewWaveDisplay newWaveDisplay;
-    
+
+    [Header("Enemies")]
     [SerializeField] private GameObject doubleBeamerPrefab;
     [SerializeField] private List<GameObject> dBEnemies = new List<GameObject>();
+
+    [SerializeField] private GameObject chargerPrefab;
+    [SerializeField] private List<GameObject> chargerEnemies = new List<GameObject>();
     
     [SerializeField] private GameObject spinnerPrefab;
     [SerializeField] private List<GameObject> sEnemies = new List<GameObject>();
 
     [Space(20)]
     [SerializeField] private int maxDBEnemies = 3; //final max double beamer enemies is 11 on wave 9
-    [SerializeField] private int maxSEnemies = 1; //final max spinner enemies is 7 on wave 9
+    [SerializeField] private int maxChargerEnemies = 2; //final max charger enemies is 8 on wave 9
+    [SerializeField] private int maxSpinnerEnemies = 1; //final max spinner enemies is 7 on wave 9
 
     private int bossWave = 10;
     private GameObject dBEnemy;
+    private GameObject chargerEnemy;
     private GameObject sEnemy;
+    private float minXSpawnPoint = -10f;
+    private float maxXSpawnPoint = 10f;
+    private float topYSpawnPoint = 9f;
 
+    public float MinXSpawnPoint => minXSpawnPoint;
+    public float MaxXSpawnPoint => maxXSpawnPoint;
+    public float TopYSpawnPoint => topYSpawnPoint;
     public bool IsRegularWave => wave < bossWave;
     public bool IsBossWave => wave == bossWave;
     public NewWaveDisplay NewWaveDisplay => newWaveDisplay;
@@ -44,7 +56,7 @@ public class EnemyWaveSpawner : WaveSystem {
             yield return wait3Sec;
 
             for (int i = 0; i < maxDBEnemies; i++) {
-                Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
+                Vector3 pos = new Vector3(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint, 0);
                 dBEnemy = Instantiate(doubleBeamerPrefab, pos, Quaternion.identity);
                 dBEnemies.Add(dBEnemy);
 
@@ -60,6 +72,30 @@ public class EnemyWaveSpawner : WaveSystem {
         yield return BossWaveCoroutine();
     }
 
+    public IEnumerator SpawnChargerCoroutine() {
+        WaitForSeconds wait3Sec = new WaitForSeconds(3);
+        WaitForSeconds wait4Sec = new WaitForSeconds(4);
+        WaitForSeconds wait5Sec = new WaitForSeconds(5);
+
+        while (IsRegularWave && wave >= 2) {
+            yield return wait4Sec;
+
+            for (int i = 0; i < maxChargerEnemies; i++) {
+                Vector3 pos = new Vector3(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint, 0);
+                chargerEnemy = Instantiate(chargerPrefab, pos, Quaternion.identity);
+                chargerEnemies.Add(chargerEnemy);
+
+                chargerEnemy.transform.SetParent(enemyContainer.transform);
+                yield return wait5Sec;
+            }
+
+            yield return WaitForAllDBEnemiesDefeated();
+            yield return wait3Sec;
+
+            yield break;
+        }
+    }
+
     public IEnumerator SpawnSpinnerCoroutine() {
         WaitForSeconds wait3Sec = new WaitForSeconds(3);
         WaitForSeconds wait4Sec = new WaitForSeconds(4);
@@ -68,8 +104,8 @@ public class EnemyWaveSpawner : WaveSystem {
         while (IsRegularWave && wave >= 3) {
             yield return wait4Sec;
 
-            for (int i = 0; i < maxSEnemies; i++) {
-                Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
+            for (int i = 0; i < maxSpinnerEnemies; i++) {
+                Vector3 pos = new Vector3(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint, 0);
                 sEnemy = Instantiate(spinnerPrefab, pos, Quaternion.identity);
                 sEnemies.Add(sEnemy);
 
@@ -92,18 +128,23 @@ public class EnemyWaveSpawner : WaveSystem {
     }
 
     private void StartNewWave() {
-        if (IsRegularWave && wave <= 1) {
+        if (IsRegularWave && wave == 1) {
             wave++;
             maxDBEnemies++;
+            StartCoroutine(SpawnChargerCoroutine());
         } else if (IsRegularWave && wave == 2) {
             wave++;
             maxDBEnemies++;
+            maxChargerEnemies++;
             StartCoroutine(SpawnSpinnerCoroutine());
+            StartCoroutine(SpawnChargerCoroutine());
         } else if (IsRegularWave && wave >= 3) {
             wave++;
             maxDBEnemies++;
-            maxSEnemies++;
+            maxChargerEnemies++;
+            maxSpinnerEnemies++;
             StartCoroutine(SpawnSpinnerCoroutine());
+            StartCoroutine(SpawnChargerCoroutine());
         } else if (isPlayerDefeated)
             return;
     }
