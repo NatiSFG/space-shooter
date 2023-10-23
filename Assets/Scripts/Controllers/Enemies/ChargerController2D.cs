@@ -16,6 +16,7 @@ public class ChargerController2D : EnemyController2D {
     }
 
     private void Start() {
+        enemyWaveSpawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<EnemyWaveSpawner>();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         //continuously check the distance to the player
         StartCoroutine(CheckDistanceToPlayer());
@@ -27,6 +28,10 @@ public class ChargerController2D : EnemyController2D {
         //be set to standardSpeed.
         currentSpeed = IsAggressive ? standardSpeed * aggressionSpeedMultiplier : standardSpeed;
         transform.Translate(Vector3.down * currentSpeed * Time.deltaTime);
+        if (transform.position.y <= BottomOfLevel) {
+            float randx = Random.Range(enemyWaveSpawner.MinXSpawnPoint, enemyWaveSpawner.MaxXSpawnPoint);
+            transform.position = new Vector3(randx, enemyWaveSpawner.TopYSpawnPoint, 0);
+        }
     }
 
     private IEnumerator CheckDistanceToPlayer() {
@@ -41,13 +46,11 @@ public class ChargerController2D : EnemyController2D {
                 if (!IsAggressive) {
                     //enemy enters the range and becomes aggressive
                     IsAggressive = true;
-                    Debug.Log("Enemy is aggressive!");
                 }
             } else {
                 if (IsAggressive) {
                     //enemy is out of range, return to standard speed
                     IsAggressive = false;
-                    Debug.Log("Enemy is no longer aggressive.");
                 }
             }
             yield return wait;

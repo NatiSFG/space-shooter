@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
 using UnityEngine;
 
 public class EnemyWaveSpawner : WaveSystem {
@@ -26,10 +25,13 @@ public class EnemyWaveSpawner : WaveSystem {
     private GameObject dBEnemy;
     private GameObject chargerEnemy;
     private GameObject sEnemy;
-    private float minXSpawnPoint = -8f;
-    private float maxXSpawnPoint = 8f;
-    private float topYSpawnPoint = 8.5f;
+    private float minXSpawnPoint = -10f;
+    private float maxXSpawnPoint = 10f;
+    private float topYSpawnPoint = 9f;
 
+    public float MinXSpawnPoint => minXSpawnPoint;
+    public float MaxXSpawnPoint => maxXSpawnPoint;
+    public float TopYSpawnPoint => topYSpawnPoint;
     public bool IsRegularWave => wave < bossWave;
     public bool IsBossWave => wave == bossWave;
     public NewWaveDisplay NewWaveDisplay => newWaveDisplay;
