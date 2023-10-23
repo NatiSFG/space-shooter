@@ -2,7 +2,7 @@
 
 public class SpinnerController2D : EnemyController2D {
     [SerializeField] private float rotateSpeed;
-    
+
     void Update() {
         CalculateMovement();
     }
