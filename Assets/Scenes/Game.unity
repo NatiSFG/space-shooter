@@ -898,9 +898,9 @@ MonoBehaviour:
   spinnerPrefab: {fileID: 1234733063951780426, guid: da7317b39c1f1aa4086c3cbfdf98723a,
     type: 3}
   sEnemies: []
-  maxDBEnemies: 3
-  maxChargerEnemies: 2
-  maxSpinnerEnemies: 1
+  backShooterPrefab: {fileID: 5841376457476210521, guid: 0608c1916b0288a42b1040e2b75fba82,
+    type: 3}
+  backShooterEnemies: []
 --- !u!114 &400336564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4357,6 +4357,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Back Shooter
+      objectReference: {fileID: 0}
+    - target: {fileID: 5841376457476210521, guid: 0608c1916b0288a42b1040e2b75fba82,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6014121627550450922, guid: 0608c1916b0288a42b1040e2b75fba82,
         type: 3}
