@@ -57,7 +57,7 @@ public class EnemyWaveSpawner : WaveSystem {
             chargerEnemies.Clear();
             sEnemies.Clear();
             backShooterEnemies.Clear();
-            StartCoroutine(WaitForAllDBEnemiesDefeated());
+            StartCoroutine(WaitForAllDoubleBeamerDefeated());
         }
     }
 
@@ -78,7 +78,7 @@ public class EnemyWaveSpawner : WaveSystem {
                 yield return wait5Sec;
             }
 
-            yield return WaitForAllDBEnemiesDefeated();
+            yield return WaitForAllDoubleBeamerDefeated();
             yield return wait3Sec;
 
             yield return WaitToStartNewWaveCoroutine();
@@ -103,7 +103,7 @@ public class EnemyWaveSpawner : WaveSystem {
                 yield return wait5Sec;
             }
 
-            yield return WaitForAllDBEnemiesDefeated();
+            yield return WaitForAllChargerDefeated();
             yield return wait3Sec;
 
             yield break;
@@ -127,7 +127,7 @@ public class EnemyWaveSpawner : WaveSystem {
                 yield return wait5Sec;
             }
 
-            yield return WaitForAllSEnemiesDefeated();
+            yield return WaitForAllSpinnerDefeated();
             yield return wait3Sec;
 
             yield break;
@@ -151,7 +151,7 @@ public class EnemyWaveSpawner : WaveSystem {
                 yield return wait5Sec;
             }
 
-            yield return WaitForAllDBEnemiesDefeated();
+            yield return WaitForAllBackShooterDefeated();
             yield return wait3Sec;
 
             yield break;
@@ -197,7 +197,7 @@ public class EnemyWaveSpawner : WaveSystem {
             return;
     }
 
-    private IEnumerator WaitForAllDBEnemiesDefeated() {
+    private IEnumerator WaitForAllDoubleBeamerDefeated() {
         while (dBEnemies.Count > 0) {
             //NOTE: Here, we're removing enemies from the list as they are defeated.
             for (int i = dBEnemies.Count - 1; i >= 0; i--) {
@@ -208,11 +208,31 @@ public class EnemyWaveSpawner : WaveSystem {
         }
     }
 
-    private IEnumerator WaitForAllSEnemiesDefeated() {
+    private IEnumerator WaitForAllChargerDefeated() {
+        while (chargerEnemies.Count > 0) {
+            for (int i = chargerEnemies.Count - 1; i >= 0; i--) {
+                if (chargerEnemies[i] == null)
+                    chargerEnemies.RemoveAt(i);
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator WaitForAllSpinnerDefeated() {
         while (sEnemies.Count > 0) {
             for (int i = sEnemies.Count - 1; i >= 0; i--) {
                 if (sEnemies[i] == null)
                     sEnemies.RemoveAt(i);
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator WaitForAllBackShooterDefeated() {
+        while (backShooterEnemies.Count > 0) {
+            for (int i = backShooterEnemies.Count - 1; i >= 0; i--) {
+                if (backShooterEnemies[i] == null)
+                    backShooterEnemies.RemoveAt(i);
             }
             yield return null;
         }
