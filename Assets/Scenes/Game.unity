@@ -3525,6 +3525,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Double Beamer
       objectReference: {fileID: 0}
+    - target: {fileID: 681606469347654121, guid: 25b60eaa063fbda46be7b80a24b37d0a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8819250745887248775, guid: 25b60eaa063fbda46be7b80a24b37d0a,
         type: 3}
       propertyPath: m_RootOrder
