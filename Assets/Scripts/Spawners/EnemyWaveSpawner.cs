@@ -159,7 +159,8 @@ public class EnemyWaveSpawner : WaveSystem {
     }
 
     private IEnumerator WaitToStartNewWaveCoroutine() {
-        while (dBEnemies.Count > 0 || sEnemies.Count > 0) {
+        while (dBEnemies.Count > 0 || sEnemies.Count > 0 ||
+            chargerEnemies.Count > 0 || backShooterEnemies.Count > 0) {
             yield return null;
         }
         StartNewWave();
