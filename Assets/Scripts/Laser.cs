@@ -9,12 +9,25 @@ public class Laser : MonoBehaviour {
     private ShipMovementController2D playerController;
     private bool isDoubleBeamerLaser;
     private bool isSpinnerLaser;
+    private bool isBackShooterLaser;
     private SpriteRenderer playerSprite;
 
     public float Speed => speed;
-    public bool IsEnemyLaser => isDoubleBeamerLaser || isSpinnerLaser;
-    public bool IsDoubleBeamerLaser => isDoubleBeamerLaser;
-    public bool IsSpinnerLaser => isSpinnerLaser;
+    public bool IsEnemyLaser => isDoubleBeamerLaser || isSpinnerLaser || isBackShooterLaser;
+    public bool IsDoubleBeamerLaser {
+        get { return isDoubleBeamerLaser; }
+        set { isDoubleBeamerLaser = value; }
+    }
+
+    public bool IsSpinnerLaser {
+        get { return isSpinnerLaser; }
+        set { isSpinnerLaser = value; }
+    }
+
+    public bool IsBackShooterLaser {
+        get { return isBackShooterLaser; }
+        set { isBackShooterLaser = value; }
+    }
 
     private void Start() {
         if (playerController != null) {
@@ -25,9 +38,11 @@ public class Laser : MonoBehaviour {
     }
 
     private void Update() {
-        if (isDoubleBeamerLaser == false && isSpinnerLaser == false)
+        if (!IsDoubleBeamerLaser && !IsSpinnerLaser && !IsBackShooterLaser)
             PlayerLaser();
-        else EnemyLaser();
+        else if (IsDoubleBeamerLaser || IsSpinnerLaser)
+            DownwardEnemyLaser();
+        else UpwardEnemyLaser();
     }
 
     private void PlayerLaser() {
@@ -41,13 +56,22 @@ public class Laser : MonoBehaviour {
         }
     }
 
-    private void EnemyLaser() {
-            transform.Translate(Vector3.down * speed * Time.deltaTime);
-            if (LaserOutOfBounds()) {
-                if (transform.parent != null)
-                    Destroy(transform.parent.gameObject);
-                else Destroy(this.gameObject);
-            }
+    private void DownwardEnemyLaser() {
+        transform.Translate(Vector3.down * speed * Time.deltaTime);
+        if (LaserOutOfBounds()) {
+            if (transform.parent != null)
+                Destroy(transform.parent.gameObject);
+            else Destroy(this.gameObject);
+        }
+    }
+
+    private void UpwardEnemyLaser() {
+        transform.Translate(Vector3.up * speed * Time.deltaTime);
+        if (LaserOutOfBounds()) {
+            if (transform.parent != null)
+                Destroy(transform.parent.gameObject);
+            else Destroy(this.gameObject);
+        }
     }
 
     public bool LaserOutOfBounds() {
@@ -60,22 +84,28 @@ public class Laser : MonoBehaviour {
     }
 
     public void AssignDoubleBeamerLaser() {
-        isDoubleBeamerLaser = true;
+        IsDoubleBeamerLaser = true;
     }
 
     public void AssignSpinnerLaser() {
-        isSpinnerLaser = true;
+        IsSpinnerLaser = true;
+    }
+
+    public void AssignBackShooterLaser() {
+        IsBackShooterLaser = true;
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if (isDoubleBeamerLaser) {
+        if (IsDoubleBeamerLaser || IsBackShooterLaser) {
             HealthEntity player = other.GetComponentInParent<HealthEntity>();
             if (player != null) {
                 player.TryDamage();
-                Destroy(transform.parent.gameObject);
+                if (transform.parent != null) {
+                    Destroy(transform.parent.gameObject);
+                } else Destroy(this.gameObject);
             }
         }
-        else if (isSpinnerLaser) {
+        else if (IsSpinnerLaser) {
             HealthEntity player = other.GetComponentInParent<HealthEntity>();
             if (player != null) {
                 DamageResult d = player.TryDamage();

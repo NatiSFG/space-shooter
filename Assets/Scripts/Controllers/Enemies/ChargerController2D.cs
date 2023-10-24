@@ -15,8 +15,8 @@ public class ChargerController2D : EnemyController2D {
         set { isAggressive = value; }
     }
 
-    private void Start() {
-        enemyWaveSpawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<EnemyWaveSpawner>();
+    private new void Start() {
+        base.Start();
         player = GameObject.FindGameObjectWithTag("Player").transform;
         //continuously check the distance to the player
         StartCoroutine(CheckDistanceToPlayer());
