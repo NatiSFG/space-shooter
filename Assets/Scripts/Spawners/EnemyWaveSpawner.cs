@@ -16,19 +16,23 @@ public class EnemyWaveSpawner : WaveSystem {
     [SerializeField] private GameObject spinnerPrefab;
     [SerializeField] private List<GameObject> sEnemies = new List<GameObject>();
 
-    [Space(20)]
-    [SerializeField] private int maxDBEnemies = 3; //final max double beamer enemies is 11 on wave 9
-    [SerializeField] private int maxChargerEnemies = 2; //final max charger enemies is 8 on wave 9
-    [SerializeField] private int maxSpinnerEnemies = 1; //final max spinner enemies is 7 on wave 9
+    [SerializeField] private GameObject backShooterPrefab;
+    [SerializeField] private List<GameObject> backShooterEnemies = new List<GameObject>();
+    
+    private int maxDBEnemies = 3; //final max enemies is 11 on wave 9
+    private int maxChargerEnemies = 2; //final max enemies is 8 on wave 9
+    private int maxSpinnerEnemies = 1; //final max enemies is 7 on wave 9
+    private int maxBackShooterEnemies = 1; //final max is 6 enemies on wave 9
 
     private int bossWave = 10;
     private GameObject dBEnemy;
     private GameObject chargerEnemy;
     private GameObject sEnemy;
+    private GameObject backShooterEnemy;
+
     private float minXSpawnPoint = -10f;
     private float maxXSpawnPoint = 10f;
     private float topYSpawnPoint = 9f;
-
     public float MinXSpawnPoint => minXSpawnPoint;
     public float MaxXSpawnPoint => maxXSpawnPoint;
     public float TopYSpawnPoint => topYSpawnPoint;
@@ -43,6 +47,16 @@ public class EnemyWaveSpawner : WaveSystem {
             maxDBEnemies = 1;
             dBEnemies.Clear();
             dBEnemies.Add(dBEnemy);
+        }
+
+        //shortcut to wave 4. will effectively bring you to wave 5. must do this once asteroid
+        //is shot
+        if (Input.GetKeyDown(KeyCode.Alpha4)) {
+            wave = 4;
+            dBEnemies.Clear();
+            chargerEnemies.Clear();
+            sEnemies.Clear();
+            backShooterEnemies.Clear();
             StartCoroutine(WaitForAllDBEnemiesDefeated());
         }
     }
@@ -120,6 +134,30 @@ public class EnemyWaveSpawner : WaveSystem {
         }
     }
 
+    public IEnumerator SpawnBackShooterCoroutine() {
+        WaitForSeconds wait3Sec = new WaitForSeconds(3);
+        WaitForSeconds wait5Sec = new WaitForSeconds(4);
+
+        //back shooter enemies start showing up at wave 4
+        while (IsRegularWave && wave >= 4) {
+            yield return wait3Sec;
+
+            for (int i = 0; i < maxBackShooterEnemies; i++) {
+                Vector3 pos = new Vector3(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint, 0);
+                backShooterEnemy = Instantiate(backShooterPrefab, pos, Quaternion.identity);
+                backShooterEnemies.Add(backShooterEnemy);
+
+                backShooterEnemy.transform.SetParent(enemyContainer.transform);
+                yield return wait5Sec;
+            }
+
+            yield return WaitForAllDBEnemiesDefeated();
+            yield return wait3Sec;
+
+            yield break;
+        }
+    }
+
     private IEnumerator WaitToStartNewWaveCoroutine() {
         while (dBEnemies.Count > 0 || sEnemies.Count > 0) {
             yield return null;
@@ -138,13 +176,23 @@ public class EnemyWaveSpawner : WaveSystem {
             maxChargerEnemies++;
             StartCoroutine(SpawnSpinnerCoroutine());
             StartCoroutine(SpawnChargerCoroutine());
-        } else if (IsRegularWave && wave >= 3) {
+        } else if (IsRegularWave && wave == 3) {
             wave++;
             maxDBEnemies++;
             maxChargerEnemies++;
             maxSpinnerEnemies++;
             StartCoroutine(SpawnSpinnerCoroutine());
             StartCoroutine(SpawnChargerCoroutine());
+            StartCoroutine(SpawnBackShooterCoroutine());
+        } else if (IsRegularWave && wave >= 4) {
+            wave++;
+            maxDBEnemies++;
+            maxChargerEnemies++;
+            maxSpinnerEnemies++;
+            maxBackShooterEnemies++;
+            StartCoroutine(SpawnSpinnerCoroutine());
+            StartCoroutine(SpawnChargerCoroutine());
+            StartCoroutine(SpawnBackShooterCoroutine());
         } else if (isPlayerDefeated)
             return;
     }
