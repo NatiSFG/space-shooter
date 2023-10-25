@@ -36,7 +36,7 @@ public class ChargerController2D : EnemyController2D {
 
     private IEnumerator CheckDistanceToPlayer() {
         WaitForSeconds wait = new WaitForSeconds(0.5f);
-        while (true) {
+        while (player != null) {
             //calculate the distance to the player
             float distanceX = Mathf.Abs(player.position.x - transform.position.x);
             float distanceY = Mathf.Abs(player.position.y - transform.position.y);

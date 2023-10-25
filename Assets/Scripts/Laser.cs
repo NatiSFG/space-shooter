@@ -119,11 +119,13 @@ public class Laser : MonoBehaviour {
         }
     }
 
-     public IEnumerator FreezeCoroutine() {
-        playerController.Speed = 0;
-        playerSprite.color = new Color(0.4039f, 0.9019f, 1.0f, 1.0f);
-        yield return new WaitForSeconds(2);
-        playerSprite.color = Color.white;
-        playerController.Speed = 5;
-     }
+    public IEnumerator FreezeCoroutine() {
+        if (playerController != null) {
+            playerController.Speed = 0;
+            playerSprite.color = new Color(0.4039f, 0.9019f, 1.0f, 1.0f);
+            yield return new WaitForSeconds(2);
+            playerSprite.color = Color.white;
+            playerController.Speed = 5;
+        }
+    }
 }
