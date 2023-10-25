@@ -41,7 +41,7 @@ public class BackShooterEnemy : Enemy {
 
     private IEnumerator CheckIfPlayerInRange() {
         WaitForSeconds wait = new WaitForSeconds(0.5f);
-        while (true) {
+        while (player != null) {
             //calculate the distance to the player
             float distanceX = Mathf.Abs(player.position.x - transform.position.x);
 

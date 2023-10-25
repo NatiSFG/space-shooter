@@ -2470,6 +2470,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Shield PowerUp
       objectReference: {fileID: 0}
+    - target: {fileID: 2383678820783955658, guid: fe1f84313402f004083e322caa88df56,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe1f84313402f004083e322caa88df56, type: 3}
 --- !u!1 &1137117087
@@ -4287,7 +4292,7 @@ PrefabInstance:
     - target: {fileID: 845118996497374498, guid: 4f319f0b5ecf4ed43afec17a9025aa13,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 845118996497374507, guid: 4f319f0b5ecf4ed43afec17a9025aa13,
         type: 3}
