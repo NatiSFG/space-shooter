@@ -1,15 +1,16 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyController2D : MonoBehaviour {
-    [SerializeField] protected float speed = 4;
+    
+    [SerializeField] protected float standardSpeed = 3f;
 
     public float Speed {
-        get { return speed; }
-        set { speed = value; }
+        get { return standardSpeed; }
+        set { standardSpeed = value; }
     }
 
+    protected EnemyWaveSpawner enemyWaveSpawner;
     private float topOfLevel = 9;
     private float bottomOfLevel = -7;
     public float TopOfLevel => topOfLevel;
@@ -21,11 +22,15 @@ public class EnemyController2D : MonoBehaviour {
         bottomOfLevel = Mathf.Min(0, bottomOfLevel);
     }
 
+    public void Start() {
+        enemyWaveSpawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<EnemyWaveSpawner>();
+    }
+
     protected virtual void CalculateMovement() {
-        transform.Translate(Vector3.down * speed * Time.deltaTime, Space.World);
+        transform.Translate(Vector3.down * standardSpeed * Time.deltaTime, Space.World);
         if (transform.position.y <= BottomOfLevel) {
-            float randX = Random.Range((float) -10, 10);
-            transform.position = new Vector3(randX, 9, 0);
+            float randx = Random.Range(enemyWaveSpawner.MinXSpawnPoint, enemyWaveSpawner.MaxXSpawnPoint);
+            transform.position = new Vector3(randx, enemyWaveSpawner.TopYSpawnPoint, 0);
         }
     }
 }

@@ -40,7 +40,7 @@ public class DoubleBeamerController2D : EnemyController2D {
             float dt = Time.deltaTime;
             Vector3 currentPos = transform.position;
             Vector3 difference = targetPos - currentPos;
-            float speed = (Mathf.Abs(difference.x) > Threshold) ? this.speed / 2 : this.speed;
+            float speed = (Mathf.Abs(difference.x) > Threshold) ? this.standardSpeed / 2 : this.standardSpeed;
             float distanceAway = difference.magnitude;
 
             bool reachedAGoal = distanceAway <= Threshold;
