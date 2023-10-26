@@ -1,9 +1,12 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class DoubleBeamerEnemy : Enemy {
     [SerializeField] GameObject laserPrefab;
     [SerializeField] private float rangeX = 1f;
+    [SerializeField] private Transform collectableContainer;
+    [SerializeField] private List<Collectable> collectables = new List<Collectable>();
 
     private DoubleBeamerController2D controller;
     private WaveSystem waveSystem;
@@ -11,22 +14,32 @@ public class DoubleBeamerEnemy : Enemy {
 
     private Transform collectable;
     private bool isCollectableBelowInLine = false;
+    //private float distanceX;
 
     public bool IsCollectableBelowInLine {
         get { return isCollectableBelowInLine; }
         set { isCollectableBelowInLine = value; }
     }
 
+    //we want to cycle through all the collectables in the scene and see if they're in line with
+    //the enemy. then shoot. find them in the collectable container
     private new void Start() {
         base.Start();
-        collectable = Object.FindObjectOfType<Collectable>().transform;
+        //because a collectable hasn't spawned yet, at start this is trying to access it
+        if (collectableContainer != null && collectableContainer.childCount > 0) {
+            collectable = Object.FindObjectOfType<Collectable>().transform;
+
+        }
+        //if (collectable.)
         enemyInfo = new EnemyInfo(laserPrefab, controller, Random.Range(3, 7), -1);
         controller = GetComponent<DoubleBeamerController2D>();
         waveSystem = FindObjectOfType<WaveSystem>();
+            
+        StartCoroutine(CheckIfCollectableInFront());
     }
 
     private void Update() {
-        FireLaser();
+        //FireLaser();
     }
 
     protected override void FireLaser() {
@@ -41,7 +54,7 @@ public class DoubleBeamerEnemy : Enemy {
 
     private IEnumerator CheckIfCollectableInFront() {
         WaitForSeconds wait = new WaitForSeconds(0.5f);
-        while (true) {
+        while (this.gameObject != null) {
             float distanceX = Mathf.Abs(collectable.position.x - transform.position.x);
 
             if (distanceX <= rangeX && transform.position.y > collectable.position.y) {
