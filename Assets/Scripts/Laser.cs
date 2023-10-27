@@ -117,7 +117,7 @@ public class Laser : MonoBehaviour {
                 }
             }
         }
-        if (other.GetComponent<Collectable>()) {
+        if (IsDoubleBeamerLaser && other.GetComponent<Collectable>()) {
             Destroy(other.gameObject);
         }
     }
