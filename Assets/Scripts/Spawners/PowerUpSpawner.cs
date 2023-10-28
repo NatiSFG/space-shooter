@@ -11,6 +11,10 @@ public class PowerUpSpawner : WaveSystem {
         }
     };
 
+    [SerializeField] private GameObject collectableContainer;
+
+    private GameObject powerUp;
+
     public IEnumerator SpawnPowerUpCoroutine() {
         WaitForSeconds wait = new WaitForSeconds(3);
         yield return wait;
@@ -20,7 +24,8 @@ public class PowerUpSpawner : WaveSystem {
                 powerUps[randPowerUp].maxSpawnTime + 1));
             yield return waitRandom;
             Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
-            Instantiate(powerUps[randPowerUp].prefab, pos, Quaternion.identity);
+            powerUp = Instantiate(powerUps[randPowerUp].prefab, pos, Quaternion.identity);
+            powerUp.transform.SetParent(collectableContainer.transform);
         }
     }
 }

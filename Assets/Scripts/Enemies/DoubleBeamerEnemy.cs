@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class DoubleBeamerEnemy : Enemy {
     [SerializeField] GameObject laserPrefab;
@@ -15,7 +17,7 @@ public class DoubleBeamerEnemy : Enemy {
     }
 
     private void Update() {
-        FireLaser();
+        //FireLaser();
     }
 
     protected override void FireLaser() {
