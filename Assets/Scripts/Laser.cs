@@ -96,7 +96,7 @@ public class Laser : MonoBehaviour {
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if (IsDoubleBeamerLaser || IsBackShooterLaser) {
+        if ((IsDoubleBeamerLaser || IsBackShooterLaser) && other.GetComponent<HealthEntity>()) {
             HealthEntity player = other.GetComponentInParent<HealthEntity>();
             if (player != null) {
                 player.TryDamage();
@@ -117,7 +117,7 @@ public class Laser : MonoBehaviour {
                 }
             }
         }
-        if (IsDoubleBeamerLaser && other.GetComponent<Collectable>()) {
+        if ((IsDoubleBeamerLaser || IsBackShooterLaser) && other.GetComponent<Collectable>()) {
             Destroy(other.gameObject);
         }
     }
