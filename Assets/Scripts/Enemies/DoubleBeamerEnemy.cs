@@ -17,7 +17,7 @@ public class DoubleBeamerEnemy : Enemy {
     }
 
     private void Update() {
-        //FireLaser();
+        FireLaser();
     }
 
     protected override void FireLaser() {
