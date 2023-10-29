@@ -7,24 +7,27 @@ using UnityEngine.UI;
 public class WaveAttack : MonoBehaviour {
     [SerializeField] private HealthEntity health;
     [SerializeField] private GameObject wave;
-    [SerializeField] private Image wavePowerUpImage;
+    [SerializeField] private Image waveImage;
 
     private bool isWavePowerUpActive;
 
-    public bool IsWavePowerUpActive => isWavePowerUpActive;
+    public bool IsWavePowerUpActive {
+        get { return isWavePowerUpActive; }
+        set { isWavePowerUpActive = value; }
+    }
 
     public void WavePowerUpActive() {
-        wavePowerUpImage.enabled = true;
+        waveImage.enabled = true;
         StartCoroutine(WavePowerDownCoroutine());
         health.StartInvincibility(5);
         wave.SetActive(true);
     }
 
     private IEnumerator WavePowerDownCoroutine() {
-        isWavePowerUpActive = true;
+        IsWavePowerUpActive = true;
         yield return new WaitForSeconds(5);
-        wavePowerUpImage.enabled = false;
+        waveImage.enabled = false;
         wave.SetActive(false);
-        isWavePowerUpActive = false;
+        IsWavePowerUpActive = false;
     }
 }
