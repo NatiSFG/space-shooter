@@ -11,6 +11,8 @@ TagManager:
   - Wave
   - Spawner
   - New Wave Display
+  - PowerUp
+  - Positive Collectable
   layers:
   - Default
   - TransparentFX

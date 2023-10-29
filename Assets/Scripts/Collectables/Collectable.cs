@@ -5,13 +5,13 @@ public class Collectable : MonoBehaviour {
     [SerializeField] private float speed = 3;
     [SerializeField] private AudioClip clip;
 
-    private void Update() {
+    protected virtual void Update() {
         transform.Translate(Vector3.down * speed * Time.deltaTime);
         if (transform.position.y <= -6f)
             Destroy(gameObject);
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
+    protected virtual void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player") {
             GameObject player = other.gameObject;
 

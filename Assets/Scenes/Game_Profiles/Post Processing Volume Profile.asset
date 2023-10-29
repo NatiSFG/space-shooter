@@ -24,16 +24,16 @@ MonoBehaviour:
     value: 1
   softKnee:
     overrideState: 1
-    value: 0.5
+    value: 0.165
   clamp:
     overrideState: 1
     value: 65472
   diffusion:
     overrideState: 1
-    value: 7
+    value: 5.57
   anamorphicRatio:
     overrideState: 1
-    value: 0
+    value: -0.056
   color:
     overrideState: 1
     value: {r: 1, g: 1, b: 1, a: 1}
@@ -81,7 +81,7 @@ MonoBehaviour:
     value: 0.28
   toneCurveShoulderStrength:
     overrideState: 1
-    value: 0.54
+    value: 0.439
   toneCurveShoulderLength:
     overrideState: 1
     value: 0.5
@@ -124,7 +124,7 @@ MonoBehaviour:
     value: 0
   mixerRedOutRedIn:
     overrideState: 1
-    value: 100
+    value: 133
   mixerRedOutGreenIn:
     overrideState: 1
     value: 0
