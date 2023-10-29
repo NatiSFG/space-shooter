@@ -96,7 +96,7 @@ public class Laser : MonoBehaviour {
     }
 
     public void OnTriggerEnter2D(Collider2D other) {
-        if (IsDoubleBeamerLaser || IsBackShooterLaser) {
+        if ((IsDoubleBeamerLaser || IsBackShooterLaser) && other.GetComponent<HealthEntity>()) {
             HealthEntity player = other.GetComponentInParent<HealthEntity>();
             if (player != null) {
                 player.TryDamage();
@@ -117,13 +117,18 @@ public class Laser : MonoBehaviour {
                 }
             }
         }
+        if ((IsDoubleBeamerLaser || IsBackShooterLaser) && other.GetComponent<Collectable>()) {
+            Destroy(other.gameObject);
+        }
     }
 
-     public IEnumerator FreezeCoroutine() {
-        playerController.Speed = 0;
-        playerSprite.color = new Color(0.4039f, 0.9019f, 1.0f, 1.0f);
-        yield return new WaitForSeconds(2);
-        playerSprite.color = Color.white;
-        playerController.Speed = 5;
-     }
+    public IEnumerator FreezeCoroutine() {
+        if (playerController != null) {
+            playerController.Speed = 0;
+            playerSprite.color = new Color(0.4039f, 0.9019f, 1.0f, 1.0f);
+            yield return new WaitForSeconds(2);
+            playerSprite.color = Color.white;
+            playerController.Speed = 5;
+        }
+    }
 }

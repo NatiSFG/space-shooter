@@ -10,6 +10,10 @@ public class ProvisionSpawner : WaveSystem {
         }
     };
 
+    [SerializeField] private GameObject collectableContainer;
+
+    private GameObject provision;
+
     public IEnumerator SpawnProvisionCoroutine() {
         WaitForSeconds wait = new WaitForSeconds(3);
         yield return wait;
@@ -19,7 +23,8 @@ public class ProvisionSpawner : WaveSystem {
                 provisions[randProvision].maxSpawnTime));
             yield return waitRandom;
             Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
-            Instantiate(provisions[randProvision].prefab, pos, Quaternion.identity);
+            provision = Instantiate(provisions[randProvision].prefab, pos, Quaternion.identity);
+            provision.transform.SetParent(collectableContainer.transform);
         }
     }
 }
