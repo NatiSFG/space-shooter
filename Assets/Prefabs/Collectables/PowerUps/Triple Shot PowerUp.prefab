@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3570730084037445345}
   m_Layer: 0
   m_Name: Triple Shot PowerUp
-  m_TagString: Untagged
+  m_TagString: Positive Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

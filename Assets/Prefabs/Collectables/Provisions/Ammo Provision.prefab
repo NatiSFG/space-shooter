@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1169664620}
   m_Layer: 0
   m_Name: Ammo Provision
-  m_TagString: Untagged
+  m_TagString: Positive Collectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -165,4 +165,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 3
   clip: {fileID: 8300000, guid: 90da393ff6589e341ad0993c77a6eeca, type: 3}
-  player: {fileID: 0}
