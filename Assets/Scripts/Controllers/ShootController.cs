@@ -31,6 +31,8 @@ public class ShootController : MonoBehaviour {
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > canFire)
             FireLaser();
+        if (Input.GetKeyDown(KeyCode.L))
+            AddAmmoCount(100);
     }
 
     public void AddAmmoCount(int count) {

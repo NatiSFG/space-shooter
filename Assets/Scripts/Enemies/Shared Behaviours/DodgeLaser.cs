@@ -1,32 +1,37 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DodgeLaser : MonoBehaviour {
-    //avoid the player’s lasers. When the player shoots, the enemy detects a laser
-    //in range and tries to avoid it.
+    [SerializeField] private float dodgeDistance = 2f;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private Transform movementTarget;
 
-    private Laser laser;
-    private int dodgeDistance = 3;
-    private int speed = 3;
+    private EnemyWaveSpawner enemyWaveSpawner;
+    private Transform lastNoticedLaser;
+    private Vector3 lastDodgeStartPos;
+    private Vector3 targetPos;
 
     private void Start() {
-        laser = GetComponent<Laser>();
+        enemyWaveSpawner = Object.FindObjectOfType<EnemyWaveSpawner>();
+    }
+
+    private void Update() {
+        if (lastNoticedLaser != null) {
+            Vector3 currentPos = movementTarget.position;
+            currentPos.x = Mathf.Lerp(currentPos.x, targetPos.x, speed * Time.deltaTime);
+            movementTarget.position = currentPos;
+            if (Mathf.Abs(currentPos.x - targetPos.x) < 0.001f) {
+                lastNoticedLaser = null;
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
         if (other.tag == "Player Laser") {
-            Vector2 currentPos = transform.parent.position;
-            Vector2 targetPos = currentPos;
-            //0 is left, 1 is right. move 2.5 units to the left or right
-            int direction = Random.Range(0, 1);
-            if (direction == 0) {
-                targetPos.x = Mathf.Lerp(currentPos.x, -2.5f, 1f);
-                Debug.Log("target position is set to lerp");
-                transform.parent.position = (targetPos.x, transform.parent.position.y, transform.parent.position.z);
-            } else if (direction == 1) {
-                targetPos.x = Mathf.Lerp(currentPos.x, 2.5f, 1f);
-            }
+            lastNoticedLaser = other.transform;
+            lastDodgeStartPos = movementTarget.position;
+            targetPos = lastDodgeStartPos;
+            targetPos.x -= dodgeDistance; //move to the left. add right logic later
         }
     }
 }

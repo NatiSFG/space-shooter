@@ -30,8 +30,8 @@ public class EnemyWaveSpawner : WaveSystem {
     private GameObject sEnemy;
     private GameObject backShooterEnemy;
 
-    private float minXSpawnPoint = -10f;
-    private float maxXSpawnPoint = 10f;
+    private float minXSpawnPoint = -8f;
+    private float maxXSpawnPoint = 8f;
     private float topYSpawnPoint = 9f;
     public float MinXSpawnPoint => minXSpawnPoint;
     public float MaxXSpawnPoint => maxXSpawnPoint;

@@ -23,7 +23,7 @@ public class EnemyController2D : MonoBehaviour {
     }
 
     public void Start() {
-        enemyWaveSpawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<EnemyWaveSpawner>();
+        enemyWaveSpawner = Object.FindObjectOfType<EnemyWaveSpawner>();
     }
 
     protected virtual void CalculateMovement() {
