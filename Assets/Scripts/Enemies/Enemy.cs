@@ -39,7 +39,10 @@ public class Enemy : MonoBehaviour {
             playerController = player.GetComponent<ShipMovementController2D>();
         }
 
-        anim = GetComponent<Animator>();
+        if (GetComponent<Animator>() != null)
+            anim = GetComponent<Animator>();
+        else if (GetComponentInChildren<Animator>() != null)
+            anim = GetComponentInChildren<Animator>();
         audio = GetComponent<AudioSource>();
         col2D = GetComponent<Collider2D>();
         enemyController = GetComponent<EnemyController2D>();
