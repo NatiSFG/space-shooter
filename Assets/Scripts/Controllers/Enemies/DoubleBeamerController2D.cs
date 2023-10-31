@@ -4,15 +4,10 @@ using UnityEngine;
 public class DoubleBeamerController2D : EnemyController2D {
     private const float Threshold = 0.001f;
     private Vector3 targetPos;
-    private EnemyWaveSpawner enemyWaveSpawner;
 
     private void OnEnable() {
         ResetTargetPosition();
         StartCoroutine(MoveCoroutine());
-    }
-
-    private void Start() {
-        enemyWaveSpawner = Object.FindObjectOfType<EnemyWaveSpawner>();
     }
 
     /// <summary>
@@ -28,8 +23,8 @@ public class DoubleBeamerController2D : EnemyController2D {
 
     private void SetHorizontalTargetPosition() {
         Vector3 currentPos = transform.position;
-        float leftSpaceAvailable = Mathf.Abs(enemyWaveSpawner.MinXSpawnPoint - currentPos.x);
-        float rightSpaceAvailable = Mathf.Abs(enemyWaveSpawner.MaxXSpawnPoint - currentPos.x);
+        float leftSpaceAvailable = Mathf.Abs(spawner.MinXSpawnPoint - currentPos.x);
+        float rightSpaceAvailable = Mathf.Abs(spawner.MaxXSpawnPoint - currentPos.x);
 
         Vector3 nextTarget = currentPos;
         if (leftSpaceAvailable > rightSpaceAvailable)
