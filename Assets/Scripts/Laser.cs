@@ -7,12 +7,19 @@ public class Laser : MonoBehaviour {
 
     private LevelBounds levelBounds;
     private ShipMovementController2D playerController;
+    private bool isPlayerLaser;
     private bool isDoubleBeamerLaser;
     private bool isSpinnerLaser;
     private bool isBackShooterLaser;
     private SpriteRenderer playerSprite;
 
     public float Speed => speed;
+
+    public bool IsPlayerLaser {
+        get { return isPlayerLaser; }
+        set { isPlayerLaser = value; }
+    }
+
     public bool IsEnemyLaser => isDoubleBeamerLaser || isSpinnerLaser || isBackShooterLaser;
     public bool IsDoubleBeamerLaser {
         get { return isDoubleBeamerLaser; }
@@ -81,6 +88,10 @@ public class Laser : MonoBehaviour {
             y < levelBounds.bottomBound || y > levelBounds.topBound)
             return true;
         else return false;
+    }
+
+    public void AssignPlayerLaser() {
+        IsPlayerLaser = true;
     }
 
     public void AssignDoubleBeamerLaser() {
