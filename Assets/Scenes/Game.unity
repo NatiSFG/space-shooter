@@ -337,7 +337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dodgeDistance: 2
   speed: 5
-  movementTarget: {fileID: 1266051415}
+  dodgerEnemy: {fileID: 1266051415}
 --- !u!1 &162138755
 GameObject:
   m_ObjectHideFlags: 0
