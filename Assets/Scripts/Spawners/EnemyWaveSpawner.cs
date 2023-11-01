@@ -164,12 +164,13 @@ public class EnemyWaveSpawner : WaveSystem {
     }
 
     public IEnumerator SpawnDodgerCoroutine() {
-        WaitForSeconds newWaveDelay = new WaitForSeconds(4);
+        WaitForSeconds newWaveDelay = new WaitForSeconds(5);
 
         while (IsRegularWave) {
             yield return newWaveDelay;
             for (int i = 0; i < maxDodgers; i++) {
                 Vector2 pos = new Vector2(Random.Range(MinXSpawnPoint, maxXSpawnPoint), topYSpawnPoint);
+                Debug.Log("spawning dodger");
                 dodgerEnemy = Instantiate(dodgerPrefab, pos, Quaternion.identity);
                 dodgerEnemies.Add(dodgerEnemy);
 
