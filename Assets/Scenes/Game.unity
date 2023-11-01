@@ -976,6 +976,8 @@ MonoBehaviour:
   backShooterPrefab: {fileID: 5841376457476210521, guid: 0608c1916b0288a42b1040e2b75fba82,
     type: 3}
   backShooterEnemies: []
+  dodgerPrefab: {fileID: 0}
+  dodgerEnemies: []
 --- !u!114 &400336564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1556,7 +1558,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 1, y: 0}
---- !u!1001 &692229642
+--- !u!1001 &711863833
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -1571,12 +1573,12 @@ PrefabInstance:
     - target: {fileID: 7502822655317538091, guid: 5525070a61e89814badf36d2af670575,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.13076603
+      value: -0.08826995
       objectReference: {fileID: 0}
     - target: {fileID: 7502822655317538091, guid: 5525070a61e89814badf36d2af670575,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.5555334
+      value: 6.8317614
       objectReference: {fileID: 0}
     - target: {fileID: 7502822655317538091, guid: 5525070a61e89814badf36d2af670575,
         type: 3}
@@ -1627,11 +1629,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7502822655730094772, guid: 5525070a61e89814badf36d2af670575,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7502822655730094773, guid: 5525070a61e89814badf36d2af670575,
         type: 3}
