@@ -17,6 +17,7 @@ public class ShootController : MonoBehaviour {
     private new AudioSource audio;
     private float canFire = -1;
     private bool isTripleShotPowerUpActive;
+    private Laser laser;
 
     public event Action onAmmoCountChanged;
 
@@ -24,11 +25,14 @@ public class ShootController : MonoBehaviour {
 
     private void Start() {
         audio = GetComponent<AudioSource>();
+        laser = GetComponent<Laser>();
     }
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.Space) && Time.time > canFire)
             FireLaser();
+        if (Input.GetKeyDown(KeyCode.L))
+            AddAmmoCount(100);
     }
 
     public void AddAmmoCount(int count) {
@@ -50,10 +54,14 @@ public class ShootController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space) && ammoCount >= 1) {
             if (isTripleShotPowerUpActive) {
-                Instantiate(tripleShotLasersPrefab, transform.position, Quaternion.identity);
+                GameObject tripleShot = Instantiate(tripleShotLasersPrefab, transform.position, Quaternion.identity);
+                laser = tripleShot.GetComponent<Laser>();
+                laser.AssignPlayerLaser();
                 SubtractAmmo(3);
             } else {
-                Instantiate(laserPrefab, transform.position + new Vector3(0, 1.075f, 0), Quaternion.identity);
+                GameObject singleLaser = Instantiate(laserPrefab, transform.position + new Vector3(0, 1.075f, 0), Quaternion.identity);
+                laser = singleLaser.GetComponent<Laser>();
+                laser.AssignPlayerLaser();
                 SubtractAmmo(1);
             }
             audio.clip = laserClip;

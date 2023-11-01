@@ -13,6 +13,7 @@ TagManager:
   - New Wave Display
   - PowerUp
   - Positive Collectable
+  - Player Laser
   layers:
   - Default
   - TransparentFX
