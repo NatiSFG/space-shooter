@@ -7,7 +7,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy Destroyed
+  m_Name: Dodger Destroyed
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: f4d4f7bfe94b04b48b6395fefdc98d2c, type: 2}
+  m_Motion: {fileID: 7400000, guid: eff211d2e20aafc419946f1bbc6ccd4a, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -76,7 +76,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy Destroyed
+  m_Name: Dodger
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: OnEnemyDeath
@@ -130,7 +130,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Empty
+  m_Name: Spinning
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -144,7 +144,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 0}
+  m_Motion: {fileID: 7400000, guid: 207340da0b3fa1d4d8f6b79321380e1e, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
