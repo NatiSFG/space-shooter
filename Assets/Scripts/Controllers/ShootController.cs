@@ -18,6 +18,8 @@ public class ShootController : MonoBehaviour {
     private float canFire = -1;
     private bool isTripleShotPowerUpActive;
     private Laser laser;
+    private Laser[] lasers;
+    private Vector3 laserOffset;
 
     public event Action onAmmoCountChanged;
 
@@ -26,6 +28,7 @@ public class ShootController : MonoBehaviour {
     private void Start() {
         audio = GetComponent<AudioSource>();
         laser = GetComponent<Laser>();
+        laserOffset = new Vector3(0, 1.075f, 0);
     }
 
     private void Update() {
@@ -54,12 +57,13 @@ public class ShootController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space) && ammoCount >= 1) {
             if (isTripleShotPowerUpActive) {
-                GameObject tripleShot = Instantiate(tripleShotLasersPrefab, transform.position, Quaternion.identity);
-                laser = tripleShot.GetComponent<Laser>();
-                laser.AssignPlayerLaser();
+                GameObject tripleShot = Instantiate(tripleShotLasersPrefab, transform.position + laserOffset, Quaternion.identity);
+                lasers = tripleShot.GetComponentsInChildren<Laser>();
+                for (int i = 0; i < lasers.Length ; i++)
+                    lasers[i].AssignPlayerLaser();
                 SubtractAmmo(3);
             } else {
-                GameObject singleLaser = Instantiate(laserPrefab, transform.position + new Vector3(0, 1.075f, 0), Quaternion.identity);
+                GameObject singleLaser = Instantiate(laserPrefab, transform.position + laserOffset, Quaternion.identity);
                 laser = singleLaser.GetComponent<Laser>();
                 laser.AssignPlayerLaser();
                 SubtractAmmo(1);
