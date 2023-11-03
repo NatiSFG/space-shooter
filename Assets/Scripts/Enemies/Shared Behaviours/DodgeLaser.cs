@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DodgeLaser : MonoBehaviour {
     [SerializeField] private float dodgeDistance = 2f;

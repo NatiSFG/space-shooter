@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ShootInLineOfSight : MonoBehaviour {
+public class ShootPositiveCollectable : MonoBehaviour {
     [SerializeField] private GameObject laserPrefab;
 
     private Laser[] lasers;
@@ -12,7 +12,7 @@ public class ShootInLineOfSight : MonoBehaviour {
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.GetComponent<Collectable>()) {
+        if (other.tag == "Positive Collectable") {
             if (parentEnemyobj.GetComponent<DoubleBeamerEnemy>() != null) {
                 GameObject enemyLaser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
                 lasers = enemyLaser.GetComponentsInChildren<Laser>();

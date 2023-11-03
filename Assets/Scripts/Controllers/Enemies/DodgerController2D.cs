@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
-
-public class DodgerController2D : EnemyController2D {
-    [SerializeField] private float rotateSpeed;
+﻿public class DodgerController2D : EnemyController2D {
 
     private void Update() {
         CalculateMovement();
