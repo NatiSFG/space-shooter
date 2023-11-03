@@ -18,20 +18,25 @@ public class EnemyWaveSpawner : WaveSystem {
 
     [SerializeField] private GameObject backShooterPrefab;
     [SerializeField] private List<GameObject> backShooterEnemies = new List<GameObject>();
+
+    [SerializeField] private GameObject dodgerPrefab;
+    [SerializeField] private List<GameObject> dodgerEnemies = new List<GameObject>();
     
-    private int maxDBEnemies = 3; //final max enemies is 11 on wave 9
-    private int maxChargerEnemies = 2; //final max enemies is 8 on wave 9
-    private int maxSpinnerEnemies = 1; //final max enemies is 7 on wave 9
-    private int maxBackShooterEnemies = 1; //final max is 6 enemies on wave 9
+    private int maxDoubleBeamers = 3; //final max enemies is 11 on wave 9
+    private int maxChargers = 2; //final max enemies is 8 on wave 9
+    private int maxSpinners = 1; //final max enemies is 7 on wave 9
+    private int maxBackShooters = 1; //final max is 6 enemies on wave 9
+    private int maxDodgers = 1; //final max is 1? remains 1 throughout
 
     private int bossWave = 10;
     private GameObject dBEnemy;
     private GameObject chargerEnemy;
     private GameObject sEnemy;
     private GameObject backShooterEnemy;
+    private GameObject dodgerEnemy;
 
-    private float minXSpawnPoint = -10f;
-    private float maxXSpawnPoint = 10f;
+    private float minXSpawnPoint = -8f;
+    private float maxXSpawnPoint = 8f;
     private float topYSpawnPoint = 9f;
     public float MinXSpawnPoint => minXSpawnPoint;
     public float MaxXSpawnPoint => maxXSpawnPoint;
@@ -44,7 +49,7 @@ public class EnemyWaveSpawner : WaveSystem {
         //shortcut to skip to wave 9 with one enemy to kill and then wave 10 begins
         if (Input.GetKeyDown(KeyCode.Alpha9)) {
             wave = 9;
-            maxDBEnemies = 1;
+            maxDoubleBeamers = 1;
             dBEnemies.Clear();
             dBEnemies.Add(dBEnemy);
         }
@@ -69,8 +74,8 @@ public class EnemyWaveSpawner : WaveSystem {
             StartCoroutine(NewWaveDisplay.ShowWaveText());
             yield return wait3Sec;
 
-            for (int i = 0; i < maxDBEnemies; i++) {
-                Vector3 pos = new Vector3(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint, 0);
+            for (int i = 0; i < maxDoubleBeamers; i++) {
+                Vector2 pos = new Vector2(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint);
                 dBEnemy = Instantiate(doubleBeamerPrefab, pos, Quaternion.identity);
                 dBEnemies.Add(dBEnemy);
 
@@ -94,8 +99,8 @@ public class EnemyWaveSpawner : WaveSystem {
         while (IsRegularWave && wave >= 2) {
             yield return wait4Sec;
 
-            for (int i = 0; i < maxChargerEnemies; i++) {
-                Vector3 pos = new Vector3(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint, 0);
+            for (int i = 0; i < maxChargers; i++) {
+                Vector2 pos = new Vector2(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint);
                 chargerEnemy = Instantiate(chargerPrefab, pos, Quaternion.identity);
                 chargerEnemies.Add(chargerEnemy);
 
@@ -118,8 +123,8 @@ public class EnemyWaveSpawner : WaveSystem {
         while (IsRegularWave && wave >= 3) {
             yield return wait4Sec;
 
-            for (int i = 0; i < maxSpinnerEnemies; i++) {
-                Vector3 pos = new Vector3(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint, 0);
+            for (int i = 0; i < maxSpinners; i++) {
+                Vector2 pos = new Vector2(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint);
                 sEnemy = Instantiate(spinnerPrefab, pos, Quaternion.identity);
                 sEnemies.Add(sEnemy);
 
@@ -142,8 +147,8 @@ public class EnemyWaveSpawner : WaveSystem {
         while (IsRegularWave && wave >= 4) {
             yield return wait3Sec;
 
-            for (int i = 0; i < maxBackShooterEnemies; i++) {
-                Vector3 pos = new Vector3(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint, 0);
+            for (int i = 0; i < maxBackShooters; i++) {
+                Vector2 pos = new Vector2(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint);
                 backShooterEnemy = Instantiate(backShooterPrefab, pos, Quaternion.identity);
                 backShooterEnemies.Add(backShooterEnemy);
 
@@ -158,9 +163,29 @@ public class EnemyWaveSpawner : WaveSystem {
         }
     }
 
+    public IEnumerator SpawnDodgerCoroutine() {
+        WaitForSeconds newWaveDelay = new WaitForSeconds(4);
+
+        while (IsRegularWave) {
+            yield return newWaveDelay;
+            for (int i = 0; i < maxDodgers; i++) {
+                Vector2 pos = new Vector2(Random.Range(MinXSpawnPoint, maxXSpawnPoint), topYSpawnPoint);
+                dodgerEnemy = Instantiate(dodgerPrefab, pos, Quaternion.identity);
+                dodgerEnemies.Add(dodgerEnemy);
+
+                dodgerEnemy.transform.SetParent(enemyContainer.transform);
+            }
+            yield return WaitForAllDodgerDefeated();
+            yield return newWaveDelay;
+
+            yield break;
+        }
+    }
+
     private IEnumerator WaitToStartNewWaveCoroutine() {
-        while (dBEnemies.Count > 0 || sEnemies.Count > 0 ||
-            chargerEnemies.Count > 0 || backShooterEnemies.Count > 0) {
+        bool enemiesStillAlive = dBEnemies.Count > 0 || sEnemies.Count > 0 ||
+            chargerEnemies.Count > 0 || backShooterEnemies.Count > 0 || dodgerEnemies.Count > 0;
+        while (enemiesStillAlive) {
             yield return null;
         }
         StartNewWave();
@@ -169,31 +194,35 @@ public class EnemyWaveSpawner : WaveSystem {
     private void StartNewWave() {
         if (IsRegularWave && wave == 1) {
             wave++;
-            maxDBEnemies++;
+            maxDoubleBeamers++;
             StartCoroutine(SpawnChargerCoroutine());
+            StartCoroutine(SpawnDodgerCoroutine());
         } else if (IsRegularWave && wave == 2) {
             wave++;
-            maxDBEnemies++;
-            maxChargerEnemies++;
+            maxDoubleBeamers++;
+            maxChargers++;
             StartCoroutine(SpawnSpinnerCoroutine());
             StartCoroutine(SpawnChargerCoroutine());
+            StartCoroutine(SpawnDodgerCoroutine());
         } else if (IsRegularWave && wave == 3) {
             wave++;
-            maxDBEnemies++;
-            maxChargerEnemies++;
-            maxSpinnerEnemies++;
+            maxDoubleBeamers++;
+            maxChargers++;
+            maxSpinners++;
             StartCoroutine(SpawnSpinnerCoroutine());
             StartCoroutine(SpawnChargerCoroutine());
             StartCoroutine(SpawnBackShooterCoroutine());
+            StartCoroutine(SpawnDodgerCoroutine());
         } else if (IsRegularWave && wave >= 4) {
             wave++;
-            maxDBEnemies++;
-            maxChargerEnemies++;
-            maxSpinnerEnemies++;
-            maxBackShooterEnemies++;
+            maxDoubleBeamers++;
+            maxChargers++;
+            maxSpinners++;
+            maxBackShooters++;
             StartCoroutine(SpawnSpinnerCoroutine());
             StartCoroutine(SpawnChargerCoroutine());
             StartCoroutine(SpawnBackShooterCoroutine());
+            StartCoroutine(SpawnDodgerCoroutine());
         } else if (isPlayerDefeated)
             return;
     }
@@ -234,6 +263,16 @@ public class EnemyWaveSpawner : WaveSystem {
             for (int i = backShooterEnemies.Count - 1; i >= 0; i--) {
                 if (backShooterEnemies[i] == null)
                     backShooterEnemies.RemoveAt(i);
+            }
+            yield return null;
+        }
+    }
+
+    private IEnumerator WaitForAllDodgerDefeated() {
+        while (dodgerEnemies.Count > 0) {
+            for (int i = dodgerEnemies.Count - 1; i >= 0; i--) {
+                if (dodgerEnemies[i] == null)
+                    dodgerEnemies.RemoveAt(i);
             }
             yield return null;
         }

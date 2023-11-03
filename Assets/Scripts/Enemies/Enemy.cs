@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.IO.MemoryMappedFiles;
 using UnityEngine;
-
-using Random = UnityEngine.Random; //NOTE: This is an alias, because System.Random also exists!
-
 
 public class Enemy : MonoBehaviour {
     [System.Serializable]
@@ -26,25 +21,28 @@ public class Enemy : MonoBehaviour {
 
     public static event Action onAnyDefeated;
 
-    private HealthEntity playerHealth;
+    protected HealthEntity playerHealth;
     private Animator anim;
     protected ShipMovementController2D playerController;
-    private EnemyController2D enemyController;
+    protected EnemyController2D enemyController;
 
-    private new AudioSource audio;
+    protected new AudioSource audio;
 
-    private Collider2D col2D;
+    protected Collider2D col2D;
 
     protected bool isAlive = true;
 
-    protected void Start() {
+    protected virtual void Start() {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         if (player != null) {
             playerHealth = player.GetComponent<HealthEntity>();
             playerController = player.GetComponent<ShipMovementController2D>();
         }
 
-        anim = GetComponent<Animator>();
+        if (GetComponent<Animator>() != null)
+            anim = GetComponent<Animator>();
+        else if (GetComponentInChildren<Animator>() != null)
+            anim = GetComponentInChildren<Animator>();
         audio = GetComponent<AudioSource>();
         col2D = GetComponent<Collider2D>();
         enemyController = GetComponent<EnemyController2D>();
@@ -81,7 +79,7 @@ public class Enemy : MonoBehaviour {
     }
 
     //player potentially gets damaged and enemy dies when colliding with player
-    private void TouchDamageWithPlayer() {
+    protected virtual void TouchDamageWithPlayer() {
         playerHealth.TryDamage();
         anim.SetTrigger("OnEnemyDeath");
         enemyController.Speed = 0;

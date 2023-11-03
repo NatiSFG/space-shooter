@@ -29,8 +29,8 @@ public class ChargerController2D : EnemyController2D {
         currentSpeed = IsAggressive ? standardSpeed * aggressionSpeedMultiplier : standardSpeed;
         transform.Translate(Vector3.down * currentSpeed * Time.deltaTime);
         if (transform.position.y <= BottomOfLevel) {
-            float randx = Random.Range(enemyWaveSpawner.MinXSpawnPoint, enemyWaveSpawner.MaxXSpawnPoint);
-            transform.position = new Vector3(randx, enemyWaveSpawner.TopYSpawnPoint, 0);
+            float randx = Random.Range(spawner.MinXSpawnPoint, spawner.MaxXSpawnPoint);
+            transform.position = new Vector3(randx, spawner.TopYSpawnPoint, 0);
         }
     }
 
