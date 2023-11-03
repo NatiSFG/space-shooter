@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 1741166786315308195}
   - component: {fileID: 7045800723342919589}
   m_Layer: 0
-  m_Name: Single Red Laser
+  m_Name: Regular Laser
   m_TagString: Player Laser
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 1646140873
   m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b030d335857201646be69703e678d6e5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 6984cc59184e20a42805867388217db2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
