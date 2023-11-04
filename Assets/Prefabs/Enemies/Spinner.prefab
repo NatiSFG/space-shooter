@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 2902054473468069982}
   m_Layer: 0
   m_Name: Spinner
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1d1d63477a1aca419f3852593020b92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  standardSpeed: 3
   rotateSpeed: 70
 --- !u!114 &2902054473468069982
 MonoBehaviour:

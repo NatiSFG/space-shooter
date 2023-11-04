@@ -9,14 +9,19 @@ public class ShootController : MonoBehaviour {
     [SerializeField] private AudioClip outOfAmmoClip;
     [SerializeField] private float fireRate = 0.15f;
     [SerializeField] private int ammoCount = 15;
+
+    [Header("Triple Shot PowerUp")]
+    [SerializeField] private GameObject tripleShotLasersPrefab;
     [SerializeField] private Image tripleShotPowerUpImage;
 
-    [Header("Triple-Shot Power-Up")]
-    [SerializeField] private GameObject tripleShotLasersPrefab;
+    [Header("Homing Shot PowerUp")]
+    [SerializeField] private GameObject homingShotLaserPrefab;
+    [SerializeField] private Image homingShotPowerUpImage;
 
     private new AudioSource audio;
     private float canFire = -1;
     private bool isTripleShotPowerUpActive;
+    private bool isHomingShotPowerUpActive;
     private Laser laser;
     private Laser[] lasers;
     private Vector3 laserOffset;
@@ -59,10 +64,15 @@ public class ShootController : MonoBehaviour {
             if (isTripleShotPowerUpActive) {
                 GameObject tripleShot = Instantiate(tripleShotLasersPrefab, transform.position + laserOffset, Quaternion.identity);
                 lasers = tripleShot.GetComponentsInChildren<Laser>();
-                for (int i = 0; i < lasers.Length ; i++)
+                for (int i = 0; i < lasers.Length; i++)
                     lasers[i].AssignPlayerLaser();
                 SubtractAmmo(3);
-            } else {
+            } else if (isHomingShotPowerUpActive) {
+                GameObject homingShot = Instantiate(homingShotLaserPrefab, transform.position + laserOffset, Quaternion.identity);
+                laser = homingShot.GetComponent<Laser>();
+                laser.AssignHomingLaser();
+                SubtractAmmo(1);
+            }  else {
                 GameObject singleLaser = Instantiate(laserPrefab, transform.position + laserOffset, Quaternion.identity);
                 laser = singleLaser.GetComponent<Laser>();
                 laser.AssignPlayerLaser();
@@ -90,6 +100,21 @@ public class ShootController : MonoBehaviour {
             yield return wait;
             tripleShotPowerUpImage.enabled = false;
             isTripleShotPowerUpActive = false;
+        }
+    }
+
+    public void HomingShotPowerUpActive() {
+        isHomingShotPowerUpActive = true;
+        homingShotPowerUpImage.enabled = true;
+        StartCoroutine(HomingShotPowerDownCoroutine());
+    }
+
+    private IEnumerator HomingShotPowerDownCoroutine() {
+        WaitForSeconds wait = new WaitForSeconds(5);
+        while (isHomingShotPowerUpActive) {
+            yield return wait;
+            homingShotPowerUpImage.enabled = false;
+            isHomingShotPowerUpActive = false;
         }
     }
 }

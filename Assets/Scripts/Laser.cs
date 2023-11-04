@@ -1,23 +1,34 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Laser : MonoBehaviour {
 
-    [SerializeField] private float speed = 8;
+    [SerializeField] private float speed = 8f;
+
+    [Header("Homing Laser")]
+    [SerializeField] private float rotationSpeed = 200f;
 
     private LevelBounds levelBounds;
     private ShipMovementController2D playerController;
     private bool isPlayerLaser;
+    private bool isHomingLaser;
     private bool isDoubleBeamerLaser;
     private bool isSpinnerLaser;
     private bool isBackShooterLaser;
     private SpriteRenderer playerSprite;
+    private Transform target;
 
     public float Speed => speed;
 
     public bool IsPlayerLaser {
         get { return isPlayerLaser; }
         set { isPlayerLaser = value; }
+    }
+
+    public bool IsHomingLaser {
+        get { return isHomingLaser; }
+        set { isHomingLaser = value; }
     }
 
     public bool IsEnemyLaser => isDoubleBeamerLaser || isSpinnerLaser || isBackShooterLaser;
@@ -42,11 +53,14 @@ public class Laser : MonoBehaviour {
             playerSprite = playerController.GetComponent<SpriteRenderer>();
         }
         levelBounds = Object.FindObjectOfType<LevelBounds>();
+        FindNearestTarget(); //may need to move this. this was in start originally
     }
 
     private void Update() {
-        if (!IsDoubleBeamerLaser && !IsSpinnerLaser && !IsBackShooterLaser)
+        if (!IsDoubleBeamerLaser && !IsSpinnerLaser && !IsBackShooterLaser && !IsHomingLaser)
             PlayerLaser();
+        else if (IsHomingLaser)
+            HomingLaser();
         else if (IsDoubleBeamerLaser || IsSpinnerLaser)
             DownwardEnemyLaser();
         else UpwardEnemyLaser();
@@ -60,6 +74,32 @@ public class Laser : MonoBehaviour {
                 Destroy(transform.parent.gameObject);
             }
             Destroy(this.gameObject);
+        }
+    }
+
+    public void HomingLaser() {
+        Debug.Log("it's a homing laser");
+        Vector3 dirToTarget = (target.position - transform.position).normalized;
+        //rotate the laser towards the target
+        float angle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.RotateTowards(transform.rotation,
+            Quaternion.Euler(0, 0, angle), rotationSpeed * Time.deltaTime);
+
+        //move the laser forward in the direction of the target
+        transform.Translate(Vector3.up * speed * Time.deltaTime);
+    }
+
+    private void FindNearestTarget() {
+        Debug.Log("finding the nearest target to home in to");
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+
+        float minDistance = float.MaxValue;
+        foreach (var enemy in enemies) {
+            float distance = Vector3.Distance(transform.position, enemy.transform.position);
+            if (distance < minDistance) {
+                minDistance = distance;
+                target = enemy.transform;
+            }
         }
     }
 
@@ -92,6 +132,10 @@ public class Laser : MonoBehaviour {
 
     public void AssignPlayerLaser() {
         IsPlayerLaser = true;
+    }
+
+    public void AssignHomingLaser() {
+        IsHomingLaser = true;
     }
 
     public void AssignDoubleBeamerLaser() {

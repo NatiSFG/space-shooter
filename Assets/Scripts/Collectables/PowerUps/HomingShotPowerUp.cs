@@ -2,17 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HomingShotPowerUp : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+public class HomingShotPowerUp : PowerUp {
+    protected override void ApplyPowerUp(GameObject player) {
+        if (player.TryGetComponent(out ShootController controller))
+            controller.HomingShotPowerUpActive();
     }
 }
