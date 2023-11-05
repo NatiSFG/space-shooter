@@ -71,6 +71,7 @@ public class ShootController : MonoBehaviour {
                 GameObject homingShot = Instantiate(homingShotLaserPrefab, transform.position + laserOffset, Quaternion.identity);
                 laser = homingShot.GetComponent<Laser>();
                 laser.AssignHomingLaser();
+                Destroy(homingShot, 5);
                 SubtractAmmo(1);
             }  else {
                 GameObject singleLaser = Instantiate(laserPrefab, transform.position + laserOffset, Quaternion.identity);
@@ -118,3 +119,4 @@ public class ShootController : MonoBehaviour {
         }
     }
 }
+

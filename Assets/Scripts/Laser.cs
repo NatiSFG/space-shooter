@@ -7,7 +7,8 @@ public class Laser : MonoBehaviour {
     [SerializeField] private float speed = 8f;
 
     [Header("Homing Laser")]
-    [SerializeField] private float rotationSpeed = 200f;
+    [SerializeField] private float rotationSpeed = 300f;
+    [SerializeField] private float homingDistance = 2f;
 
     private LevelBounds levelBounds;
     private ShipMovementController2D playerController;
@@ -70,7 +71,7 @@ public class Laser : MonoBehaviour {
         transform.Translate(Vector3.up * speed * Time.deltaTime);
         
         if (transform.position.y >= levelBounds.topBound) {
-            if(transform.parent != null) {
+            if (transform.parent != null) {
                 Destroy(transform.parent.gameObject);
             }
             Destroy(this.gameObject);
@@ -78,21 +79,28 @@ public class Laser : MonoBehaviour {
     }
 
     public void HomingLaser() {
-        Debug.Log("it's a homing laser");
-        Vector3 dirToTarget = (target.position - transform.position).normalized;
-        //rotate the laser towards the target
-        float angle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.RotateTowards(transform.rotation,
-            Quaternion.Euler(0, 0, angle), rotationSpeed * Time.deltaTime);
+        if (target == null)
+            transform.Translate(Vector3.up * speed * Time.deltaTime);
+        else {
+            Debug.Log("it's a homing laser");
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            //rotate the laser towards the target
+            float angle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.RotateTowards(transform.rotation,
+                Quaternion.Euler(0, 0, angle), rotationSpeed * Time.deltaTime);
 
-        //move the laser forward in the direction of the target
-        transform.Translate(Vector3.up * speed * Time.deltaTime);
+            //move the laser forward in the direction of the target
+            transform.Translate(Vector3.up * speed * Time.deltaTime);
+            float distanceToTarget = Vector3.Distance(transform.position, target.position);
+            if (distanceToTarget < homingDistance) {
+                Destroy(gameObject);
+            }
+        }
     }
 
     private void FindNearestTarget() {
         Debug.Log("finding the nearest target to home in to");
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-
         float minDistance = float.MaxValue;
         foreach (var enemy in enemies) {
             float distance = Vector3.Distance(transform.position, enemy.transform.position);
