@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7502822655317538095}
   m_Layer: 0
   m_Name: Dodger
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -193,7 +193,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   standardSpeed: 2
-  rotateSpeed: 90
 --- !u!114 &7502822655317538095
 MonoBehaviour:
   m_ObjectHideFlags: 0

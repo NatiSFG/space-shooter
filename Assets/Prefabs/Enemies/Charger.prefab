@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 8967561857445988772}
   m_Layer: 0
   m_Name: Charger
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2478b8231f9ec1499b9e3be6e4b51e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  standardSpeed: 3
+  standardSpeed: 2
   currentSpeed: 0
   aggressionSpeedMultiplier: 1.25
   rangeX: 1
