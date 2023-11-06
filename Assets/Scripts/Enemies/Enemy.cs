@@ -50,36 +50,35 @@ public class Enemy : MonoBehaviour {
 
     protected virtual void FireLaser() { }
     
-    private bool PlayerLaserOrWaveDoesHarm(Collider2D other, out Laser laser) {
-        return (other.TryGetComponent(out laser) && !laser.IsEnemyLaser)
-           || other.tag == "Wave";
-    }
-
     private void OnTriggerEnter2D(Collider2D other) {
         //if the player collides
         if (other.tag == "Player") {
             //and the enemy has a shield, try to damage the shield
             if (TryGetComponent(out EnemyShield shield) && shield.TryDamageShield()) {
                 //if the player has a shield, damage it too
-                playerHealth.TryDamageShield();
+                if (!playerHealth.TryDamageShield())
+                    playerHealth.TryDamage();
             //if the enemy doesn't have a shield, potentially damage player and kill enemy
             } else TouchDamageWithPlayer();
         }
 
-        //when calling this as a parameter, it promises to initialize this parameter
-        //and send it back to the called by reference
-        if (PlayerLaserOrWaveDoesHarm(other, out Laser laser)) {
-            if (laser != null)
-                Destroy(laser.gameObject);
+        if (other.tag == "Player Laser" || other.tag == "Wave") {
             //if the enemy has a shield and try to damage the shield, then there's nothing to do
-            if (TryGetComponent(out EnemyShield shield) && shield.TryDamageShield()) {
-            //if the enemy doesn't have a shield, kill the enemy
-            } else Defeat();
+            if (TryGetComponent(out EnemyShield shield) && shield.TryDamageShield()
+                && other.GetComponent<Laser>() != null) {
+                Destroy(other.gameObject);
+                return;
+            }
+            if (other.GetComponent<Laser>() != null) {
+                Destroy(other.gameObject);
+                //if the enemy doesn't have a shield, kill the enemy
+                Defeat();
+            }
         }
     }
 
     //player potentially gets damaged and enemy dies when colliding with player
-    protected virtual void TouchDamageWithPlayer() {
+    private void TouchDamageWithPlayer() {
         playerHealth.TryDamage();
         anim.SetTrigger("OnEnemyDeath");
         enemyController.Speed = 0;

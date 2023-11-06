@@ -9,15 +9,22 @@ public class ShootController : MonoBehaviour {
     [SerializeField] private AudioClip outOfAmmoClip;
     [SerializeField] private float fireRate = 0.15f;
     [SerializeField] private int ammoCount = 15;
+
+    [Header("Triple Shot PowerUp")]
+    [SerializeField] private GameObject tripleShotLasersPrefab;
     [SerializeField] private Image tripleShotPowerUpImage;
 
-    [Header("Triple-Shot Power-Up")]
-    [SerializeField] private GameObject tripleShotLasersPrefab;
+    [Header("Homing Shot PowerUp")]
+    [SerializeField] private GameObject homingShotLaserPrefab;
+    [SerializeField] private Image homingShotPowerUpImage;
 
     private new AudioSource audio;
     private float canFire = -1;
     private bool isTripleShotPowerUpActive;
+    private bool isHomingShotPowerUpActive;
     private Laser laser;
+    private Laser[] lasers;
+    private Vector3 laserOffset;
 
     public event Action onAmmoCountChanged;
 
@@ -26,6 +33,7 @@ public class ShootController : MonoBehaviour {
     private void Start() {
         audio = GetComponent<AudioSource>();
         laser = GetComponent<Laser>();
+        laserOffset = new Vector3(0, 1.075f, 0);
     }
 
     private void Update() {
@@ -54,12 +62,19 @@ public class ShootController : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Space) && ammoCount >= 1) {
             if (isTripleShotPowerUpActive) {
-                GameObject tripleShot = Instantiate(tripleShotLasersPrefab, transform.position, Quaternion.identity);
-                laser = tripleShot.GetComponent<Laser>();
-                laser.AssignPlayerLaser();
+                GameObject tripleShot = Instantiate(tripleShotLasersPrefab, transform.position + laserOffset, Quaternion.identity);
+                lasers = tripleShot.GetComponentsInChildren<Laser>();
+                for (int i = 0; i < lasers.Length; i++)
+                    lasers[i].AssignPlayerLaser();
                 SubtractAmmo(3);
-            } else {
-                GameObject singleLaser = Instantiate(laserPrefab, transform.position + new Vector3(0, 1.075f, 0), Quaternion.identity);
+            } else if (isHomingShotPowerUpActive) {
+                GameObject homingShot = Instantiate(homingShotLaserPrefab, transform.position + laserOffset, Quaternion.identity);
+                laser = homingShot.GetComponent<Laser>();
+                laser.AssignHomingLaser();
+                Destroy(homingShot, 5);
+                SubtractAmmo(1);
+            }  else {
+                GameObject singleLaser = Instantiate(laserPrefab, transform.position + laserOffset, Quaternion.identity);
                 laser = singleLaser.GetComponent<Laser>();
                 laser.AssignPlayerLaser();
                 SubtractAmmo(1);
@@ -88,4 +103,20 @@ public class ShootController : MonoBehaviour {
             isTripleShotPowerUpActive = false;
         }
     }
+
+    public void HomingShotPowerUpActive() {
+        isHomingShotPowerUpActive = true;
+        homingShotPowerUpImage.enabled = true;
+        StartCoroutine(HomingShotPowerDownCoroutine());
+    }
+
+    private IEnumerator HomingShotPowerDownCoroutine() {
+        WaitForSeconds wait = new WaitForSeconds(5);
+        while (isHomingShotPowerUpActive) {
+            yield return wait;
+            homingShotPowerUpImage.enabled = false;
+            isHomingShotPowerUpActive = false;
+        }
+    }
 }
+

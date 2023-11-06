@@ -41,6 +41,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6043956449377216113, guid: a052ff7991683ad4c9741c6323f8936b,
         type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b030d335857201646be69703e678d6e5,
+        type: 3}
+    - target: {fileID: 6043956449377216113, guid: a052ff7991683ad4c9741c6323f8936b,
+        type: 3}
       propertyPath: m_SortingLayer
       value: 2
       objectReference: {fileID: 0}
@@ -53,6 +59,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Laser Right
+      objectReference: {fileID: 0}
+    - target: {fileID: 6043956449377216115, guid: a052ff7991683ad4c9741c6323f8936b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 6043956449377216118, guid: a052ff7991683ad4c9741c6323f8936b,
         type: 3}
@@ -126,6 +137,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6043956449377216113, guid: a052ff7991683ad4c9741c6323f8936b,
         type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b030d335857201646be69703e678d6e5,
+        type: 3}
+    - target: {fileID: 6043956449377216113, guid: a052ff7991683ad4c9741c6323f8936b,
+        type: 3}
       propertyPath: m_SortingLayer
       value: 2
       objectReference: {fileID: 0}
@@ -138,6 +155,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Laser Left
+      objectReference: {fileID: 0}
+    - target: {fileID: 6043956449377216115, guid: a052ff7991683ad4c9741c6323f8936b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 6043956449377216118, guid: a052ff7991683ad4c9741c6323f8936b,
         type: 3}
