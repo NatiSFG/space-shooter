@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class Laser : MonoBehaviour {
 
@@ -8,7 +7,6 @@ public class Laser : MonoBehaviour {
 
     [Header("Homing Laser")]
     [SerializeField] private float rotationSpeed = 300f;
-    [SerializeField] private float homingDistance = 2f;
 
     private LevelBounds levelBounds;
     private ShipMovementController2D playerController;
@@ -70,36 +68,36 @@ public class Laser : MonoBehaviour {
     private void PlayerLaser() {
         transform.Translate(Vector3.up * speed * Time.deltaTime);
         
-        if (transform.position.y >= levelBounds.topBound) {
-            if (transform.parent != null) {
+        if (LaserOutOfBounds()) {
+            if (transform.parent != null)
                 Destroy(transform.parent.gameObject);
-            }
             Destroy(this.gameObject);
         }
     }
-
+    
     public void HomingLaser() {
         if (target == null)
             transform.Translate(Vector3.up * speed * Time.deltaTime);
         else {
-            Debug.Log("it's a homing laser");
             Vector3 dirToTarget = (target.position - transform.position).normalized;
-            //rotate the laser towards the target
-            float angle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg;
+            Vector3 eulerAngles = new Vector3();
+            float rawAngle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg;
+            eulerAngles.z = rawAngle - 90; //TODO: figure out why it's -90 in both cases. x < 0 and x > 0
+
             transform.rotation = Quaternion.RotateTowards(transform.rotation,
-                Quaternion.Euler(0, 0, angle), rotationSpeed * Time.deltaTime);
+                Quaternion.Euler(eulerAngles), rotationSpeed * Time.deltaTime);
 
             //move the laser forward in the direction of the target
             transform.Translate(Vector3.up * speed * Time.deltaTime);
-            float distanceToTarget = Vector3.Distance(transform.position, target.position);
-            if (distanceToTarget < homingDistance) {
-                Destroy(gameObject);
-            }
+        }
+        if (LaserOutOfBounds()) {
+            if (transform.parent != null)
+                Destroy(transform.parent.gameObject);
+            Destroy(this.gameObject);
         }
     }
 
     private void FindNearestTarget() {
-        Debug.Log("finding the nearest target to home in to");
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         float minDistance = float.MaxValue;
         foreach (var enemy in enemies) {
@@ -180,7 +178,7 @@ public class Laser : MonoBehaviour {
                 }
             }
         }
-        if ((IsDoubleBeamerLaser || IsBackShooterLaser) && other.GetComponent<Collectable>()) {
+        if ((IsDoubleBeamerLaser || IsBackShooterLaser) && other.tag == "Positive Collectable") {
             Destroy(other.gameObject);
         }
     }

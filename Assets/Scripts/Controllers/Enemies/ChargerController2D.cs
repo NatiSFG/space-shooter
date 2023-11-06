@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ChargerController2D : EnemyController2D {
     [SerializeField] private float currentSpeed;
-    [SerializeField] private float aggressionSpeedMultiplier = 1.25f;
+    [SerializeField] private float aggressionSpeedMultiplier = 1.7f;
     [SerializeField] private float rangeX = 1f;
-    [SerializeField] private float rangeY = 4f;
+    [SerializeField] private float rangeY = 8f;
 
     private Transform player;
     private bool isAggressive = false;
@@ -43,15 +43,11 @@ public class ChargerController2D : EnemyController2D {
 
             //check if the player is within the aggression range
             if (distanceX <= rangeX && distanceY <= rangeY) {
-                if (!IsAggressive) {
-                    //enemy enters the range and becomes aggressive
-                    IsAggressive = true;
-                }
-            } else {
-                if (IsAggressive) {
-                    //enemy is out of range, return to standard speed
-                    IsAggressive = false;
-                }
+                IsAggressive = true;
+            }
+            else if (IsAggressive) {
+                //enemy is out of range, return to standard speed
+                IsAggressive = false;
             }
             yield return wait;
         }
