@@ -2,7 +2,11 @@
 
 public class WavePowerUp : PowerUp {
     protected override void ApplyPowerUp(GameObject player) {
-        if (player.TryGetComponent(out WaveAttack attack))
+        if (player.GetComponentInChildren<WaveAttack>() != null) {
+            WaveAttack attack;
+            attack = player.GetComponentInChildren<WaveAttack>();
             attack.WavePowerUpActive();
+
+        }
     }
 }

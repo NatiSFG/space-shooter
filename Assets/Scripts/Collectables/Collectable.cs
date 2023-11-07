@@ -12,11 +12,20 @@ public class Collectable : MonoBehaviour {
     }
 
     protected virtual void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Player") {
+        //if the player collides with us and this is not a Wave PowerUp
+        if (other.tag == "Player" && gameObject.GetComponent<WavePowerUp>() == null) {
             GameObject player = other.gameObject;
 
             AudioSource.PlayClipAtPoint(clip, transform.position);
             OnPickUp(player);
+            Destroy(gameObject);
+        } else if (other.tag == "Player" && gameObject.GetComponents<WavePowerUp>() != null) {
+            GameObject player = other.gameObject;
+            WaveAttack wave = player.GetComponentInChildren<WaveAttack>();
+            GameObject waveObj = wave.gameObject;
+
+            AudioSource.PlayClipAtPoint(clip, transform.position);
+            OnPickUp(waveObj);
             Destroy(gameObject);
         }
     }
