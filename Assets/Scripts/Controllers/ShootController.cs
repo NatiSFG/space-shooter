@@ -8,7 +8,7 @@ public class ShootController : MonoBehaviour {
     [SerializeField] private AudioClip laserClip;
     [SerializeField] private AudioClip outOfAmmoClip;
     [SerializeField] private float fireRate = 0.15f;
-    [SerializeField] private int ammoCount = 15;
+    [SerializeField] private int ammoCount = 25;
 
     [Header("Triple Shot PowerUp")]
     [SerializeField] private GameObject tripleShotLasersPrefab;

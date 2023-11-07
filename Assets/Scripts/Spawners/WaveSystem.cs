@@ -35,14 +35,17 @@ public class WaveSystem : MonoBehaviour {
         gameManager = Object.FindObjectOfType<GameManager>();
     }
 
+    private void Update() {
+        Debug.Log("wave: " + wave);
+    }
+
     private void OnDestroy() {
         if (playerHealth != null)
             playerHealth.onDamaged -= CheckForDeath;
     }
 
     public void StartSpawning() {
-        StartCoroutine(enemyWaveSpawner.SpawnDoubleBeamerCoroutine());
-        StartCoroutine(enemyWaveSpawner.SpawnDodgerCoroutine());
+        enemyWaveSpawner.SpawnEnemies();
         StartCoroutine(powerUpSpawner.SpawnPowerUpCoroutine());
         StartCoroutine(powerDownSpawner.SpawnPowerDownCoroutine());
         StartCoroutine(provisionSpawner.SpawnProvisionCoroutine());

@@ -921,7 +921,7 @@ MonoBehaviour:
   - prefab: {fileID: 1499337340448811697, guid: b354b42f585f21c4987123e188239c2f,
       type: 3}
     minSpawnTime: 7
-    maxSpawnTime: 16
+    maxSpawnTime: 13
   - prefab: {fileID: 7283101229590858396, guid: 4b30b2379c84d8541b7a381512966d6d,
       type: 3}
     minSpawnTime: 10
@@ -1802,7 +1802,7 @@ MonoBehaviour:
   laserClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
   outOfAmmoClip: {fileID: 8300000, guid: db7de236910362642831bb82448492a0, type: 3}
   fireRate: 0.15
-  ammoCount: 15
+  ammoCount: 25
   tripleShotLasersPrefab: {fileID: 4902251547736761636, guid: 4ce221b5e077a274a930119f053ca535,
     type: 3}
   tripleShotPowerUpImage: {fileID: 1269963186}

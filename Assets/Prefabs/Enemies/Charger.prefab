@@ -263,9 +263,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   standardSpeed: 2
   currentSpeed: 0
-  aggressionSpeedMultiplier: 1.25
+  aggressionSpeedMultiplier: 1.7
   rangeX: 1
-  rangeY: 4
+  rangeY: 20
 --- !u!114 &8967561857445988772
 MonoBehaviour:
   m_ObjectHideFlags: 0
