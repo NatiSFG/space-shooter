@@ -24,7 +24,6 @@ public class WaveAttack : MonoBehaviour {
         waveImage.enabled = true;
         StartCoroutine(WavePowerDownCoroutine());
         health.StartInvincibility(5);
-        sprite.enabled = true;
     }
 
     private void OnTriggerEnter(Collider other) {
@@ -37,7 +36,7 @@ public class WaveAttack : MonoBehaviour {
         IsWavePowerUpActive = true;
         yield return new WaitForSeconds(5);
         waveImage.enabled = false;
-        sprite.enabled = false;
+        gameObject.SetActive(false);
         IsWavePowerUpActive = false;
     }
 }

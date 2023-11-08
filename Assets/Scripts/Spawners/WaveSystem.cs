@@ -45,7 +45,7 @@ public class WaveSystem : MonoBehaviour {
     }
 
     public void StartSpawning() {
-        enemyWaveSpawner.SpawnEnemies();
+        StartCoroutine(enemyWaveSpawner.SpawningCoroutine());
         StartCoroutine(powerUpSpawner.SpawnPowerUpCoroutine());
         StartCoroutine(powerDownSpawner.SpawnPowerDownCoroutine());
         StartCoroutine(provisionSpawner.SpawnProvisionCoroutine());

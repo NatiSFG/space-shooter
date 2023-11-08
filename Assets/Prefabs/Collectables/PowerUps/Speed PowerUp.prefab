@@ -164,8 +164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63dd5712158934a4baa4931bdb36971f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0
+  speed: 3
   clip: {fileID: 8300000, guid: 5ee343246919d2b4bba63ae629e95494, type: 3}
+  wavePowerUp: {fileID: 0}
 --- !u!1 &8244755091816822256
 GameObject:
   m_ObjectHideFlags: 0

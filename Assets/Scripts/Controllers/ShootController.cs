@@ -9,6 +9,7 @@ public class ShootController : MonoBehaviour {
     [SerializeField] private AudioClip outOfAmmoClip;
     [SerializeField] private float fireRate = 0.15f;
     [SerializeField] private int ammoCount = 25;
+    [SerializeField] private GameObject waveAttack;
 
     [Header("Triple Shot PowerUp")]
     [SerializeField] private GameObject tripleShotLasersPrefab;
@@ -41,6 +42,11 @@ public class ShootController : MonoBehaviour {
             FireLaser();
         if (Input.GetKeyDown(KeyCode.L))
             AddAmmoCount(100);
+    }
+
+    public void ActivateWaveObject() {
+        waveAttack.SetActive(true);
+        waveAttack.GetComponent<WaveAttack>().WavePowerUpActive();
     }
 
     public void AddAmmoCount(int count) {

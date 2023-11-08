@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour {
     public static event Action onAnyDefeated;
 
     protected HealthEntity playerHealth;
-    private Animator anim;
+    protected Animator anim;
     protected ShipMovementController2D playerController;
     protected EnemyController2D enemyController;
 

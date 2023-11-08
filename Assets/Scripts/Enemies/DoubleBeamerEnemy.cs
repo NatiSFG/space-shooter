@@ -6,17 +6,12 @@ public class DoubleBeamerEnemy : Enemy {
     private DoubleBeamerController2D controller;
     private WaveSystem waveSystem;
     private EnemyInfo enemyInfo;
-    private Animator anim;
 
     private new void Start() {
         base.Start();
         enemyInfo = new EnemyInfo(laserPrefab, controller, Random.Range(3, 7), -1);
         controller = GetComponent<DoubleBeamerController2D>();
         waveSystem = FindObjectOfType<WaveSystem>();
-        if (GetComponent<Animator>() != null)
-            anim = GetComponent<Animator>();
-        else if (GetComponentInChildren<Animator>() != null)
-            anim = GetComponentInChildren<Animator>();
     }
 
     private void Update() {
