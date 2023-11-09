@@ -4530,6 +4530,11 @@ PrefabInstance:
       propertyPath: waveDisplay
       value: 
       objectReference: {fileID: 1600223408}
+    - target: {fileID: 378724284177488970, guid: 0c58949888c43ac4f8c74f1a476bd151,
+        type: 3}
+      propertyPath: waveSpawner
+      value: 
+      objectReference: {fileID: 400336563}
     - target: {fileID: 4142211786317260967, guid: 0c58949888c43ac4f8c74f1a476bd151,
         type: 3}
       propertyPath: m_Name
