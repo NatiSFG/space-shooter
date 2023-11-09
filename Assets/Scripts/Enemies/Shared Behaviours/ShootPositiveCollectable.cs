@@ -13,8 +13,8 @@ public class ShootPositiveCollectable : MonoBehaviour {
         parentEnemyobj = transform.parent.gameObject;
         if (GetComponent<Animator>() != null)
             anim = GetComponent<Animator>();
-        else if (GetComponentInChildren<Animator>() != null)
-            anim = GetComponentInChildren<Animator>();
+        else if (GetComponentInParent<Animator>() != null)
+            anim = GetComponentInParent<Animator>();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {

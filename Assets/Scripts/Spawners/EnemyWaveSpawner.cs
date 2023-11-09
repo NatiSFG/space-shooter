@@ -27,27 +27,16 @@ public class EnemyWaveSpawner : WaveSystem {
         { 11, 1, 9, 7, 6 } //wave 9: 11 double beamers, 1 dodger, 9 chargers, 7 spinners, 6 back shooters
     };
 
-    #region variables
-    private int bossWave = 10;
-    private float minXSpawnPoint = -8f;
-    private float maxXSpawnPoint = 8f;
-    private float topYSpawnPoint = 9f;
-    public float MinXSpawnPoint => minXSpawnPoint;
-    public float MaxXSpawnPoint => maxXSpawnPoint;
-    public float TopYSpawnPoint => topYSpawnPoint;
-    public bool IsRegularWave => wave < bossWave;
-    public bool IsBossWave => wave == bossWave;
     public NewWaveDisplay NewWaveDisplay => newWaveDisplay;
-    #endregion
 
-    public IEnumerator SpawningCoroutine() {
+    public IEnumerator SpawnCoroutine() {
         WaitForSeconds wait = new WaitForSeconds(3);
         GameObject enemy;
         if (wave == 1)
             yield return wait;
         while (enemiesAlive[0] < maxEnemies[wave - 1, 0]) { //while there are less double beamers alive than the max double beamers allowed for the current wave
             for (int i = 0; i <= 4; i++) { //maxEnemies.GetLength(1) uses the second length of the 2d array which how many types of enemies
-                Vector2 pos = new Vector2(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint);
+                Vector2 pos = new Vector2(Random.Range(MinXSpawnPoint, MaxXSpawnPoint), TopYSpawnPoint);
                 if (enemiesAlive[i] < maxEnemies[wave - 1, i]) {
                     switch (i) {
                         case 0:
@@ -89,7 +78,7 @@ public class EnemyWaveSpawner : WaveSystem {
         NewWaveDisplay.ShowWaveText();
         yield return wait;
         if (IsRegularWave) {
-            StartCoroutine(SpawningCoroutine());
+            StartCoroutine(SpawnCoroutine());
         }
         else if (IsBossWave)
             StartCoroutine(BossWaveCoroutine());

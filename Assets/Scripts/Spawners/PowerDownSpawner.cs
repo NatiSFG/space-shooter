@@ -14,14 +14,13 @@ public class PowerDownSpawner : WaveSystem {
 
     private GameObject powerDown;
 
-    public IEnumerator SpawnPowerDownCoroutine() {
-        WaitForSeconds wait = new WaitForSeconds(3);
-        yield return wait;
-        while (!isPlayerDefeated) {
-            WaitForSeconds waitRandom = new WaitForSeconds(Random.Range(powerDowns[0].minSpawnTime,
-                powerDowns[0].maxSpawnTime + 1));
+    public IEnumerator SpawnCoroutine() {
+        yield return new WaitForSeconds(3);
+        WaitForSeconds waitRandom = new WaitForSeconds(Random.Range(powerDowns[0].minSpawnTime,
+            powerDowns[0].maxSpawnTime + 1));
+        while (!IsPlayerDefeated) {
             yield return waitRandom;
-            Vector3 pos = new Vector3(Random.Range(-8f, 8f), 8.5f, 0);
+            Vector3 pos = new Vector3(Random.Range(MinXSpawnPoint, MaxXSpawnPoint), TopYSpawnPoint, 0);
             powerDown = Instantiate(powerDowns[0].prefab, pos, Quaternion.identity);
             powerDown.transform.SetParent(collectableContainer.transform);
         }
