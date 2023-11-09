@@ -30,8 +30,7 @@ public class ShipMovementController2D : MonoBehaviour {
     [SerializeField] private SpriteRenderer thrusterSprite;
     [SerializeField] private Laser laser;
 
-    [Header("Level Bounds")]
-    [SerializeField] private LevelBounds levelBounds;
+    private LevelBounds levelBounds;
 
     private new AudioSource audio;
     private float baseSpeed;
@@ -63,6 +62,7 @@ public class ShipMovementController2D : MonoBehaviour {
     private void Start() {
         transform.position = Vector3.zero;
         audio = GetComponent<AudioSource>();
+        levelBounds = Object.FindObjectOfType<LevelBounds>();
     }
 
     private void Update() {

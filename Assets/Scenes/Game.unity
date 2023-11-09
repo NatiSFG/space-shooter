@@ -693,8 +693,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d250aa1c665af748addf0251b42f985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftBound: -11
-  rightBound: 11
+  leftBound: -9
+  rightBound: 9
   topBound: 8
   bottomBound: -8
 --- !u!4 &250290936
@@ -705,7 +705,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 250290934}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.344809, y: 3.1972127, z: -2.1248887}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1778,7 +1778,6 @@ MonoBehaviour:
   speedPowerDownImage: {fileID: 1082640347}
   thrusterSprite: {fileID: 1002293874}
   laser: {fileID: 4265851989483838279, guid: 8345152b2faf0394c8cbac35fd65ba1c, type: 3}
-  levelBounds: {fileID: 250290935}
 --- !u!114 &761659939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4526,6 +4525,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 378724284177488970, guid: 0c58949888c43ac4f8c74f1a476bd151,
+        type: 3}
+      propertyPath: waveDisplay
+      value: 
+      objectReference: {fileID: 1600223408}
     - target: {fileID: 4142211786317260967, guid: 0c58949888c43ac4f8c74f1a476bd151,
         type: 3}
       propertyPath: m_Name

@@ -16,6 +16,7 @@ public class NewWaveDisplay : MonoBehaviour {
         text.text = "Wave " + waveSystem.Wave;
         text.enabled = true;
         yield return new WaitForSeconds(2);
+        Debug.Log("disabling text");
         text.enabled = false;
     }
 }

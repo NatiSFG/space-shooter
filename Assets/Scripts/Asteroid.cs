@@ -1,12 +1,15 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Asteroid : MonoBehaviour {
 
-    [SerializeField]
-    private float speed = 25f;
-    [SerializeField]
-    private GameObject explosionPrefab;
+    [SerializeField] private float speed = 25f;
+    [SerializeField] private GameObject explosionPrefab;
+    [SerializeField] private NewWaveDisplay waveDisplay;
+    
     private WaveSystem waveSystem;
+
+    public NewWaveDisplay NewWaveDisplay => waveDisplay;
 
     private void Start() {
         waveSystem = GameObject.FindGameObjectWithTag("Spawner").GetComponent<WaveSystem>();

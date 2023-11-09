@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyWaveSpawner : WaveSystem {
@@ -13,12 +12,11 @@ public class EnemyWaveSpawner : WaveSystem {
     [SerializeField] private GameObject backShooterPrefab;
     [SerializeField] private GameObject dodgerPrefab;
 
-
-    //new variables
+    //enemiesAlive[0] is how many Double Beamers are alive, etc.
     private int[] enemiesAlive = new int[5] {0, 0, 0, 0, 0 };
     private int[,] maxEnemies = new int[9, 5] {
         //Double Beamer, Dodger, Charger, Spinner, Back Shooter
-        { 3, 1, 0, 0, 0 },
+        { 3, 1, 0, 0, 0 }, //wave 1: 3 double beamers, 1 dodger
         { 4, 1, 2, 0, 0 },
         { 5, 1, 3, 1, 0 },
         { 6, 1, 4, 2, 1 },
@@ -26,7 +24,7 @@ public class EnemyWaveSpawner : WaveSystem {
         { 8, 1, 6, 4, 3 },
         { 9, 1, 7, 5, 4 },
         { 10, 1, 8, 6, 5 },
-        { 11, 1, 9, 7, 6 }
+        { 11, 1, 9, 7, 6 } //wave 9: 11 double beamers, 1 dodger, 9 chargers, 7 spinners, 6 back shooters
     };
 
     #region variables
@@ -42,15 +40,14 @@ public class EnemyWaveSpawner : WaveSystem {
     public NewWaveDisplay NewWaveDisplay => newWaveDisplay;
     #endregion
 
-    private void Update() {
-        Debug.Log("double beamers: " + enemiesAlive[0] + "\nchargers: " + enemiesAlive[2]);
-    }
-
-    //this coroutine runs once for the current wave and stops
     public IEnumerator SpawningCoroutine() {
         WaitForSeconds wait = new WaitForSeconds(3);
         GameObject enemy;
-        while (enemiesAlive[0] < maxEnemies[wave - 1, 0]) {
+        if (wave == 1) {
+            StartCoroutine(NewWaveDisplay.ShowWaveText());
+            yield return wait;
+        }
+        while (enemiesAlive[0] < maxEnemies[wave - 1, 0]) { //while there are less double beamers alive than the max double beamers allowed for the current wave
             for (int i = 0; i <= 4; i++) { //maxEnemies.GetLength(1) uses the second length of the 2d array which how many types of enemies
                 Vector2 pos = new Vector2(Random.Range(minXSpawnPoint, maxXSpawnPoint), topYSpawnPoint);
                 if (enemiesAlive[i] < maxEnemies[wave - 1, i]) {
