@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class ShootPositiveCollectable : MonoBehaviour {
     [SerializeField] private GameObject laserPrefab;
@@ -6,21 +7,26 @@ public class ShootPositiveCollectable : MonoBehaviour {
     private Laser[] lasers;
     private Laser laser;
     private GameObject parentEnemyobj;
+    private Animator anim;
 
     private void Start() {
         parentEnemyobj = transform.parent.gameObject;
+        if (GetComponent<Animator>() != null)
+            anim = GetComponent<Animator>();
+        else if (GetComponentInParent<Animator>() != null)
+            anim = GetComponentInParent<Animator>();
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.tag == "Positive Collectable") {
-            if (parentEnemyobj.GetComponent<DoubleBeamerEnemy>() != null) {
+        if (other.tag == "Destroyable by Laser") {
+            if (parentEnemyobj.GetComponent<DoubleBeamerEnemy>() != null && anim.GetBool("OnEnemyDeath") == false) {
                 GameObject enemyLaser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
                 lasers = enemyLaser.GetComponentsInChildren<Laser>();
                 foreach (Laser laser in lasers)
                     laser.AssignDoubleBeamerLaser();
             }
 
-            if (parentEnemyobj.GetComponent<BackShooterEnemy>() != null) {
+            if (parentEnemyobj.GetComponent<BackShooterEnemy>() != null && anim.GetBool("OnEnemyDeath") == false) {
                 GameObject enemyLaser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
                 laser = enemyLaser.GetComponent<Laser>();
                 laser.AssignBackShooterLaser();

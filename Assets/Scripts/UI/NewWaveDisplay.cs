@@ -12,7 +12,11 @@ public class NewWaveDisplay : MonoBehaviour {
         text = GetComponent<TMP_Text>();
     }
 
-    public IEnumerator ShowWaveText() {
+    public void ShowWaveText() {
+        StartCoroutine(ShowWaveTextCoroutine());
+    }
+
+    private IEnumerator ShowWaveTextCoroutine() {
         text.text = "Wave " + waveSystem.Wave;
         text.enabled = true;
         yield return new WaitForSeconds(2);

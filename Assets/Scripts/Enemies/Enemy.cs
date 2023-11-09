@@ -22,7 +22,7 @@ public class Enemy : MonoBehaviour {
     public static event Action onAnyDefeated;
 
     protected HealthEntity playerHealth;
-    private Animator anim;
+    protected Animator anim;
     protected ShipMovementController2D playerController;
     protected EnemyController2D enemyController;
 
@@ -62,8 +62,8 @@ public class Enemy : MonoBehaviour {
             } else TouchDamageWithPlayer();
         }
 
-        if (other.tag == "Player Laser" || other.tag == "Wave") {
-            //if the enemy has a shield and try to damage the shield, then there's nothing to do
+        else if (other.tag == "Player Laser") {
+            //if the enemy has a shield and try to damage the shield
             if (TryGetComponent(out EnemyShield shield) && shield.TryDamageShield()
                 && other.GetComponent<Laser>() != null) {
                 Destroy(other.gameObject);
@@ -71,9 +71,14 @@ public class Enemy : MonoBehaviour {
             }
             if (other.GetComponent<Laser>() != null) {
                 Destroy(other.gameObject);
-                //if the enemy doesn't have a shield, kill the enemy
                 Defeat();
             }
+        }
+        else if (other.tag == "Wave") {
+            if (TryGetComponent(out EnemyShield shield) && shield.TryDamageShield()
+                && other.GetComponent<WaveAttack>() != null) { }
+            if (other.GetComponent<WaveAttack>() != null)
+                Defeat();
         }
     }
 

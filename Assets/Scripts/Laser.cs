@@ -178,8 +178,9 @@ public class Laser : MonoBehaviour {
                 }
             }
         }
-        if ((IsDoubleBeamerLaser || IsBackShooterLaser) && other.tag == "Positive Collectable") {
-            Destroy(other.gameObject);
+        if ((IsDoubleBeamerLaser || IsBackShooterLaser) && other.tag == "Destroyable by Laser") {
+            GameObject parentObj = other.transform.parent.gameObject;
+            Destroy(parentObj);
         }
     }
 
