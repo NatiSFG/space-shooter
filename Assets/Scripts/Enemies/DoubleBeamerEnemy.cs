@@ -19,7 +19,7 @@ public class DoubleBeamerEnemy : Enemy {
     }
 
     protected override void FireLaser() {
-        if (Time.time > enemyInfo.canFire && isAlive && !waveSystem.IsPlayerDefeated) {
+        if (Time.time > enemyInfo.canFire && isAlive && !waveSystem.IsPlayerDefeated && anim.GetBool("OnEnemyDeath") == false) {
             enemyInfo.canFire = Time.time + enemyInfo.fireRate;
             GameObject enemyLaser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
             Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();

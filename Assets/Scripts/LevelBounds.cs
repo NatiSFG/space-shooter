@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
 public class LevelBounds : MonoBehaviour {
-    public int leftBound = -11;
-    public int rightBound = 11;
+    public int leftBound = -9;
+    public int rightBound = 9;
 
     [Space(20)]
     public int topBound = 8;

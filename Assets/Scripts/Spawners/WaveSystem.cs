@@ -18,6 +18,16 @@ public class WaveSystem : MonoBehaviour {
     private ProvisionSpawner provisionSpawner;
     private GameManager gameManager;
 
+    private int bossWave = 10;
+    private float minXSpawnPoint = -8f;
+    private float maxXSpawnPoint = 8f;
+    private float topYSpawnPoint = 9f;
+    public float MinXSpawnPoint => minXSpawnPoint;
+    public float MaxXSpawnPoint => maxXSpawnPoint;
+    public float TopYSpawnPoint => topYSpawnPoint;
+    public bool IsRegularWave => wave < bossWave;
+    public bool IsBossWave => wave == bossWave;
+
     public bool IsPlayerDefeated => isPlayerDefeated;
     public int Wave => wave;
 
@@ -41,11 +51,10 @@ public class WaveSystem : MonoBehaviour {
     }
 
     public void StartSpawning() {
-        StartCoroutine(enemyWaveSpawner.SpawnDoubleBeamerCoroutine());
-        StartCoroutine(enemyWaveSpawner.SpawnDodgerCoroutine());
-        StartCoroutine(powerUpSpawner.SpawnPowerUpCoroutine());
-        StartCoroutine(powerDownSpawner.SpawnPowerDownCoroutine());
-        StartCoroutine(provisionSpawner.SpawnProvisionCoroutine());
+        StartCoroutine(enemyWaveSpawner.SpawnCoroutine());
+        StartCoroutine(powerUpSpawner.SpawnCoroutine()); //change this
+        StartCoroutine(powerDownSpawner.SpawnCoroutine());
+        StartCoroutine(provisionSpawner.SpawnCoroutine());
 
         if (gameManager.IsGameOver)
             StopAllCoroutines();

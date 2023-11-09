@@ -6,9 +6,9 @@ using UnityEngine.UI;
 //(and then call this WavePowerUp)
 public class WaveAttack : MonoBehaviour {
     [SerializeField] private HealthEntity health;
-    [SerializeField] private GameObject wave;
     [SerializeField] private Image waveImage;
 
+    private SpriteRenderer sprite;
     private bool isWavePowerUpActive;
 
     public bool IsWavePowerUpActive {
@@ -16,18 +16,27 @@ public class WaveAttack : MonoBehaviour {
         set { isWavePowerUpActive = value; }
     }
 
+    private void Start() {
+        sprite = GetComponent<SpriteRenderer>();
+    }
+
     public void WavePowerUpActive() {
         waveImage.enabled = true;
         StartCoroutine(WavePowerDownCoroutine());
         health.StartInvincibility(5);
-        wave.SetActive(true);
+    }
+
+    private void OnTriggerEnter(Collider other) {
+        while (IsWavePowerUpActive && other.tag == "Enemy") {
+            Destroy(other.gameObject);
+        }
     }
 
     private IEnumerator WavePowerDownCoroutine() {
         IsWavePowerUpActive = true;
         yield return new WaitForSeconds(5);
         waveImage.enabled = false;
-        wave.SetActive(false);
+        gameObject.SetActive(false);
         IsWavePowerUpActive = false;
     }
 }
