@@ -10,7 +10,7 @@ public class EnemyController2D : MonoBehaviour {
         set { standardSpeed = value; }
     }
 
-    protected EnemyWaveSpawner spawner;
+    protected WaveSystem waveSystem;
     private float topOfLevel = 9;
     private float bottomOfLevel = -7;
     public float TopOfLevel => topOfLevel;
@@ -23,14 +23,14 @@ public class EnemyController2D : MonoBehaviour {
     }
 
     public void Start() {
-        spawner = Object.FindObjectOfType<EnemyWaveSpawner>();
+        waveSystem = Object.FindObjectOfType<EnemyWaveSpawner>();
     }
 
     protected virtual void CalculateMovement() {
         transform.Translate(Vector3.down * standardSpeed * Time.deltaTime, Space.World);
         if (transform.position.y <= BottomOfLevel) {
-            float randx = Random.Range(spawner.MinXSpawnPoint, spawner.MaxXSpawnPoint);
-            transform.position = new Vector3(randx, spawner.TopYSpawnPoint, 0);
+            float randx = Random.Range(waveSystem.MinXSpawnPoint, waveSystem.MaxXSpawnPoint);
+            transform.position = new Vector3(randx, waveSystem.TopYSpawnPoint, 0);
         }
     }
 }
