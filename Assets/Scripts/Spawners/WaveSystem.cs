@@ -18,6 +18,8 @@ public class WaveSystem : MonoBehaviour {
     private ProvisionSpawner provisionSpawner;
     private GameManager gameManager;
 
+    [SerializeField] private BossHealthBar healthBar;
+
     private int bossWave = 10;
     private float minXSpawnPoint = -8f;
     private float maxXSpawnPoint = 8f;
@@ -45,6 +47,16 @@ public class WaveSystem : MonoBehaviour {
         gameManager = Object.FindObjectOfType<GameManager>();
     }
 
+    private void Update() {
+        if (healthBar != null) {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+                healthBar.DisplayHealthBar();
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+                healthBar.SubtractHealth(1);
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+                healthBar.HideHealthBar();
+        }
+    }
     private void OnDestroy() {
         if (playerHealth != null)
             playerHealth.onDamaged -= CheckForDeath;
