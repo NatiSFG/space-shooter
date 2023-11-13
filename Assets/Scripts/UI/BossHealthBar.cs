@@ -1,15 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class BossHealthBar : MonoBehaviour {
     [SerializeField] private Slider slider;
-
-
-    private void Start() {
-        SetMaxHealth(20);
-    }
 
     public void DisplayHealthBar() {
         if (!this.gameObject.activeSelf)
@@ -21,11 +14,12 @@ public class BossHealthBar : MonoBehaviour {
             this.gameObject.SetActive(false);
     }
 
-    private void SetMaxHealth(int health) {
+    public void SetMaxHealth(int health) {
+        slider.maxValue = health;
         slider.value = health;
     }
 
-    public void SubtractHealth(int damage) {
-        slider.value -= damage;
+    public void SetHealth(int health) {
+        slider.value = health;
     }
 }

@@ -5,12 +5,7 @@ using UnityEngine;
 public class BossController2D : MonoBehaviour {
     [SerializeField] private float speed = 3f;
 
-    //private Vector3 startPos = new Vector3(0, 10, 0);
     private Vector3 endPos = new Vector3(0, 3, 0);
-
-    //private void Start() {
-    //    transform.position = startPos;
-    //}
 
     private void Update() {
         MoveDownScreen();

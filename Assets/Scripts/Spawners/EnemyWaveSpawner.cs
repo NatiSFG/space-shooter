@@ -15,17 +15,17 @@ public class EnemyWaveSpawner : WaveSystem {
 
     //enemiesAlive[0] is how many Double Beamers are alive, etc.
     private int[] enemiesAlive = new int[5] {0, 0, 0, 0, 0 };
-    private int[,] maxEnemies = new int[9, 5] {
+    private int[,] maxEnemies = new int[1, 5] { //change to [9, 5] and bossWave to 10
         //Double Beamer, Dodger, Charger, Spinner, Back Shooter
         { 1, 0, 0, 0, 0 }, //wave 1: 3 double beamers, 1 dodger
-        { 1, 0, 0, 0, 0 },
-        { 1, 0, 0, 0, 0 },
-        { 1, 0, 0, 0, 0 },
-        { 1, 0, 0, 0, 0 },
-        { 1, 0, 0, 0, 0 },
-        { 1, 0, 0, 0, 0 },
-        { 1, 0, 0, 0, 0 },
-        { 1, 0, 0, 0, 0 } //wave 9: 11 double beamers, 1 dodger, 9 chargers, 7 spinners, 6 back shooters
+        //{ 1, 0, 0, 0, 0 },
+        //{ 1, 0, 0, 0, 0 },
+        //{ 1, 0, 0, 0, 0 },
+        //{ 1, 0, 0, 0, 0 },
+        //{ 1, 0, 0, 0, 0 },
+        //{ 1, 0, 0, 0, 0 },
+        //{ 1, 0, 0, 0, 0 },
+        //{ 1, 0, 0, 0, 0 } //wave 9: 11 double beamers, 1 dodger, 9 chargers, 7 spinners, 6 back shooters
     };
 
     //final amounts of enemies spawning
@@ -39,15 +39,15 @@ public class EnemyWaveSpawner : WaveSystem {
     //    { 10, 1, 8, 6, 5 },
     //    { 11, 1, 9, 7, 6 }
 
-private GameObject enemy;
+    private GameObject enemy;
+
     public NewWaveDisplay NewWaveDisplay => newWaveDisplay;
 
     private void Update() {
         if (Input.GetKeyDown(KeyCode.B)) {
             StopCoroutine(SpawnCoroutine());
             wave = 10;
-            SpawnBoss();
-
+            StartCoroutine(SpawnBossCoroutine());
         }
     }
 
@@ -81,7 +81,7 @@ private GameObject enemy;
                             enemy.transform.parent = enemyContainer.transform;
                             break;
                     }
-                    //one more enemy added to list array. on the first run of enemiesAlive[0],
+                    //one more enemy added to array. on the first run of enemiesAlive[0],
                     //now we have 1 in index 0 which means 1 double beamer is alive
                     enemiesAlive[i]++; 
                     yield return wait;
@@ -103,11 +103,20 @@ private GameObject enemy;
         if (IsRegularWave)
             StartCoroutine(SpawnCoroutine());
         else if (IsBossWave)
-            SpawnBoss();
+            StartCoroutine(SpawnBossCoroutine());
     }
 
-    private void SpawnBoss() {
+    private IEnumerator SpawnBossCoroutine() {
+        WaitForSeconds wait = new WaitForSeconds(3);
         Vector3 startPos = new Vector3(0, 10, 0);
         enemy = Instantiate(bossPrefab, startPos, Quaternion.identity);
+        enemy.transform.parent = enemyContainer.transform;
+        BossEnemy boss = enemy.GetComponent<BossEnemy>();
+        boss.HealthBar.HideHealthBar();
+        yield return wait;
+        boss.HealthBar.DisplayHealthBar();
+        foreach (BoxCollider2D c in boss.GetComponents<BoxCollider2D>())
+            c.enabled = true;
+        
     }
 }
