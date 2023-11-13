@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using UnityEditorInternal;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 public class BossEnemy : MonoBehaviour {
@@ -11,6 +12,8 @@ public class BossEnemy : MonoBehaviour {
     private Animator anim;
     private new AudioSource audio;
     private BoxCollider2D[] cols;
+    private UIManager ui;
+    private bool bossDefeatedCoroutineStarted = false;
 
     public BossHealthBar HealthBar => healthBar;
 
@@ -25,11 +28,14 @@ public class BossEnemy : MonoBehaviour {
         healthBar.SetMaxHealth(maxHealth);
         healthBar.SetHealth(currentHealth);
         cols = GetComponents<BoxCollider2D>();
+        ui = Object.FindObjectOfType<UIManager>();
     }
 
     private void Update() {
-        if (currentHealth <= 0)
+        if (currentHealth <= 0 && !bossDefeatedCoroutineStarted) {
             Death();
+            bossDefeatedCoroutineStarted = true;
+        }
     }
 
     private void OnDestroy() {
@@ -66,6 +72,8 @@ public class BossEnemy : MonoBehaviour {
             audio.Play();
         foreach (BoxCollider2D c in cols)
             c.enabled = false;
+        ui.StartCoroutine(ui.GameWonSequence());
+        //ui.StartCoroutine(ui.BossDefeatedDisplay());
         Destroy(this.gameObject, 3);
     }
 }

@@ -16,15 +16,18 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI exitGameText;
     [SerializeField] private Image lifeImage;
     [SerializeField] private Sprite[] lifeSprites;
-    [SerializeField] private Image[] shieldHealthImages;
     [SerializeField] private TMP_Text laserCount;
     [SerializeField] private Animator laserCountAnim;
+    [SerializeField] private TMP_Text bossDefeatedPrefab;
     
+    private TMP_Text bossDefeated;
     private GameManager gameManager;
 
     private GameObject player;
     private ShootController playerShootController;
     private HealthEntity playerHealth;
+
+    public TMP_Text BossDefeated => bossDefeated;
 
     private void Start() {
         player = GameObject.FindGameObjectWithTag("Player");
@@ -83,9 +86,6 @@ public class UIManager : MonoBehaviour {
     }
 
     private void OnPlayerDamaged() {
-        //if (playerHealth.IsShieldPowerUpActive) {
-        //    OnShieldHealthDamage();
-        //}
         int health = playerHealth.Health;
         UpdateHealth(health); //NOTE: This may benefit from onHealthChanged
         if (health <= 0)
@@ -103,17 +103,6 @@ public class UIManager : MonoBehaviour {
         lifeImage.sprite = lifeSprites[currentLives];
     }
 
-    //private void OnShieldHealthDamage() {
-    //    int shieldHealth = playerHealth.CurrentShieldProtection;
-    //    UpdateShieldHealth(shieldHealth);
-    //}
-
-    //public void UpdateShieldHealth(int currentShieldHealth) {
-    //    if (currentShieldHealth < 0)
-    //        currentShieldHealth = 0;
-    //    shieldHealthImages[currentShieldHealth - 1].enabled = false;
-    //}
-
     private void GameOverDisplay() {
         gameOverText.enabled = true;
         Assert.IsTrue(gameOverText.isActiveAndEnabled, "The Game Over text must be both " +
@@ -130,6 +119,16 @@ public class UIManager : MonoBehaviour {
         }
     }
 
+    public IEnumerator GameWonSequence() {
+        yield return new WaitForSeconds(3);
+        bossDefeated = Component.Instantiate(bossDefeatedPrefab);
+        bossDefeated.enabled = true;
+        gameManager.GameOver();
+        RestartDisplay();
+        ExitDisplay();
+        yield break;
+    }
+
     private void RestartDisplay() {
         restartGameText.enabled = true;
         Assert.IsTrue(restartGameText.isActiveAndEnabled, "The Restart Game text must be "
@@ -141,7 +140,7 @@ public class UIManager : MonoBehaviour {
         Assert.IsTrue(exitGameText.isActiveAndEnabled, "The Exit Game text must be both "
             + "active and enabled for the text to show!");
     }
-
+    
     public void GameOverSequence() {
         gameManager.GameOver();
         GameOverDisplay();
