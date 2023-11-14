@@ -11,6 +11,7 @@ public class BossEnemy : MonoBehaviour {
     [Header("Attacks")]
     [SerializeField] private GameObject hyperbeam;
     [SerializeField] private GameObject ripplePrefab;
+    [SerializeField] private GameObject homingLaserPrefab;
 
     private CameraShake cameraShake;
     private BoxCollider2D hbCol;
@@ -78,7 +79,7 @@ public class BossEnemy : MonoBehaviour {
     }
 
     public void StartBossAttacks() {
-        StartCoroutine(Ripple());
+        StartCoroutine(TeleportPlayerHomingLaser());
     }
 
     private IEnumerator Hyperbeam() {
@@ -100,6 +101,18 @@ public class BossEnemy : MonoBehaviour {
             GameObject ripple = Instantiate(ripplePrefab, pos, Quaternion.identity);
             ripple.transform.parent = this.gameObject.transform;
             ripple.transform.localPosition = pos;
+            yield return wait;
+        }
+    }
+
+    private IEnumerator TeleportPlayerHomingLaser() {
+        while (true) {
+            WaitForSeconds wait = new WaitForSeconds(2);
+            Vector3 pos = new Vector3(0, -1.25f, 0);
+            GameObject laser = Instantiate(homingLaserPrefab, pos, Quaternion.identity);
+            Debug.Log(laser.name);
+            laser.transform.parent = this.gameObject.transform;
+            laser.transform.localPosition = pos;
             yield return wait;
         }
     }

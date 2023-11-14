@@ -8,7 +8,7 @@ public class Laser : MonoBehaviour {
     [Header("Homing Laser")]
     [SerializeField] private float rotationSpeed = 300f;
 
-    private LevelBounds levelBounds;
+    private LevelBounds level;
     private ShipMovementController2D playerController;
     private bool isPlayerLaser;
     private bool isHomingLaser;
@@ -51,8 +51,8 @@ public class Laser : MonoBehaviour {
             playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
             playerSprite = playerController.GetComponent<SpriteRenderer>();
         }
-        levelBounds = Object.FindObjectOfType<LevelBounds>();
-        FindNearestTarget(); //may need to move this. this was in start originally
+        level = Object.FindObjectOfType<LevelBounds>();
+        FindNearestTarget();
     }
 
     private void Update() {
@@ -82,7 +82,7 @@ public class Laser : MonoBehaviour {
             Vector3 dirToTarget = (target.position - transform.position).normalized;
             Vector3 eulerAngles = new Vector3();
             float rawAngle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg;
-            eulerAngles.z = rawAngle - 90; //TODO: figure out why it's -90 in both cases. x < 0 and x > 0
+            eulerAngles.z = rawAngle - 90;
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation,
                 Quaternion.Euler(eulerAngles), rotationSpeed * Time.deltaTime);
@@ -130,8 +130,8 @@ public class Laser : MonoBehaviour {
     public bool LaserOutOfBounds() {
         float x = transform.position.x;
         float y = transform.position.y;
-        if (x < levelBounds.LeftBound || x > levelBounds.RightBound ||
-            y < levelBounds.BottomBound || y > levelBounds.TopBound)
+        if (x < level.LeftBound || x > level.RightBound ||
+            y < level.BottomBound || y > level.TopBound)
             return true;
         else return false;
     }

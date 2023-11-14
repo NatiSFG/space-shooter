@@ -527,3 +527,5 @@ MonoBehaviour:
   hyperbeam: {fileID: 4936695627599272219}
   ripplePrefab: {fileID: 4392659681128898307, guid: bfc94a067a7416947921267c3d6a0d13,
     type: 3}
+  homingLaserPrefab: {fileID: 5081847658353617226, guid: ff50d08a5f4fd4146bd5f2c844a9937d,
+    type: 3}
