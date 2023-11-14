@@ -130,8 +130,8 @@ public class Laser : MonoBehaviour {
     public bool LaserOutOfBounds() {
         float x = transform.position.x;
         float y = transform.position.y;
-        if (x < levelBounds.leftBound || x > levelBounds.rightBound ||
-            y < levelBounds.bottomBound || y > levelBounds.topBound)
+        if (x < levelBounds.LeftBound || x > levelBounds.RightBound ||
+            y < levelBounds.BottomBound || y > levelBounds.TopBound)
             return true;
         else return false;
     }

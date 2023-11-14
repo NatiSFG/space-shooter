@@ -10,6 +10,7 @@ public class BossEnemy : MonoBehaviour {
 
     [Header("Attacks")]
     [SerializeField] private GameObject hyperbeam;
+    [SerializeField] private GameObject ripplePrefab;
 
     private CameraShake cameraShake;
     private BoxCollider2D hbCol;
@@ -77,8 +78,7 @@ public class BossEnemy : MonoBehaviour {
     }
 
     public void StartBossAttacks() {
-        Debug.Log("starting boss attacks");
-        StartCoroutine(Hyperbeam());
+        StartCoroutine(Ripple());
     }
 
     private IEnumerator Hyperbeam() {
@@ -91,6 +91,17 @@ public class BossEnemy : MonoBehaviour {
         yield return new WaitForSeconds(5);
         hbCol.enabled = false;
         hbRenderer.enabled = false;
+    }
+
+    private IEnumerator Ripple() {
+        WaitForSeconds wait = new WaitForSeconds(2);
+        Vector3 pos = new Vector3(0, -1.25f, 0);
+        for (int i = 0; i < 3; i++) {
+            GameObject ripple = Instantiate(ripplePrefab, pos, Quaternion.identity);
+            ripple.transform.parent = this.gameObject.transform;
+            ripple.transform.localPosition = pos;
+            yield return wait;
+        }
     }
 
     private void Death() {

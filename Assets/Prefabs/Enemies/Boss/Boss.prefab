@@ -525,3 +525,5 @@ MonoBehaviour:
   currentHealth: 0
   maxHealth: 20
   hyperbeam: {fileID: 4936695627599272219}
+  ripplePrefab: {fileID: 4392659681128898307, guid: bfc94a067a7416947921267c3d6a0d13,
+    type: 3}
