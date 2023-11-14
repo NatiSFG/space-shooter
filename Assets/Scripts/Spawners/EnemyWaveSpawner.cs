@@ -43,14 +43,6 @@ public class EnemyWaveSpawner : WaveSystem {
 
     public NewWaveDisplay NewWaveDisplay => newWaveDisplay;
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.B)) {
-            StopCoroutine(SpawnCoroutine());
-            wave = 10;
-            StartCoroutine(SpawnBossCoroutine());
-        }
-    }
-
     public IEnumerator SpawnCoroutine() {
         WaitForSeconds wait = new WaitForSeconds(3);
         if (wave == 1)
@@ -117,6 +109,6 @@ public class EnemyWaveSpawner : WaveSystem {
         boss.HealthBar.DisplayHealthBar();
         foreach (BoxCollider2D c in boss.GetComponents<BoxCollider2D>())
             c.enabled = true;
-        
+        boss.StartBossAttacks();
     }
 }
