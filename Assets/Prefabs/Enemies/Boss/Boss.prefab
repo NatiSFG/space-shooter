@@ -529,3 +529,7 @@ MonoBehaviour:
     type: 3}
   homingLaserPrefab: {fileID: 5081847658353617226, guid: ff50d08a5f4fd4146bd5f2c844a9937d,
     type: 3}
+  rainLaserPrefab: {fileID: 4265851989483838298, guid: 6580056237cee0746ae86a405e287e5c,
+    type: 3}
+  laserRainClip: {fileID: 8300000, guid: c47a4a08c92196545b277785da604650, type: 3}
+  explosionClip: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}

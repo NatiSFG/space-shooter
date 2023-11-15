@@ -12,28 +12,33 @@ public class BossEnemy : MonoBehaviour {
     [SerializeField] private GameObject hyperbeam;
     [SerializeField] private GameObject ripplePrefab;
     [SerializeField] private GameObject homingLaserPrefab;
+    [SerializeField] private GameObject rainLaserPrefab;
 
+    [Header("Laser Rain Audio Clips")]
+    [SerializeField] private AudioClip laserRainClip;
+    [SerializeField] private AudioClip explosionClip;
+
+    private GameObject laserContainer;
     private CameraShake cameraShake;
     private BoxCollider2D hbCol;
     private SpriteRenderer hbRenderer;
-    private AudioSource hbAudio;
+    private AudioSource aud;
 
     private BossHealthBar healthBar;
     private Animator anim;
-    private new AudioSource audio;
     private BoxCollider2D[] cols;
     private UIManager ui;
     private bool bossDefeatedCoroutineStarted = false;
+    private WaveSystem wave;
 
     public BossHealthBar HealthBar => healthBar;
 
     private void Awake() {
         healthBar = Component.Instantiate(healthBarPrefab);
         anim = GetComponent<Animator>();
-        audio = GetComponent<AudioSource>();
         hbCol = hyperbeam.GetComponent<BoxCollider2D>();
         hbRenderer = hyperbeam.GetComponent<SpriteRenderer>();
-        hbAudio = hyperbeam.GetComponent<AudioSource>();
+        aud = GetComponent<AudioSource>();
     }
 
     private void Start() {
@@ -43,7 +48,8 @@ public class BossEnemy : MonoBehaviour {
         cols = GetComponents<BoxCollider2D>();
         ui = Object.FindObjectOfType<UIManager>();
         cameraShake = Object.FindObjectOfType<CameraShake>();
-
+        wave = Object.FindObjectOfType<WaveSystem>();
+        laserContainer = GameObject.FindGameObjectWithTag("Laser Container");
     }
 
     private void Update() {
@@ -79,7 +85,7 @@ public class BossEnemy : MonoBehaviour {
     }
 
     public void StartBossAttacks() {
-        StartCoroutine(TeleportPlayerHomingLaser());
+        StartCoroutine(LaserRain());
     }
 
     private IEnumerator Hyperbeam() {
@@ -88,7 +94,8 @@ public class BossEnemy : MonoBehaviour {
         if (hbRenderer != null)
             hbRenderer.enabled = true;
         cameraShake.HyperbeamShake();
-        hbAudio.Play();
+        aud = hyperbeam.GetComponent<AudioSource>();
+        aud.Play();
         yield return new WaitForSeconds(5);
         hbCol.enabled = false;
         hbRenderer.enabled = false;
@@ -114,11 +121,28 @@ public class BossEnemy : MonoBehaviour {
         yield return wait;
     }
 
+    private IEnumerator LaserRain() {
+        WaitForSeconds wait = new WaitForSeconds(0.3f);
+        float duration = Time.time + 10f;
+        aud = GetComponent<AudioSource>();
+        aud.clip = laserRainClip;
+        aud.Play();
+        while (Time.time < duration) {
+            Vector2 pos = new Vector2(Random.Range(wave.MinXSpawnPoint, wave.MaxXSpawnPoint), wave.TopYSpawnPoint);
+            GameObject laser = Instantiate(rainLaserPrefab, pos, Quaternion.identity);
+            laser.transform.parent = laserContainer.transform;
+            yield return wait;
+        }
+    }
+
     private void Death() {
         if (anim != null)
             anim.SetTrigger("OnEnemyDeath");
-        if (audio != null)
-            audio.Play();
+        if (aud != null) {
+            aud = GetComponent<AudioSource>();
+            aud.clip = explosionClip;
+            aud.Play();
+        }
         foreach (BoxCollider2D c in cols)
             c.enabled = false;
         ui.StartCoroutine(ui.GameWonSequence());

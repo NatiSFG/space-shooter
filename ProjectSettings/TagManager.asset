@@ -17,6 +17,7 @@ TagManager:
   - Destroyable by Laser
   - Boss Health Bar
   - Teleport Player Homing Laser
+  - Laser Container
   layers:
   - Default
   - TransparentFX

@@ -5,7 +5,7 @@ public  class LevelBounds : MonoBehaviour {
     public int rightBound = 9;
 
     [Space(20)]
-    public int topBound = 8;
+    public int topBound = 9;
     public int bottomBound = -8;
 
     public int LeftBound => leftBound;
