@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UIElements;
+﻿using UnityEngine;
 
 public class TeleportPlayerHomingLaser : MonoBehaviour {
     [SerializeField] private float speed = 8f;
@@ -9,9 +6,15 @@ public class TeleportPlayerHomingLaser : MonoBehaviour {
 
     private LevelBounds level;
     private Transform target;
+    private AudioSource laserAudio;
+    private GameObject player;
 
     private void Start() {
         level = Object.FindObjectOfType<LevelBounds>();
+        laserAudio = GetComponent<AudioSource>();
+        if (laserAudio != null)
+            laserAudio.Play();
+        player = GameObject.FindGameObjectWithTag("Player");
         FindPlayer();
     }
 
@@ -20,7 +23,6 @@ public class TeleportPlayerHomingLaser : MonoBehaviour {
     }
 
     private void FindPlayer() {
-        GameObject player = GameObject.FindGameObjectWithTag("Player");
         float minDistance = float.MaxValue;
         float distance = Vector3.Distance(transform.position, player.transform.position);
         if (distance < minDistance) {
@@ -36,24 +38,22 @@ public class TeleportPlayerHomingLaser : MonoBehaviour {
             Vector3 dirToTarget = (target.position - transform.position).normalized;
             Vector3 eulerAngles = new Vector3();
             float rawAngle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg;
-            eulerAngles.z = rawAngle - 90;
+            eulerAngles.z = rawAngle + 90;
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation,
                 Quaternion.Euler(eulerAngles), rotationSpeed * Time.deltaTime);
 
             //move the laser forward in the direction of the target
-            transform.Translate(Vector3.up * speed * Time.deltaTime);
+            transform.Translate(Vector3.down * speed * Time.deltaTime);
         }
         if (LaserOutOfBounds())
             Destroy(this.gameObject);
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if (other.GetComponent<HealthEntity>()) {
-            HealthEntity player = other.GetComponentInParent<HealthEntity>();
+        if (other.GetComponent<ShipMovementController2D>()) {
             if (player != null) {
-                player.TryDamage();
-                //teleport player game object to a random point within a set space
+                player.transform.position = new Vector3(Random.Range(-2.6f, 2.8f), Random.Range(-.55f, -3.6f), 0);
                 Destroy(this.gameObject);
             }
         }

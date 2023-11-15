@@ -106,15 +106,12 @@ public class BossEnemy : MonoBehaviour {
     }
 
     private IEnumerator TeleportPlayerHomingLaser() {
-        while (true) {
-            WaitForSeconds wait = new WaitForSeconds(2);
-            Vector3 pos = new Vector3(0, -1.25f, 0);
-            GameObject laser = Instantiate(homingLaserPrefab, pos, Quaternion.identity);
-            Debug.Log(laser.name);
-            laser.transform.parent = this.gameObject.transform;
-            laser.transform.localPosition = pos;
-            yield return wait;
-        }
+        WaitForSeconds wait = new WaitForSeconds(2);
+        Vector3 pos = new Vector3(0, -1.25f, 0);
+        GameObject laser = Instantiate(homingLaserPrefab, pos, Quaternion.identity);
+        laser.transform.parent = this.gameObject.transform;
+        laser.transform.localPosition = pos;
+        yield return wait;
     }
 
     private void Death() {
