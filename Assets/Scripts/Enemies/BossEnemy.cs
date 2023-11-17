@@ -84,8 +84,6 @@ public class BossEnemy : MonoBehaviour {
         healthBar.SetHealth(currentHealth);
     }
 
-    //Attacks happen randomly from every 3 to 6 seconds. Use a switch statement 
-    //make different Global wait for second variables to space out different boss attacks
     public IEnumerator StartBossAttacks() {
         WaitForSeconds hbWait = new WaitForSeconds(6);
         WaitForSeconds rWait = new WaitForSeconds(7);

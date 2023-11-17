@@ -47,10 +47,8 @@ public class Laser : MonoBehaviour {
     }
 
     private void Start() {
-        if (playerController != null) {
-            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
-            playerSprite = playerController.GetComponent<SpriteRenderer>();
-        }
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
+        playerSprite = playerController.GetComponent<SpriteRenderer>();
         level = Object.FindObjectOfType<LevelBounds>();
         FindNearestTarget();
     }
@@ -158,7 +156,7 @@ public class Laser : MonoBehaviour {
 
     public void OnTriggerEnter2D(Collider2D other) {
         if ((IsDoubleBeamerLaser || IsBackShooterLaser) && other.GetComponent<HealthEntity>()) {
-            HealthEntity player = other.GetComponentInParent<HealthEntity>();
+            HealthEntity player = other.GetComponent<HealthEntity>();
             if (player != null) {
                 player.TryDamage();
                 if (transform.parent != null) {
@@ -167,7 +165,7 @@ public class Laser : MonoBehaviour {
             }
         }
         else if (IsSpinnerLaser) {
-            HealthEntity player = other.GetComponentInParent<HealthEntity>();
+            HealthEntity player = other.GetComponent<HealthEntity>();
             if (player != null) {
                 DamageResult d = player.TryDamage();
                 if (d == DamageResult.ShieldDamaged)

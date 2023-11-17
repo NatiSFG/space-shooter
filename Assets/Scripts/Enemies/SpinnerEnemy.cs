@@ -2,9 +2,9 @@
 
 public class SpinnerEnemy : Enemy {
     [SerializeField] GameObject iceLaserPrefab;
+    [SerializeField] private EnemyInfo enemyInfo;
 
     private SpinnerController2D controller;
-    private EnemyInfo enemyInfo;
 
     private new void Start() {
         base.Start();
@@ -20,13 +20,12 @@ public class SpinnerEnemy : Enemy {
         if (Time.time > enemyInfo.canFire && isAlive) {
             enemyInfo.canFire = Time.time + enemyInfo.fireRate;
             GameObject enemyLaser = Instantiate(iceLaserPrefab, transform.position, Quaternion.identity);
-
-            Vector2 launchDirection = transform.forward;
             enemyLaser.transform.rotation = transform.rotation;
 
             Laser laser = enemyLaser.GetComponentInChildren<Laser>();
             laser.AssignSpinnerLaser();
             Rigidbody2D rb = enemyLaser.GetComponent<Rigidbody2D>();
+            Vector2 launchDirection = transform.forward;
             rb.velocity = launchDirection * laser.Speed;
         }
     }
