@@ -16,7 +16,7 @@ public class NewWaveDisplay : MonoBehaviour {
         StartCoroutine(ShowWaveTextCoroutine());
     }
 
-    private IEnumerator ShowWaveTextCoroutine() {
+    public IEnumerator ShowWaveTextCoroutine() {
         text.text = "Wave " + waveSystem.Wave;
         text.enabled = true;
         yield return new WaitForSeconds(2);

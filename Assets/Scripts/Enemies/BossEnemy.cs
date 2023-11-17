@@ -89,9 +89,12 @@ public class BossEnemy : MonoBehaviour {
         WaitForSeconds rWait = new WaitForSeconds(7);
         WaitForSeconds tpWait = new WaitForSeconds(4);
         WaitForSeconds lrWait = new WaitForSeconds(11);
-        while (gameObject.activeSelf) {
+        while (gameObject != null) {
             int attack = Random.Range(0, 4);
             switch (attack) {
+                //I would like for each of the attack coroutines to stop once the boss is dead
+                //in EnemyWaveSpawner's SpawnBossCoroutine, I call StopAllCoroutines when the boss object is null
+                //The below coroutines keep running anyway
                 case 0:
                     StartCoroutine(Hyperbeam());
                     yield return hbWait;

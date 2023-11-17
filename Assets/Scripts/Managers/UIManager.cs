@@ -49,7 +49,7 @@ public class UIManager : MonoBehaviour {
             Debug.LogError("The player is null.");
         }
 
-        gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        gameManager = Object.FindObjectOfType<GameManager>();
         scoreText.text = "Score: " + 0;
 
         laserCount.text = playerShootController.AmmoCount.ToString();

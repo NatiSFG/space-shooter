@@ -15,29 +15,18 @@ public class EnemyWaveSpawner : WaveSystem {
 
     //enemiesAlive[0] is how many Double Beamers are alive, etc.
     private int[] enemiesAlive = new int[5] {0, 0, 0, 0, 0 };
-    private int[,] maxEnemies = new int[1, 5] { //change to [9, 5] and bossWave to 10
+    private int[,] maxEnemies = new int[1, 5] {
         //Double Beamer, Dodger, Charger, Spinner, Back Shooter
         { 1, 0, 0, 0, 0 }, //wave 1: 3 double beamers, 1 dodger
-        //{ 1, 0, 0, 0, 0 },
-        //{ 1, 0, 0, 0, 0 },
-        //{ 1, 0, 0, 0, 0 },
-        //{ 1, 0, 0, 0, 0 },
-        //{ 1, 0, 0, 0, 0 },
-        //{ 1, 0, 0, 0, 0 },
-        //{ 1, 0, 0, 0, 0 },
-        //{ 1, 0, 0, 0, 0 } //wave 9: 11 double beamers, 1 dodger, 9 chargers, 7 spinners, 6 back shooters
+        //{ 4, 1, 2, 0, 0 },
+        //{ 5, 1, 3, 1, 0 },
+        //{ 6, 1, 4, 2, 1 },
+        //{ 7, 1, 5, 3, 2 },
+        //{ 8, 1, 6, 4, 3 },
+        //{ 9, 1, 7, 5, 4 },
+        //{ 10, 1, 8, 6, 5 },
+        //{ 11, 1, 9, 7, 6 } //wave 9: 11 double beamers, 1 dodger, 9 chargers, 7 spinners, 6 back shooters
     };
-
-    //final amounts of enemies spawning
-    //{ 3, 1, 0, 0, 0 }, //wave 1: 3 double beamers, 1 dodger
-    //    { 4, 1, 2, 0, 0 },
-    //    { 5, 1, 3, 1, 0 },
-    //    { 6, 1, 4, 2, 1 },
-    //    { 7, 1, 5, 3, 2 },
-    //    { 8, 1, 6, 4, 3 },
-    //    { 9, 1, 7, 5, 4 },
-    //    { 10, 1, 8, 6, 5 },
-    //    { 11, 1, 9, 7, 6 }
 
     private GameObject enemy;
 
@@ -110,5 +99,7 @@ public class EnemyWaveSpawner : WaveSystem {
         foreach (BoxCollider2D c in boss.GetComponents<BoxCollider2D>())
             c.enabled = true;
         StartCoroutine(boss.StartBossAttacks());
+        if (boss == null)
+            boss.StopAllCoroutines();
     }
 }
