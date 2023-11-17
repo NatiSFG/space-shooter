@@ -15,6 +15,9 @@ TagManager:
   - Positive Collectable
   - Player Laser
   - Destroyable by Laser
+  - Boss Health Bar
+  - Teleport Player Homing Laser
+  - Laser Container
   layers:
   - Default
   - TransparentFX

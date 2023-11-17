@@ -18,10 +18,10 @@ public class WaveSystem : MonoBehaviour {
     private ProvisionSpawner provisionSpawner;
     private GameManager gameManager;
 
-    private int bossWave = 10;
+    private int bossWave = 2;
     private float minXSpawnPoint = -8f;
     private float maxXSpawnPoint = 8f;
-    private float topYSpawnPoint = 9f;
+    private float topYSpawnPoint = 8f;
     public float MinXSpawnPoint => minXSpawnPoint;
     public float MaxXSpawnPoint => maxXSpawnPoint;
     public float TopYSpawnPoint => topYSpawnPoint;
@@ -52,7 +52,7 @@ public class WaveSystem : MonoBehaviour {
 
     public void StartSpawning() {
         StartCoroutine(enemyWaveSpawner.SpawnCoroutine());
-        StartCoroutine(powerUpSpawner.SpawnCoroutine()); //change this
+        StartCoroutine(powerUpSpawner.SpawnCoroutine());
         StartCoroutine(powerDownSpawner.SpawnCoroutine());
         StartCoroutine(provisionSpawner.SpawnCoroutine());
 

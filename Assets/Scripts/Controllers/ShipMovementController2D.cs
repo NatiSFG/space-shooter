@@ -30,7 +30,7 @@ public class ShipMovementController2D : MonoBehaviour {
     [SerializeField] private SpriteRenderer thrusterSprite;
     [SerializeField] private Laser laser;
 
-    private LevelBounds levelBounds;
+    private LevelBounds level;
 
     private new AudioSource audio;
     private float baseSpeed;
@@ -62,7 +62,7 @@ public class ShipMovementController2D : MonoBehaviour {
     private void Start() {
         transform.position = Vector3.zero;
         audio = GetComponent<AudioSource>();
-        levelBounds = Object.FindObjectOfType<LevelBounds>();
+        level = Object.FindObjectOfType<LevelBounds>();
     }
 
     private void Update() {
@@ -86,10 +86,10 @@ public class ShipMovementController2D : MonoBehaviour {
     }
 
     private void WrapX(ref Vector3 value) {
-        if (value.x >= levelBounds.rightBound)
-            value.x = levelBounds.leftBound;
-        else if (value.x <= levelBounds.leftBound)
-            value.x = levelBounds.rightBound;
+        if (value.x >= level.RightBound)
+            value.x = level.LeftBound;
+        else if (value.x <= level.LeftBound)
+            value.x = level.RightBound;
     }
 
     private void StartSpeedBoost() {

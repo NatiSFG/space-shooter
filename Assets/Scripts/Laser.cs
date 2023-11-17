@@ -8,7 +8,7 @@ public class Laser : MonoBehaviour {
     [Header("Homing Laser")]
     [SerializeField] private float rotationSpeed = 300f;
 
-    private LevelBounds levelBounds;
+    private LevelBounds level;
     private ShipMovementController2D playerController;
     private bool isPlayerLaser;
     private bool isHomingLaser;
@@ -47,12 +47,10 @@ public class Laser : MonoBehaviour {
     }
 
     private void Start() {
-        if (playerController != null) {
-            playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
-            playerSprite = playerController.GetComponent<SpriteRenderer>();
-        }
-        levelBounds = Object.FindObjectOfType<LevelBounds>();
-        FindNearestTarget(); //may need to move this. this was in start originally
+        playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<ShipMovementController2D>();
+        playerSprite = playerController.GetComponent<SpriteRenderer>();
+        level = Object.FindObjectOfType<LevelBounds>();
+        FindNearestTarget();
     }
 
     private void Update() {
@@ -82,7 +80,7 @@ public class Laser : MonoBehaviour {
             Vector3 dirToTarget = (target.position - transform.position).normalized;
             Vector3 eulerAngles = new Vector3();
             float rawAngle = Mathf.Atan2(dirToTarget.y, dirToTarget.x) * Mathf.Rad2Deg;
-            eulerAngles.z = rawAngle - 90; //TODO: figure out why it's -90 in both cases. x < 0 and x > 0
+            eulerAngles.z = rawAngle - 90;
 
             transform.rotation = Quaternion.RotateTowards(transform.rotation,
                 Quaternion.Euler(eulerAngles), rotationSpeed * Time.deltaTime);
@@ -130,8 +128,8 @@ public class Laser : MonoBehaviour {
     public bool LaserOutOfBounds() {
         float x = transform.position.x;
         float y = transform.position.y;
-        if (x < levelBounds.leftBound || x > levelBounds.rightBound ||
-            y < levelBounds.bottomBound || y > levelBounds.topBound)
+        if (x < level.LeftBound || x > level.RightBound ||
+            y < level.BottomBound || y > level.TopBound)
             return true;
         else return false;
     }
@@ -158,7 +156,7 @@ public class Laser : MonoBehaviour {
 
     public void OnTriggerEnter2D(Collider2D other) {
         if ((IsDoubleBeamerLaser || IsBackShooterLaser) && other.GetComponent<HealthEntity>()) {
-            HealthEntity player = other.GetComponentInParent<HealthEntity>();
+            HealthEntity player = other.GetComponent<HealthEntity>();
             if (player != null) {
                 player.TryDamage();
                 if (transform.parent != null) {
@@ -167,7 +165,7 @@ public class Laser : MonoBehaviour {
             }
         }
         else if (IsSpinnerLaser) {
-            HealthEntity player = other.GetComponentInParent<HealthEntity>();
+            HealthEntity player = other.GetComponent<HealthEntity>();
             if (player != null) {
                 DamageResult d = player.TryDamage();
                 if (d == DamageResult.ShieldDamaged)

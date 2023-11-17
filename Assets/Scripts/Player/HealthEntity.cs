@@ -88,7 +88,6 @@ public class HealthEntity : MonoBehaviour {
             Destroy(gameObject, 0.1f);
             return;
         }
-
         StartInvincibility(2);
     }
 

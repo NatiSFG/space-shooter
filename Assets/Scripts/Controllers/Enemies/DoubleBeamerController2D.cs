@@ -23,8 +23,8 @@ public class DoubleBeamerController2D : EnemyController2D {
 
     private void SetHorizontalTargetPosition() {
         Vector3 currentPos = transform.position;
-        float leftSpaceAvailable = Mathf.Abs(spawner.MinXSpawnPoint - currentPos.x);
-        float rightSpaceAvailable = Mathf.Abs(spawner.MaxXSpawnPoint - currentPos.x);
+        float leftSpaceAvailable = Mathf.Abs(waveSystem.MinXSpawnPoint - currentPos.x);
+        float rightSpaceAvailable = Mathf.Abs(waveSystem.MaxXSpawnPoint - currentPos.x);
 
         Vector3 nextTarget = currentPos;
         if (leftSpaceAvailable > rightSpaceAvailable)

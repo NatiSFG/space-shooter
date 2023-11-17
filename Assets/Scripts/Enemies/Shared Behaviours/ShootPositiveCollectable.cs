@@ -11,6 +11,7 @@ public class ShootPositiveCollectable : MonoBehaviour {
 
     private void Start() {
         parentEnemyobj = transform.parent.gameObject;
+        //THOM: WHAT IS A CLEANER WAY TO DO THE BELOW? Thanks!
         if (GetComponent<Animator>() != null)
             anim = GetComponent<Animator>();
         else if (GetComponentInParent<Animator>() != null)
