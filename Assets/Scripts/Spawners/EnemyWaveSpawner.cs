@@ -109,6 +109,6 @@ public class EnemyWaveSpawner : WaveSystem {
         boss.HealthBar.DisplayHealthBar();
         foreach (BoxCollider2D c in boss.GetComponents<BoxCollider2D>())
             c.enabled = true;
-        boss.StartBossAttacks();
+        StartCoroutine(boss.StartBossAttacks());
     }
 }

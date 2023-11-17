@@ -84,8 +84,34 @@ public class BossEnemy : MonoBehaviour {
         healthBar.SetHealth(currentHealth);
     }
 
-    public void StartBossAttacks() {
-        StartCoroutine(LaserRain());
+    //Attacks happen randomly from every 3 to 6 seconds. Use a switch statement 
+    //make different Global wait for second variables to space out different boss attacks
+    public IEnumerator StartBossAttacks() {
+        WaitForSeconds hbWait = new WaitForSeconds(6);
+        WaitForSeconds rWait = new WaitForSeconds(7);
+        WaitForSeconds tpWait = new WaitForSeconds(4);
+        WaitForSeconds lrWait = new WaitForSeconds(11);
+        while (gameObject.activeSelf) {
+            int attack = Random.Range(0, 4);
+            switch (attack) {
+                case 0:
+                    StartCoroutine(Hyperbeam());
+                    yield return hbWait;
+                    break;
+                case 1:
+                    StartCoroutine(Ripple());
+                    yield return rWait;
+                    break;
+                case 2:
+                    StartCoroutine(TeleportPlayer());
+                    yield return tpWait;
+                    break;
+                case 3:
+                    StartCoroutine(LaserRain());
+                    yield return lrWait;
+                    break;
+            }
+        }
     }
 
     private IEnumerator Hyperbeam() {
@@ -112,7 +138,7 @@ public class BossEnemy : MonoBehaviour {
         }
     }
 
-    private IEnumerator TeleportPlayerHomingLaser() {
+    private IEnumerator TeleportPlayer() {
         WaitForSeconds wait = new WaitForSeconds(2);
         Vector3 pos = new Vector3(0, -1.25f, 0);
         GameObject laser = Instantiate(homingLaserPrefab, pos, Quaternion.identity);
