@@ -18,7 +18,7 @@ public class WaveSystem : MonoBehaviour {
     private ProvisionSpawner provisionSpawner;
     private GameManager gameManager;
 
-    private int bossWave = 2;
+    private int bossWave = 10;
     private float minXSpawnPoint = -8f;
     private float maxXSpawnPoint = 8f;
     private float topYSpawnPoint = 8f;
