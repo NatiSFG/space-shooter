@@ -1,0 +1,3 @@
+extra bugs if I feel like fixing them:
+-double beamer lasers getting shot out of collectables?
+-sometimes instead of picking up 20 ammo, it's 40. only with shield on?
